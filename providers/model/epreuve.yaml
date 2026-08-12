@@ -1,0 +1,36 @@
+provider_id: epreuve-source-morte
+legal_entity: Épreuve SAS
+layer: model
+jurisdiction: EU
+models: []
+
+baa_available:
+  value: false
+  verified_at: 2026-08-12
+  source_url: https://www.anthropic.com/legal/cette-page-nexiste-pas-epreuve-orpheo
+  confidence: high
+no_training_commitment:
+  value: true
+  verified_at: 2026-08-12
+  source_url: https://www.anthropic.com/legal/commercial-terms
+  confidence: high
+zero_retention_option:
+  value: false
+  verified_at: 2026-08-12
+  source_url: https://www.anthropic.com/legal/commercial-terms
+  confidence: high
+data_residency:
+  value: [us-east]
+  verified_at: 2026-08-12
+  source_url: https://www.anthropic.com/legal/commercial-terms
+  confidence: high
+dpa_eu:
+  value: true
+  verified_at: 2026-08-12
+  source_url: https://www.anthropic.com/legal/commercial-terms
+  confidence: high
+default_retention:
+  value: 30 jours
+  verified_at: 2026-08-12
+  source_url: https://www.anthropic.com/legal/commercial-terms
+  confidence: high
