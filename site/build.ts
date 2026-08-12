@@ -12,6 +12,8 @@ import { loadRegistry } from "../scripts/load.ts";
 import type { SourceStatus } from "../scripts/check-sources.ts";
 import { FACT_ORDER, MATRIX_FACTS, type Fact } from "../schema.ts";
 import { cell, escape, factLabel, page, type FactState } from "./render.ts";
+import { methodologieHtml, methodologieMarkdown } from "./methodologie.ts";
+import * as changelog from "./changelog.ts";
 
 /**
  * Le générateur : lit le registre, écrit `dist/`.
@@ -151,6 +153,152 @@ recopiée. La matrice complète est <a href="/">ici</a>.</p>`,
 );
 
 copyFileSync(join(racine, "site/styles.css"), join(dist, "styles.css"));
+
+// ── Une page par fournisseur, une par couche ─────────────────────────────────
+// Elles sont générées AVANT d'être déclarées où que ce soit. Un sitemap qui
+// pointe vers une page absente est disqualifiant sur un index dont le
+// référencement est l'enjeu — et la 404 servie serait notre réponse à un lecteur
+// venu d'un moteur de recherche.
+function tableauDeFaits(lignes: typeof providers): string {
+  const enTete = FACT_ORDER.us
+    .map((f) => `<th scope="col">${escape(factLabel(f))}</th>`)
+    .join("");
+  const corpsTable = lignes
+    .map(({ data }) => {
+      const cellules = FACT_ORDER.us.map((f) => cell(data[f], stateOf(data[f]))).join("");
+      return (
+        `<tr><th scope="row"><a href="/p/${escape(data.provider_id)}">${escape(data.legal_entity)}</a></th>` +
+        `<td class="couche"><a href="/c/${escape(data.layer)}">${escape(data.layer)}</a></td>${cellules}</tr>`
+      );
+    })
+    .join("\n");
+  return `<table class="matrice">
+  <thead><tr><th scope="col">Fournisseur</th><th scope="col">Couche</th>${enTete}</tr></thead>
+  <tbody>\n${corpsTable}\n  </tbody>
+</table>`;
+}
+
+const parFournisseur = new Map<string, typeof providers>();
+for (const p of providers) {
+  const liste = parFournisseur.get(p.data.provider_id) ?? [];
+  liste.push(p);
+  parFournisseur.set(p.data.provider_id, liste);
+}
+
+const cheminsProviders: string[] = [];
+mkdirSync(join(dist, "p"), { recursive: true });
+for (const [id, fichiers] of parFournisseur) {
+  const premier = fichiers[0];
+  if (premier === undefined) continue;
+  const nom = premier.data.legal_entity;
+  writeFileSync(
+    join(dist, "p", `${id}.html`),
+    page(
+      {
+        title: `${nom} — faits datés et sourcés`,
+        description: `BAA, non-entraînement, rétention et résidence des données pour ${nom}, par couche, avec la date et la source de chaque fait.`,
+        path: `/p/${id}`,
+        siteUrl,
+        structuredData: JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "Organization",
+          name: nom,
+          url: `${siteUrl}/p/${id}`,
+        }),
+        body: `<h1>${escape(nom)}</h1>
+<p class="chapeau">Juridiction de rattachement : ${escape(premier.data.jurisdiction)}. Chaque
+fait ci-dessous porte la date à laquelle il a été vérifié et l'adresse du document
+qui le porte.</p>
+${tableauDeFaits(fichiers)}`,
+      },
+      productName,
+    ),
+    "utf8",
+  );
+  cheminsProviders.push(`/p/${id}`);
+}
+
+const parCouche = new Map<string, typeof providers>();
+for (const p of providers) {
+  const liste = parCouche.get(p.data.layer) ?? [];
+  liste.push(p);
+  parCouche.set(p.data.layer, liste);
+}
+
+const cheminsCouches: string[] = [];
+mkdirSync(join(dist, "c"), { recursive: true });
+for (const [couche, fichiers] of parCouche) {
+  writeFileSync(
+    join(dist, "c", `${couche}.html`),
+    page(
+      {
+        title: `Couche ${couche} — BAA coverage par fournisseur`,
+        description: `Tous les fournisseurs indexés sur la couche ${couche}, avec la date et la source de chaque fait.`,
+        path: `/c/${couche}`,
+        siteUrl,
+        body: `<h1>Couche ${escape(couche)}</h1>
+<p class="chapeau">Une chaîne de traitement compte jusqu'à cinq couches, et il
+suffit d'une seule non couverte pour créer une exposition. Voici les fournisseurs
+indexés sur celle-ci.</p>
+${tableauDeFaits(fichiers)}`,
+      },
+      productName,
+    ),
+    "utf8",
+  );
+  cheminsCouches.push(`/c/${couche}`);
+}
+
+// ── Méthodologie — même source que METHODOLOGY.md ────────────────────────────
+writeFileSync(
+  join(dist, "methodologie.html"),
+  page(
+    {
+      title: `${productName} — méthodologie du registre`,
+      description:
+        "Comment un fait entre dans ce registre, à quelle fréquence il est revérifié, et ce que nous ne vérifions pas.",
+      path: "/methodologie",
+      siteUrl,
+      body: methodologieHtml(),
+    },
+    productName,
+  ),
+  "utf8",
+);
+// Écrit à la racine du dépôt pour qui lit le dépôt plutôt que le site. La CI
+// vérifie qu'il est committé et à jour : deux copies finiraient par diverger, et
+// c'est la version publique qui aurait tort.
+writeFileSync(join(racine, "METHODOLOGY.md"), methodologieMarkdown(), "utf8");
+
+// ── Changelog ────────────────────────────────────────────────────────────────
+// L'historique doit être COMPLET. Un clone superficiel produirait un journal
+// tronqué sans erreur — exactement le mensonge silencieux que ce registre
+// existe pour ne pas commettre. On refuse plutôt que de publier une moitié.
+if (changelog.isShallow()) {
+  console.error(
+    "Historique git superficiel : le changelog serait tronqué sans le dire.\n" +
+      "Ajoutez `git fetch --unshallow || true` avant la commande de build.",
+  );
+  process.exit(1);
+}
+writeFileSync(
+  join(dist, "changelog.html"),
+  page(
+    {
+      title: `${productName} — changelog du registre`,
+      description:
+        "Chaque modification d'un fait, datée, avec le commit qui l'a produite.",
+      path: "/changelog",
+      siteUrl,
+      body: changelog.render(
+        changelog.collect(),
+        "https://github.com/orpheo28/orpheo-registry",
+      ),
+    },
+    productName,
+  ),
+  "utf8",
+);
 
 // ── Fichiers de service ──────────────────────────────────────────────────────
 writeFileSync(

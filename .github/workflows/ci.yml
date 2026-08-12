@@ -12,6 +12,13 @@ concurrency:
 permissions:
   contents: read
 
+env:
+  # Le build REFUSE de produire un site sans nom, et sans valeur de repli — un
+  # repli est un nom en dur, simplement plus discret (CLAUDE.md). La CI doit
+  # donc le fournir comme n'importe quel environnement de build.
+  PRODUCT_NAME: Orpheo
+  SITE_URL: https://orpheo-registry.workers.dev
+
 jobs:
   verify:
     name: typecheck · lint · format · test
@@ -29,6 +36,19 @@ jobs:
           # les résolutions NOUVELLES, pas la reproduction d'un état déjà validé.
           NPM_CONFIG_TRUST_LOCKFILE: "true"
       - run: pnpm verify
+
+      # `METHODOLOGY.md` est GÉNÉRÉ par le build depuis la même source que la
+      # page publique. S'il diffère de ce qui est committé, les deux versions
+      # ont divergé — et c'est toujours la version publique qui aurait tort,
+      # puisque c'est elle que personne ne relit dans une PR.
+      - name: La méthodologie committée correspond-elle à celle publiée ?
+        run: |
+          if ! git diff --quiet -- METHODOLOGY.md; then
+            echo "METHODOLOGY.md a divergé de site/methodologie.ts."
+            echo "Lancez pnpm run build et committez le résultat."
+            git --no-pager diff -- METHODOLOGY.md
+            exit 1
+          fi
 
   sources:
     name: sources ajoutées

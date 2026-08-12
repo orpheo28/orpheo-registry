@@ -51,6 +51,35 @@ describe("un fait — INV-4", () => {
     expect(schema.safeParse(fait({ verified_at: "2026-02-31" })).success).toBe(false);
   });
 
+  it("REFUSE une source javascript: ou data:", () => {
+    // `z.url()` les accepte. Ce registre prend des contributions externes et
+    // rend chaque source en lien cliquable : une source `javascript:` fusionnée
+    // deviendrait du code exécutable sur une page publique. Le refus est dans le
+    // SCHÉMA, pas au rendu — le rendu ne protège que la page courante, le schéma
+    // protège aussi l'export, l'API de P2, et quiconque lira ces fichiers.
+    expect(schema.safeParse(fait({ source_url: "javascript:alert(1)" })).success).toBe(
+      false,
+    );
+    expect(
+      schema.safeParse(fait({ source_url: "data:text/html,<script>alert(1)</script>" }))
+        .success,
+    ).toBe(false);
+    // Et par principe, aucune de ces adresses ne mène à un document qu'un tiers
+    // pourrait aller relire — ce qui les disqualifie déjà au regard d'INV-4.
+    expect(schema.safeParse(fait({ source_url: "file:///etc/passwd" })).success).toBe(
+      false,
+    );
+  });
+
+  it("accepte http et https, qui mènent à un document relisible", () => {
+    expect(
+      schema.safeParse(fait({ source_url: "http://exemple.test/cgu" })).success,
+    ).toBe(true);
+    expect(
+      schema.safeParse(fait({ source_url: "https://exemple.test/cgu" })).success,
+    ).toBe(true);
+  });
+
   it("refuse un niveau de confiance hors échelle", () => {
     // L'échelle est publiée ; en inventer un niveau la rendrait illisible.
     expect(schema.safeParse(fait({ confidence: "assez sûr" })).success).toBe(false);
