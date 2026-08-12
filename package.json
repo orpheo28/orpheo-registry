@@ -12,7 +12,9 @@
     "lint": "eslint .",
     "format:check": "prettier --check .",
     "test": "vitest run",
-    "verify": "pnpm run typecheck && pnpm run lint && pnpm run format:check && pnpm run test"
+    "verify": "pnpm run typecheck && pnpm run lint && pnpm run format:check && pnpm run test && pnpm run build",
+    "build": "node site/build.ts",
+    "deploy": "npx wrangler deploy"
   },
   "devDependencies": {
     "@eslint/js": "10.0.1",

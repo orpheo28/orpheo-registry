@@ -1,0 +1,33 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "orpheo-registry",
+  "compatibility_date": "2026-08-01",
+
+  // ── AUCUN `main`, ET C'EST LE POINT ─────────────────────────────────────────
+  // Sans script, ce Worker ne fait que servir des fichiers. Ce n'est pas une
+  // préférence de conception : « requests to static assets are free and
+  // unlimited ; requests to the Worker script are billed according to Workers
+  // pricing » (developers.cloudflare.com/workers/static-assets/billing-and-limitations).
+  //
+  // Ajouter un `main` — ou un `run_worker_first` — convertirait des requêtes
+  // gratuites et illimitées en requêtes facturées, et ferait tomber la raison
+  // même pour laquelle l'index ne vit pas sur Vercel (PLAN.md §3, §4) : son
+  // trafic est le seul poste de coût imprévisible du produit.
+  //
+  // Un test refuse l'apparition de ces deux clés. Ce n'est pas de la paranoïa :
+  // la plupart des exemples de la documentation en comportent un, et il se
+  // recopie tout seul.
+
+  "assets": {
+    "directory": "./dist",
+
+    // Sert `404.html` sur une adresse inconnue. `.claude/rules/ui.md` interdit
+    // la page 404 par défaut — celle de Cloudflare en est une.
+    "not_found_handling": "404-page",
+
+    // `/methodologie` sert `methodologie.html`, et `/methodologie/` y redirige.
+    // Les URL de l'index sont citées dans des documents qui vivront longtemps :
+    // elles n'ont pas à porter une extension de fichier.
+    "html_handling": "auto-trailing-slash",
+  },
+}
