@@ -1,0 +1,65 @@
+name: Fraîcheur des sources
+
+# Hebdomadaire. Une source qui meurt entre deux revues ne casse rien : elle fait
+# redescendre le fait à NON VÉRIFIÉ sur le site, avec sa dernière date connue
+# (INV-11, INV-12). Le registre doit dire qu'il ne sait plus, pas se taire.
+on:
+  schedule:
+    - cron: "17 6 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  rot:
+    name: fraîcheur des sources
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+      - uses: pnpm/action-setup@0977fd99725f1db4007ccb2928dbb4e90d06cc86 # v6
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+        env:
+          NPM_CONFIG_TRUST_LOCKFILE: "true"
+
+      - name: Contrôler toutes les sources
+        run: node scripts/check-sources.ts --all
+
+      # L'état passe par une pull request et non par une poussée directe : il
+      # entre dans l'historique public du registre, qui est ce qui fait foi, et
+      # une relecture humaine reste nécessaire pour retrouver le document.
+      - name: Ouvrir une PR si l'état a changé
+        run: |
+          if git diff --quiet -- sources-status.json; then
+            echo "Aucun changement d'état des sources."
+            exit 0
+          fi
+          BRANCHE="sources/etat-$(date +%Y-%m-%d)"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout -b "$BRANCHE"
+          git add sources-status.json
+          git commit -m "sources : état de fraîcheur au $(date +%Y-%m-%d)"
+          git push origin "$BRANCHE"
+          cat > /tmp/corps.md <<'CORPS'
+          Contrôle hebdomadaire des sources du registre.
+
+          Les sources marquées `redirigee` ou `injoignable` font redescendre leur
+          fait à **non vérifié** sur le site, avec sa dernière date connue
+          (INV-11, INV-12). Le registre doit dire qu'il ne sait plus.
+
+          Une source redirigée n'est pas forcément fausse. Elle demande de
+          retrouver le document et de mettre l'URL à jour, ou de reprendre le
+          fait s'il a changé. Aucune machine ne peut juger si la page d'arrivée
+          porte encore le fait — c'est pourquoi cette PR attend une relecture.
+          CORPS
+          gh pr create --base main --head "$BRANCHE" \
+            --title "Fraîcheur des sources — $(date +%Y-%m-%d)" \
+            --body-file /tmp/corps.md
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
