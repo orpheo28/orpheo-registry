@@ -31,3 +31,15 @@ describe("chargement du registre", () => {
     expect(fautif?.field).toContain("source_url");
   });
 });
+
+describe("répertoire du registre", () => {
+  it("distingue « absent » de « vide »", async () => {
+    // Un registre vide est l'état d'amorçage, légitime. Un répertoire absent
+    // veut dire que quelqu'un l'a supprimé ou que l'arborescence a bougé —
+    // et une erreur `ENOENT` brute ne l'aurait dit à personne.
+    const { RegistryMissingError } = await import("./load.ts");
+    expect(() => loadRegistry(join(racine, "providers-inexistant"), racine)).toThrow(
+      RegistryMissingError,
+    );
+  });
+});

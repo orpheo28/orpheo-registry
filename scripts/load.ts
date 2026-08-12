@@ -1,4 +1,4 @@
-import { readdirSync, readFileSync } from "node:fs";
+import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { join, relative } from "node:path";
 import { parse as parseYaml } from "yaml";
 import {
@@ -16,6 +16,14 @@ import {
  * même schéma côté produit en P2, où la source ne sera plus un fichier mais une
  * réponse d'API.
  */
+
+/** Le répertoire du registre n'existe pas — ce n'est pas « aucun fait ». */
+export class RegistryMissingError extends Error {
+  constructor(chemin: string) {
+    super(`répertoire du registre introuvable : ${chemin}`);
+    this.name = "RegistryMissingError";
+  }
+}
 
 export interface LoadedProvider {
   /** Chemin relatif au dépôt, tel qu'affiché dans une erreur. */
@@ -37,6 +45,11 @@ export interface LoadResult {
 
 function listYamlFiles(root: string): string[] {
   const out: string[] = [];
+  // Le répertoire ABSENT et le répertoire VIDE ne disent pas la même chose : le
+  // second est l'état d'amorçage d'un registre, le premier veut dire que
+  // quelqu'un l'a supprimé ou que l'arborescence a bougé. On distingue, et
+  // l'appelant décide.
+  if (!existsSync(root)) throw new RegistryMissingError(root);
   const walk = (dir: string): void => {
     for (const entry of readdirSync(dir, { withFileTypes: true })) {
       const full = join(dir, entry.name);

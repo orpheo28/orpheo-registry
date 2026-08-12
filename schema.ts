@@ -76,6 +76,32 @@ const verifiedAtSchema = z
   }, "date inexistante au calendrier");
 
 /**
+ * Une URL de source — restreinte à `http` et `https`.
+ *
+ * `z.url()` accepte `javascript:` et `data:`. Ce registre reçoit des
+ * contributions externes et rend chaque source en lien cliquable : une source
+ * `javascript:…` fusionnée deviendrait du code exécutable sur une page publique.
+ *
+ * Le refus est posé ICI, dans le schéma, et non au rendu. Le rendu échappe déjà
+ * ce qu'il écrit, mais un échappement protège la page courante ; le schéma
+ * protège le registre — donc aussi ses futurs consommateurs, l'export, l'API de
+ * P2, et quiconque lira ces fichiers sans passer par notre HTML. Une donnée
+ * qu'on n'a pas voulu accepter ne doit pas entrer.
+ *
+ * Et une source doit être RELISIBLE : `javascript:` ou `data:` ne mènent à
+ * aucun document qu'un tiers puisse aller vérifier, ce qui les disqualifie déjà
+ * au regard d'INV-4.
+ */
+const sourceUrlSchema = z.url().refine((v) => {
+  try {
+    const protocole = new URL(v).protocol;
+    return protocole === "https:" || protocole === "http:";
+  } catch {
+    return false;
+  }
+}, "seuls http et https sont acceptés comme source");
+
+/**
  * Un FAIT : une valeur, et ce qui permet de la contester.
  *
  * La provenance est portée par le fait, pas par le fichier. PRD §6 l'impose —
@@ -91,7 +117,7 @@ export function factSchema<T extends z.ZodType>(valueSchema: T) {
     value: valueSchema,
     verified_at: verifiedAtSchema,
     /** Doit pointer le document qui PORTE le fait, pas la page d'accueil. */
-    source_url: z.url(),
+    source_url: sourceUrlSchema,
     confidence: confidenceSchema,
     /** Nuance sans laquelle le fait serait faux. Ex. « niveau Enterprise seul ». */
     note: z.string().min(1).optional(),
