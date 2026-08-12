@@ -1,0 +1,37 @@
+provider_id: fournisseur-valide
+legal_entity: Fournisseur Valide SAS
+layer: model
+jurisdiction: EU
+models: [modele-a]
+
+baa_available:
+  value: false
+  verified_at: 2026-07-14
+  source_url: https://exemple.test/cgu
+  confidence: high
+no_training_commitment:
+  value: true
+  verified_at: 2026-07-14
+  source_url: https://exemple.test/cgu
+  confidence: high
+  note: sur l'offre entreprise uniquement
+zero_retention_option:
+  value: false
+  verified_at: 2026-07-14
+  source_url: https://exemple.test/cgu
+  confidence: medium
+data_residency:
+  value: [eu-west]
+  verified_at: 2026-07-14
+  source_url: https://exemple.test/regions
+  confidence: high
+dpa_eu:
+  value: true
+  verified_at: 2026-07-14
+  source_url: https://exemple.test/dpa
+  confidence: high
+default_retention:
+  value: 30 jours
+  verified_at: 2026-07-14
+  source_url: https://exemple.test/retention
+  confidence: low

@@ -1,0 +1,192 @@
+import { z } from "zod";
+
+/**
+ * Le schéma du registre — la seule définition de ce qu'est un fait.
+ *
+ * Ce fichier ne lit JAMAIS un fichier. Il valide un objet déjà analysé, et
+ * l'appelant fournit la source. C'est ce qui le rend testable sans disque, et
+ * réutilisable côté produit quand le registre sera importé en base (P2).
+ *
+ * INV-4 : le registre documente des FAITS datés et sourcés. Jamais « conforme ».
+ * Ce n'est pas une consigne de rédaction, c'est la structure ci-dessous : sans
+ * `verified_at` ni `source_url`, un fait ne se représente pas.
+ */
+
+/**
+ * L'échelle de confiance, et ce qu'elle vaut.
+ *
+ * Elle est publiée dans `METHODOLOGY.md` ET affichée sur la page : une échelle
+ * qu'on ne peut pas lire ne dit rien de ce qu'elle prétend qualifier.
+ *
+ * Elle porte sur la NATURE DE LA SOURCE, jamais sur notre degré de conviction —
+ * « je pense que c'est vrai » n'est pas un niveau de confiance, c'est une
+ * opinion, et le registre n'en publie pas.
+ */
+export const CONFIDENCE = {
+  /** Document contractuel du fournisseur : CGU, DPA, avenant BAA, addendum. */
+  high: "high",
+  /** Documentation publique non contractuelle : page produit, centre d'aide. */
+  medium: "medium",
+  /** Réponse de support ou d'un commercial, non publiée. */
+  low: "low",
+} as const;
+
+export const confidenceSchema = z.enum(["high", "medium", "low"]);
+export type Confidence = z.infer<typeof confidenceSchema>;
+
+/**
+ * Les couches d'une chaîne.
+ *
+ * L'union de ce que PLAN §9 P1 et PRD §1bis nomment séparément. §1bis décrit une
+ * chaîne de BAA qui va « jusqu'à 5 accords » — modèle, transcription, stockage,
+ * téléphonie, plateforme — et c'est cette même énumération qui portera la
+ * surveillance de chaîne en P5. La restreindre maintenant coûterait une
+ * migration du registre plus tard.
+ */
+export const layerSchema = z.enum([
+  "model",
+  "transcription",
+  "tts",
+  "telephony",
+  "storage",
+  "platform",
+]);
+export type Layer = z.infer<typeof layerSchema>;
+
+/**
+ * Une date de vérification : jour civil, sans heure. Le jour suffit et se lit.
+ *
+ * La validité est vérifiée par ALLER-RETOUR, et non par `Date.parse` : celui-ci
+ * accepte `2026-02-31` en le reportant silencieusement au 3 mars. Une date de
+ * vérification décalée de trois jours sans que personne ne le voie est
+ * exactement le genre de faux que ce registre existe pour ne pas produire.
+ */
+const verifiedAtSchema = z
+  .string()
+  .regex(/^\d{4}-\d{2}-\d{2}$/, "date attendue au format AAAA-MM-JJ")
+  .refine((v) => {
+    const [a, m, j] = v.split("-").map(Number);
+    if (a === undefined || m === undefined || j === undefined) return false;
+    const date = new Date(Date.UTC(a, m - 1, j));
+    return (
+      date.getUTCFullYear() === a &&
+      date.getUTCMonth() === m - 1 &&
+      date.getUTCDate() === j
+    );
+  }, "date inexistante au calendrier");
+
+/**
+ * Un FAIT : une valeur, et ce qui permet de la contester.
+ *
+ * La provenance est portée par le fait, pas par le fichier. PRD §6 l'impose —
+ * « chaque champ porte `verified_at`, `source_url` et `confidence` » — et
+ * c'est la seule granularité honnête : le BAA d'un fournisseur et sa politique
+ * de rétention ne sont presque jamais vérifiés le même jour, ni au même
+ * endroit. Une date de fichier afficherait la plus récente sur le fait le plus
+ * ancien, ce qui est exactement le genre d'affirmation que ce registre existe
+ * pour ne pas produire.
+ */
+export function factSchema<T extends z.ZodType>(valueSchema: T) {
+  return z.object({
+    value: valueSchema,
+    verified_at: verifiedAtSchema,
+    /** Doit pointer le document qui PORTE le fait, pas la page d'accueil. */
+    source_url: z.url(),
+    confidence: confidenceSchema,
+    /** Nuance sans laquelle le fait serait faux. Ex. « niveau Enterprise seul ». */
+    note: z.string().min(1).optional(),
+  });
+}
+
+/**
+ * Les cinq faits de la matrice, dans l'ordre imposé par PRD §1bis.
+ *
+ * INV-5 interdit un nom de norme dans un identifiant. `baa_available` et
+ * `dpa_eu` nomment des TYPES DE CONTRAT — un Business Associate Agreement, un
+ * accord de sous-traitance — pas des normes : ils sont admis. `hipaa_compliant`
+ * ou `soc2_ready` seraient des violations, et un test les refuse.
+ */
+export const MATRIX_FACTS = [
+  "baa_available",
+  "no_training_commitment",
+  "zero_retention_option",
+  "data_residency",
+  "dpa_eu",
+] as const;
+
+export type MatrixFact = (typeof MATRIX_FACTS)[number];
+
+/**
+ * L'ordre d'affichage, par marché — une DONNÉE, pas une mise en page.
+ *
+ * PRD §1bis : un seul registre, un seul moteur, deux ordres d'affichage. Le
+ * champ `market` de l'`editor` pilote l'ordre dans la console (P2) et le
+ * portail (P4) ; ces deux surfaces consommeront cette table telle quelle.
+ *
+ * L'index public, lui, n'a pas d'editor : il est anonyme. Il rend `us`, et lui
+ * seul — PRD §8 étape A dit de commencer par la matrice BAA et non par les
+ * juridictions européennes. La structure existe, l'interrupteur non.
+ */
+export const FACT_ORDER: Readonly<Record<"us" | "eu", readonly MatrixFact[]>> = {
+  us: [
+    "baa_available",
+    "no_training_commitment",
+    "zero_retention_option",
+    "data_residency",
+    "dpa_eu",
+  ],
+  eu: [
+    "data_residency",
+    "dpa_eu",
+    "no_training_commitment",
+    "zero_retention_option",
+    "baa_available",
+  ],
+};
+
+/**
+ * Les libellés affichés, en vocabulaire US (PRD §1bis).
+ *
+ * « souveraineté » est interdit en accroche, et « juridiction » n'est pas un mot
+ * d'accroche sur ce marché : il reste une colonne, jamais un titre.
+ */
+export const FACT_LABELS: Readonly<Record<MatrixFact, string>> = {
+  baa_available: "BAA",
+  no_training_commitment: "No-training",
+  zero_retention_option: "Zero-retention",
+  data_residency: "Data residency",
+  dpa_eu: "DPA (EU)",
+};
+
+/** Un fichier du registre : un fournisseur, sur une couche. */
+export const providerFileSchema = z.object({
+  /** Minuscules, chiffres et tirets : il devient une URL. */
+  provider_id: z
+    .string()
+    .regex(/^[a-z0-9-]+$/, "identifiant en minuscules, chiffres et tirets"),
+  /** L'entité qui SIGNE. C'est elle qui engage, pas la marque commerciale. */
+  legal_entity: z.string().min(1),
+  layer: layerSchema,
+  /** Juridiction de rattachement de l'entité légale. Code ISO ou « US », « EU ». */
+  jurisdiction: z.string().min(1),
+  models: z.array(z.string().min(1)).default([]),
+
+  baa_available: factSchema(z.boolean()),
+  no_training_commitment: factSchema(z.boolean()),
+  zero_retention_option: factSchema(z.boolean()),
+  data_residency: factSchema(z.array(z.string().min(1)).min(1)),
+  dpa_eu: factSchema(z.boolean()),
+  /** Texte libre : « 30 jours », « aucune », « indéterminée ». Pas un nombre : les
+   *  politiques réelles ne sont presque jamais exprimables en un entier. */
+  default_retention: factSchema(z.string().min(1)),
+});
+
+export type ProviderFile = z.infer<typeof providerFileSchema>;
+/** La forme d'un fait, pour un consommateur qui n'infère pas depuis Zod. */
+export interface Fact<T> {
+  value: T;
+  verified_at: string;
+  source_url: string;
+  confidence: Confidence;
+  note?: string;
+}

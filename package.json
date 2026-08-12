@@ -1,0 +1,28 @@
+{
+  "name": "orpheo-registry",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@11.18.0",
+  "engines": {
+    "node": "22.x"
+  },
+  "scripts": {
+    "registry:check": "tsx scripts/check.ts",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint .",
+    "format:check": "prettier --check .",
+    "test": "vitest run",
+    "verify": "pnpm run typecheck && pnpm run lint && pnpm run format:check && pnpm run test"
+  },
+  "devDependencies": {
+    "@eslint/js": "10.0.1",
+    "@types/node": "26.1.2",
+    "eslint": "10.8.0",
+    "prettier": "3.9.6",
+    "typescript": "6.0.3",
+    "typescript-eslint": "8.66.0",
+    "vitest": "4.1.10",
+    "yaml": "2.9.0",
+    "zod": "4.4.3"
+  }
+}

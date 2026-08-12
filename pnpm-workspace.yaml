@@ -1,0 +1,7 @@
+# Aucun workspace ici : ce dépôt est un seul paquet. Ce fichier ne sert qu'à
+# porter la politique d'approvisionnement, que pnpm 11 y lit — la même que celle
+# du monorepo, parce qu'un registre public est une cible plus tentante, pas moins.
+minimumReleaseAge: 10080
+blockExoticSubdeps: true
+trustPolicy: no-downgrade
+trustLockfile: true

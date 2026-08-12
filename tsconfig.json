@@ -1,0 +1,25 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "lib": ["ES2022"],
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
+    "types": ["node"],
+
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "noImplicitOverride": true,
+
+    "isolatedModules": true,
+    "verbatimModuleSyntax": true,
+    "forceConsistentCasingInFileNames": true,
+
+    // Les imports portent leur extension `.ts` : c'est ce qui permet à `node`
+    // d'exécuter ces fichiers directement, en retirant les types, sans passer
+    // par un exécuteur tiers. Une dépendance de moins sur l'actif le plus
+    // durable du produit.
+    "allowImportingTsExtensions": true,
+    "noEmit": true
+  },
+  "include": ["schema.ts", "scripts/**/*.ts", "site/**/*.ts", "**/*.test.ts"]
+}
