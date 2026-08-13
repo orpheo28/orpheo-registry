@@ -11,7 +11,7 @@ import { dirname, join } from "node:path";
 import { loadRegistry } from "../scripts/load.ts";
 import type { SourceStatus } from "../scripts/check-sources.ts";
 import { FACT_ORDER, MATRIX_FACTS, type Fact } from "../schema.ts";
-import { cell, escape, factLabel, page, type FactState } from "./render.ts";
+import { cell, escape, factBlock, factLabel, page, type FactState } from "./render.ts";
 import { methodologieHtml, methodologieMarkdown } from "./methodologie.ts";
 import * as changelog from "./changelog.ts";
 
@@ -214,9 +214,27 @@ for (const [id, fichiers] of parFournisseur) {
         }),
         body: `<h1>${escape(nom)}</h1>
 <p class="chapeau">Juridiction de rattachement : ${escape(premier.data.jurisdiction)}. Chaque
-fait ci-dessous porte la date à laquelle il a été vérifié et l'adresse du document
-qui le porte.</p>
-${tableauDeFaits(fichiers)}`,
+fait porte la date à laquelle il a été vérifié, l'adresse du document qui le porte,
+et — quand il y en a une — la condition qui le limite. C'est cette condition qui
+manque partout ailleurs.</p>
+${tableauDeFaits(fichiers)}
+${fichiers
+  .map(
+    ({ data }) => `<section class="couche-detail">
+<h2>Couche ${escape(data.layer)} — le détail des faits</h2>
+${[...FACT_ORDER.us, "default_retention" as const]
+  .map((f) =>
+    factBlock(
+      `${data.layer}-${f}`,
+      f === "default_retention" ? "Rétention par défaut" : factLabel(f),
+      data[f],
+      stateOf(data[f]),
+    ),
+  )
+  .join("\n")}
+</section>`,
+  )
+  .join("\n")}`,
       },
       productName,
     ),

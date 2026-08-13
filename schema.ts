@@ -222,7 +222,25 @@ export const providerFileSchema = z
     baa_available: factSchema(z.boolean()).optional(),
     no_training_commitment: factSchema(z.boolean()).optional(),
     zero_retention_option: factSchema(z.boolean()).optional(),
-    data_residency: factSchema(z.array(z.string().min(1)).min(1)).optional(),
+    /**
+     * `null` — VÉRIFIÉ COMME ABSENT — est une valeur, pas un trou.
+     *
+     * Trois états, et les confondre fait mentir la matrice :
+     *   une liste de régions → le fournisseur garantit celles-ci ;
+     *   `null`               → le fournisseur ÉNONCE qu'il ne garantit rien ;
+     *   le fait absent       → aucune source ne dit quoi que ce soit.
+     *
+     * Le deuxième manquait, et il se perdait dans le troisième. Speechmatics
+     * écrit que les données « may be stored and processed in a location outside
+     * of the European Economic Area » : c'est une réponse, datée et sourcée, et
+     * c'est précisément celle qu'un éditeur européen doit voir. La ranger avec
+     * les inconnues revenait à taire ce que le fournisseur a pris la peine de
+     * dire.
+     *
+     * Pour un fait booléen, `false` joue déjà ce rôle : il n'y a donc que les
+     * valeurs composées qui ont besoin de `null`.
+     */
+    data_residency: factSchema(z.array(z.string().min(1)).min(1).nullable()).optional(),
     dpa_eu: factSchema(z.boolean()).optional(),
     /** Texte libre : « 30 jours », « aucune », « indéterminée ». Pas un nombre : les
      *  politiques réelles ne sont presque jamais exprimables en un entier. */
@@ -253,4 +271,5 @@ export interface Fact<T> {
   source_url: string;
   confidence: Confidence;
   note?: string;
+  additional_source_urls?: string[];
 }

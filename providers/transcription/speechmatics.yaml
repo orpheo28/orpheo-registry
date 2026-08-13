@@ -36,16 +36,20 @@ dpa_eu:
 #   (2) La clause 9.2 mentionne sept jours, mais APRÈS RÉSILIATION de
 #   l'abonnement — pas la rétention courante. Même piège que chez Mistral.
 
-# data_residency — NON RENSEIGNÉ, ET L'ABSENCE EST ELLE-MÊME INFORMATIVE
-#   La politique énonce l'inverse d'une garantie : « the data that we collect
-#   from you may be stored and processed in a location outside of the European
-#   Economic Area, United Kingdom or Switzerland. For example, some of our third
-#   party cloud providers use servers that are located in the USA. »
-#   Le schéma ne sait pas représenter « aucune garantie de résidence » : il
-#   attend une liste de régions, et une liste vide est refusée. Laisser le fait
-#   vide perd donc une information utile — c'est une limite du modèle, à
-#   corriger quand la couche stockage l'aura confirmée.
-#   CHAÎNE : la liste de sous-traitants publiée nomme Alphabet/Google pour le
-#   « stockage de documents et communications » et l'« IA générative ». Un
-#   éditeur qui croit n'utiliser qu'un transcripteur britannique a en réalité
-#   un fournisseur américain dans sa chaîne, ce que le document dit lui-même.
+data_residency:
+  value: null
+  verified_at: 2026-08-13
+  source_url: https://www.speechmatics.com/legal/privacy-policy
+  confidence: medium
+  note: >
+    VÉRIFIÉ COMME ABSENT : le fournisseur énonce l'inverse d'une garantie.
+    « The data that we collect from you may be stored and processed in a
+    location outside of the European Economic Area, United Kingdom or
+    Switzerland. For example, some of our third party cloud providers use
+    servers that are located in the USA. »
+    Ce n'est pas une inconnue, c'est une réponse — et c'est celle qu'un éditeur
+    européen doit voir avant de choisir un transcripteur britannique.
+    CHAÎNE : la liste de sous-traitants publiée nomme Alphabet/Google pour le
+    « stockage de documents et communications » et l'« IA générative ». Un
+    éditeur qui croit n'utiliser qu'un fournisseur britannique a en réalité un
+    acteur américain dans sa chaîne, ce que le document dit lui-même.
