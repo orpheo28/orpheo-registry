@@ -108,6 +108,17 @@ h1 {
   font-size: 11px;
   color: var(--ink-muted);
 }
+/* Un fait absent : lisible comme une absence, pas comme une valeur. */
+.cell--absent .cell__value {
+  color: var(--ink-muted);
+  font-style: normal;
+}
+.cell__absence {
+  display: block;
+  font-size: 11px;
+  color: var(--ink-muted);
+}
+
 .vide {
   color: var(--ink-muted);
   font-style: normal;

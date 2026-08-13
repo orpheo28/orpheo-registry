@@ -1,0 +1,42 @@
+provider_id: ovhcloud
+legal_entity: OVH Groupe SA
+layer: model
+jurisdiction: FR
+models: [llama, qwen, deepseek]
+
+no_training_commitment:
+  value: true
+  verified_at: 2026-08-13
+  source_url: https://www.ovhcloud.com/en/public-cloud/ai-endpoints/
+  confidence: medium
+  note: >
+    Formulation exacte, sur la page produit AI Endpoints : « Your data will
+    never be used to train or improve our AI models ».
+    AMBIGUÏTÉ À LEVER : OVHcloud sert des modèles de TIERS — Llama, Qwen,
+    Deepseek. « our AI models » ne dit donc pas explicitement ce qu'il advient
+    des données vis-à-vis des éditeurs de ces modèles, ni si l'engagement
+    couvre l'ensemble de la chaîne. Un éditeur santé a besoin de cette
+    précision, et cette source ne la donne pas.
+    Il s'agit en outre d'une page produit et non d'un document contractuel :
+    les conditions particulières d'AI Endpoints n'ont pas été lues, d'où
+    confidence medium.
+
+# baa_available — NON RENSEIGNÉ
+#   Aucun document de première partie lu ne mentionne un BAA. La page produit
+#   évoque des certifications de la plateforme sous-jacente, ce qui est un
+#   autre sujet : une certification d'hébergement n'est pas un accord signé
+#   entre le fournisseur et l'éditeur, et les confondre serait exactement le
+#   raccourci que ce registre existe pour empêcher.
+
+# zero_retention_option — NON RENSEIGNÉ
+#   Aucune source de première partie lue.
+
+# default_retention — NON RENSEIGNÉ
+#   Aucune source de première partie lue.
+
+# data_residency — NON RENSEIGNÉ
+#   La page évoque un hébergement européen en termes commerciaux. Aucune
+#   source de première partie ne nomme la ou les régions de traitement.
+
+# dpa_eu — NON RENSEIGNÉ
+#   Aucune source de première partie lue.

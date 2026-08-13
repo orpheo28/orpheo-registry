@@ -43,3 +43,21 @@ describe("deux URL désignent-elles le même document ?", () => {
     expect(sameDocument("pas une url", "https://x.test/cgu")).toBe(false);
   });
 });
+
+describe("les sources qui qualifient un fait sont surveillées aussi", () => {
+  it("collecte additional_source_urls, pas seulement source_url", async () => {
+    // Une URL citée dans `note` échappait au contrôleur. Or ce sont justement
+    // les sources de CONFLIT — celles qui disent qu'une option en annule une
+    // autre — dont la disparition trompe le plus : elles portent ce qu'aucun
+    // comparatif ne dit, et le fait continuerait de s'afficher comme vérifié.
+    const { collectSources } = await import("./check-sources.ts");
+    const { fileURLToPath } = await import("node:url");
+    const { dirname, join } = await import("node:path");
+    const racine = join(dirname(fileURLToPath(import.meta.url)), "..");
+
+    const urls = collectSources(racine);
+    expect(urls).toContain(
+      "https://platform.claude.com/docs/en/manage-claude/api-and-data-retention",
+    );
+  });
+});

@@ -1,0 +1,41 @@
+provider_id: aws-bedrock
+legal_entity: Amazon Web Services, Inc.
+layer: model
+jurisdiction: US
+models: [anthropic.claude, amazon.nova, meta.llama, mistral]
+
+baa_available:
+  value: true
+  verified_at: 2026-08-13
+  source_url: https://aws.amazon.com/compliance/hipaa-eligible-services-reference/
+  confidence: medium
+  note: >
+    Bedrock figure parmi les services éligibles HIPAA, mais AVEC UNE EXCLUSION
+    AU NIVEAU DU MODÈLE : la mention exacte est « Amazon Bedrock [excluding
+    Fable and Mythos models] ». Un éditeur qui appelle l'un de ces modèles
+    depuis Bedrock sort de la couverture sans changer de fournisseur ni de
+    console — c'est le genre de rupture qu'aucune revue de sécurité ne montre.
+    L'éligibilité est en outre soumise au modèle de responsabilité partagée :
+    « Customers still must configure these services consistent with HIPAA
+    requirements ». Le BAA lui-même est un accord distinct, à exécuter avec AWS.
+    Cette page est une référence de conformité publiée par AWS, pas le contrat :
+    d'où confidence medium.
+
+# no_training_commitment — NON RENSEIGNÉ
+#   L'engagement dépend du fournisseur du modèle appelé À TRAVERS Bedrock, et
+#   les AWS Service Terms n'ont pas été lus à la clause qui l'établit. Ne pas
+#   déduire de l'éligibilité HIPAA un engagement de non-entraînement : ce sont
+#   deux régimes différents.
+
+# zero_retention_option — NON RENSEIGNÉ
+#   Aucune source de première partie lue.
+
+# default_retention — NON RENSEIGNÉ
+#   Aucune source de première partie lue.
+
+# data_residency — NON RENSEIGNÉ
+#   Les régions AWS sont documentées, mais aucune page de première partie n'a
+#   été lue qui établisse la résidence des données d'inférence Bedrock.
+
+# dpa_eu — NON RENSEIGNÉ
+#   Aucune source de première partie lue.

@@ -1,0 +1,52 @@
+provider_id: anthropic
+legal_entity: Anthropic PBC
+layer: model
+jurisdiction: US
+models: [claude-opus-5, claude-sonnet-5, claude-haiku-4-5]
+
+baa_available:
+  value: true
+  verified_at: 2026-08-13
+  source_url: https://privacy.claude.com/en/articles/8114513-business-associate-agreements-baa-for-commercial-customers
+  confidence: high
+  note: >
+    API première partie et plans Enterprise uniquement. Le Primary Owner doit
+    activer la conformité HIPAA et accepter le BAA ; un plan Enterprise standard
+    n'est pas couvert sans cette action. Exclus : Workbench, Console, Free, Pro,
+    Max, Team, et les fonctionnalités en beta. Toutes les fonctions de l'API ne
+    sont pas couvertes.
+
+default_retention:
+  value: "30 jours"
+  verified_at: 2026-08-13
+  source_url: https://privacy.claude.com/en/articles/7996866-how-long-do-you-store-my-organization-s-data
+  confidence: high
+  note: >
+    Suppression automatique des entrées et sorties sous 30 jours. Exceptions :
+    services à rétention plus longue sous contrôle du client (Files API),
+    accord contraire, ou application de la Usage Policy.
+
+zero_retention_option:
+  value: true
+  verified_at: 2026-08-13
+  source_url: https://privacy.claude.com/en/articles/8956058-i-have-a-zero-data-retention-agreement-with-anthropic-what-products-does-it-apply-to
+  confidence: high
+  note: >
+    Soumis à approbation d'Anthropic. S'applique aux API éligibles et aux
+    produits utilisant la clé d'organisation commerciale. Les résultats des
+    classifieurs de sécurité restent conservés.
+    CONFLIT DOCUMENTÉ : les Covered Models exigent 30 jours de rétention et
+    ne sont pas disponibles avec ZDR activé. La source de ce conflit est
+    enregistrée dans additional_source_urls, donc surveillée comme les autres.
+  additional_source_urls:
+    - https://platform.claude.com/docs/en/manage-claude/api-and-data-retention
+
+# no_training_commitment — NON RENSEIGNÉ
+#   L'engagement figure dans les Commercial Terms, dont l'URL canonique n'a
+#   pas été vérifiée. À compléter depuis anthropic.com/legal.
+
+# data_residency — NON RENSEIGNÉ
+#   Aucune source de première partie trouvée.
+
+# dpa_eu — NON RENSEIGNÉ
+#   Aucune source de première partie trouvée.

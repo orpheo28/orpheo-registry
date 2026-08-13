@@ -121,6 +121,18 @@ export function factSchema<T extends z.ZodType>(valueSchema: T) {
     confidence: confidenceSchema,
     /** Nuance sans laquelle le fait serait faux. Ex. « niveau Enterprise seul ». */
     note: z.string().min(1).optional(),
+    /**
+     * Les autres documents qui QUALIFIENT le fait — typiquement celui qui
+     * établit un conflit ou une exception.
+     *
+     * Ce champ existe parce qu'une URL citée dans `note` échappait au
+     * contrôleur de fraîcheur : seule `source_url` était collectée. Or ce sont
+     * précisément ces sources-là — celles qui documentent qu'une option en
+     * annule une autre — dont la disparition coûte le plus cher, puisqu'elles
+     * portent ce qu'aucun comparatif ne dit. Une source qu'on ne surveille pas
+     * pourrit en silence, et le fait continue de s'afficher comme vérifié.
+     */
+    additional_source_urls: z.array(sourceUrlSchema).min(1).optional(),
   });
 }
 
@@ -185,27 +197,53 @@ export const FACT_LABELS: Readonly<Record<MatrixFact, string>> = {
 };
 
 /** Un fichier du registre : un fournisseur, sur une couche. */
-export const providerFileSchema = z.object({
-  /** Minuscules, chiffres et tirets : il devient une URL. */
-  provider_id: z
-    .string()
-    .regex(/^[a-z0-9-]+$/, "identifiant en minuscules, chiffres et tirets"),
-  /** L'entité qui SIGNE. C'est elle qui engage, pas la marque commerciale. */
-  legal_entity: z.string().min(1),
-  layer: layerSchema,
-  /** Juridiction de rattachement de l'entité légale. Code ISO ou « US », « EU ». */
-  jurisdiction: z.string().min(1),
-  models: z.array(z.string().min(1)).default([]),
+export const providerFileSchema = z
+  .object({
+    /** Minuscules, chiffres et tirets : il devient une URL. */
+    provider_id: z
+      .string()
+      .regex(/^[a-z0-9-]+$/, "identifiant en minuscules, chiffres et tirets"),
+    /** L'entité qui SIGNE. C'est elle qui engage, pas la marque commerciale. */
+    legal_entity: z.string().min(1),
+    layer: layerSchema,
+    /** Juridiction de rattachement de l'entité légale. Code ISO ou « US », « EU ». */
+    jurisdiction: z.string().min(1),
+    models: z.array(z.string().min(1)).default([]),
 
-  baa_available: factSchema(z.boolean()),
-  no_training_commitment: factSchema(z.boolean()),
-  zero_retention_option: factSchema(z.boolean()),
-  data_residency: factSchema(z.array(z.string().min(1)).min(1)),
-  dpa_eu: factSchema(z.boolean()),
-  /** Texte libre : « 30 jours », « aucune », « indéterminée ». Pas un nombre : les
-   *  politiques réelles ne sont presque jamais exprimables en un entier. */
-  default_retention: factSchema(z.string().min(1)),
-});
+    // ── LES FAITS SONT OPTIONNELS, ET C'EST ESSENTIEL ──────────────────────────
+    // Un fait ABSENT dit « aucune source de première partie ne l'établit ». Ce
+    // n'est pas la même chose que `value: false`, qui dit « vérifié comme
+    // indisponible ». Les exiger tous forçait, pour un fournisseur dont un fait
+    // n'est pas documenté, à inventer une valeur, à écrire un `false` mensonger,
+    // ou à ne pas publier le fournisseur du tout. Le schéma poussait au faux.
+    //
+    // Un trou reste donc un trou, et la page l'affiche comme tel — c'est INV-11
+    // appliqué à l'absence : ce qui n'est pas vérifié se voit.
+    baa_available: factSchema(z.boolean()).optional(),
+    no_training_commitment: factSchema(z.boolean()).optional(),
+    zero_retention_option: factSchema(z.boolean()).optional(),
+    data_residency: factSchema(z.array(z.string().min(1)).min(1)).optional(),
+    dpa_eu: factSchema(z.boolean()).optional(),
+    /** Texte libre : « 30 jours », « aucune », « indéterminée ». Pas un nombre : les
+     *  politiques réelles ne sont presque jamais exprimables en un entier. */
+    default_retention: factSchema(z.string().min(1)).optional(),
+  })
+  .refine(
+    (f) =>
+      [
+        f.baa_available,
+        f.no_training_commitment,
+        f.zero_retention_option,
+        f.data_residency,
+        f.dpa_eu,
+        f.default_retention,
+      ].some((fait) => fait !== undefined),
+    {
+      // Un fichier sans aucun fait n'est pas un trou honnête : c'est une entrée
+      // vide qui gonflerait la matrice sans rien apprendre à personne.
+      error: "aucun fait renseigné — un fournisseur sans fait n'a rien à publier",
+    },
+  );
 
 export type ProviderFile = z.infer<typeof providerFileSchema>;
 /** La forme d'un fait, pour un consommateur qui n'infère pas depuis Zod. */

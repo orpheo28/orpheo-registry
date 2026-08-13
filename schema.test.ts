@@ -182,3 +182,43 @@ describe("les couches", () => {
     }
   });
 });
+
+describe("un trou reste un trou", () => {
+  const base = {
+    provider_id: "exemple",
+    legal_entity: "Exemple SAS",
+    layer: "model",
+    jurisdiction: "US",
+    models: [],
+  };
+
+  it("accepte un fichier dont un fait n'a AUCUNE source de première partie", () => {
+    // La règle qui compte : on ne comble jamais un trou. Exiger les six faits
+    // ne laissait que trois issues — inventer une valeur, écrire un `false`
+    // mensonger, ou ne pas publier le fournisseur. Le schéma poussait au faux.
+    const out = providerFileSchema.safeParse({ ...base, baa_available: fait() });
+    expect(out.success).toBe(true);
+    if (out.success) expect(out.data.no_training_commitment).toBeUndefined();
+  });
+
+  it("refuse un fichier sans AUCUN fait — il n'aurait rien à publier", () => {
+    expect(providerFileSchema.safeParse(base).success).toBe(false);
+  });
+
+  it("un fait absent n'est pas un fait faux", () => {
+    // `undefined` dit « aucune source ne l'établit ». `false` dit « vérifié
+    // comme indisponible ». Les confondre ferait mentir la matrice sur les
+    // fournisseurs les moins documentés — précisément ceux sur lesquels un
+    // lecteur a le plus besoin d'être averti.
+    const absent = providerFileSchema.safeParse({ ...base, baa_available: fait() });
+    const faux = providerFileSchema.safeParse({
+      ...base,
+      baa_available: fait({ value: false }),
+    });
+    expect(absent.success && faux.success).toBe(true);
+    if (absent.success && faux.success) {
+      expect(absent.data.dpa_eu).toBeUndefined();
+      expect(faux.data.baa_available?.value).toBe(false);
+    }
+  });
+});

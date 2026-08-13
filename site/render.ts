@@ -59,7 +59,24 @@ function renderValue(value: unknown): string {
  * source. Les trois, toujours — c'est ce qui distingue un fait d'une
  * affirmation, et c'est ce que DESIGN_SYSTEM.md §8 interdit de séparer.
  */
-export function cell(fait: Fact<unknown>, state: FactState): string {
+export function cell(fait: Fact<unknown> | undefined, state: FactState): string {
+  // ABSENT n'est ni « non », ni une case vide. Une case vide se lit comme un
+  // oubli de mise en page ; un « non » affirmerait qu'on a vérifié que le
+  // fournisseur ne l'offre pas. Ni l'un ni l'autre n'est vrai : on ne sait pas,
+  // faute de document de première partie qui l'établisse, et la page le dit.
+  //
+  // Aucune puce ici : la puce porte une date, et il n'y en a pas. DESIGN_SYSTEM
+  // §3 dit qu'une puce sans date est un bug — l'absence de fait n'est donc pas
+  // un état de puce, c'est l'absence de puce.
+  if (fait === undefined) {
+    return (
+      `<td class="cell cell--absent">` +
+      `<span class="cell__value">non renseigné</span>` +
+      `<span class="cell__absence">aucune source de première partie</span>` +
+      `</td>`
+    );
+  }
+
   return (
     `<td class="cell">` +
     `<span class="cell__value">${renderValue(fait.value)}</span>` +

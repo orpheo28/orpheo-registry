@@ -108,8 +108,16 @@ export function collectSources(racine: string): string[] {
   const { providers } = loadRegistry(join(racine, "providers"), racine);
   const urls = new Set<string>();
   for (const { data } of providers) {
-    for (const fait of [...MATRIX_FACTS, "default_retention"] as const) {
-      urls.add(data[fait].source_url);
+    for (const cle of [...MATRIX_FACTS, "default_retention"] as const) {
+      // Un fait absent n'a pas de source à contrôler — et n'en aura pas tant
+      // qu'un document de première partie ne l'établira pas.
+      const fait = data[cle];
+      if (fait === undefined) continue;
+      urls.add(fait.source_url);
+      // Les sources qui QUALIFIENT le fait sont surveillées comme celle qui
+      // l'établit : ce sont elles qui portent les conflits, donc celles dont la
+      // disparition trompe le plus.
+      for (const autre of fait.additional_source_urls ?? []) urls.add(autre);
     }
   }
   return [...urls].sort();

@@ -16,6 +16,16 @@ Il dit une seule chose, et la dit précisément : à telle date, tel document du
 
 Chaque fait porte donc trois éléments inséparables : sa valeur, la date à laquelle elle a été vérifiée, et l'URL du document qui la porte. Un fait auquel il manque l'un des trois n'est pas publié — ce n'est pas une règle de rédaction, c'est le validateur qui refuse le fichier.
 
+## Ce que ce registre indexe — et ce qu'il n'indexe pas
+
+Ce registre décrit des SERVICES : une entité qui exploite l'inférence, détient les données pendant qu'elle les traite, et peut donc s'engager contractuellement sur ce qu'elle en fait. C'est un critère d'inclusion, pas une commodité.
+
+Un distributeur de poids ouverts n'en est pas un. Personne n'exploite le service à sa place : il n'y a chez lui ni rétention, ni accord de sous-traitance à signer, parce que la question ne se pose pas à son niveau. Elle se pose à celui qui héberge le modèle — et c'est cet hébergeur qui figure ici, sur la couche qui lui revient.
+
+L'absence d'un tel acteur n'est donc pas un oubli. L'inscrire avec des faits vides ferait conclure « ne signe pas d'accord », alors que la vraie réponse est que l'accord n'est pas de son ressort. Un registre qui répond à une question qu'on ne lui a pas posée trompe plus sûrement qu'un registre incomplet.
+
+Corollaire pour un éditeur : si votre pile utilise un modèle à poids ouverts, la couche à vérifier est celle de votre hébergeur d'inférence, pas celle de l'auteur du modèle.
+
 ## D'où viennent les faits
 
 D'un document du fournisseur lui-même : conditions commerciales, avenant de sous-traitance, centre de confidentialité, documentation technique. Jamais d'un article de blog tiers, jamais d'un comparatif publié par un concurrent, jamais d'un résumé produit par une machine.

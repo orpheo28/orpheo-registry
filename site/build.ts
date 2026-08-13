@@ -57,7 +57,8 @@ const statuts = loadSourceStatus();
  * C'est INV-11 rendu visible : le registre affiche ce qu'il ne sait plus
  * vérifier, au lieu de garder une date qui ne veut plus rien dire.
  */
-function stateOf(fait: Fact<unknown>): FactState {
+function stateOf(fait: Fact<unknown> | undefined): FactState {
+  if (fait === undefined) return "verifie"; // ignoré : la cellule absente ne porte pas de puce
   const statut = statuts.get(fait.source_url);
   if (statut === undefined) return "verifie";
   return statut.state === "ok" ? "verifie" : "non_verifie";

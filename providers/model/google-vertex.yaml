@@ -1,0 +1,47 @@
+provider_id: google-vertex
+legal_entity: Google LLC
+layer: model
+jurisdiction: US
+models: [gemini-3-pro, gemini-3-flash]
+
+no_training_commitment:
+  value: true
+  verified_at: 2026-08-13
+  source_url: https://docs.cloud.google.com/gemini-enterprise-agent-platform/resources/zero-data-retention
+  confidence: medium
+  note: >
+    Formulation exacte : « Google won't use your data to train or fine-tune any
+    AI/ML models without your prior permission or instruction. This applies to
+    all managed models, including GA and pre-GA models. »
+    NUANCE : conditionnelle, comme chez Microsoft — « without your prior
+    permission or instruction ».
+    Cette page renvoie, pour la clause contractuelle, à la section « Training
+    Restriction » des Service Specific Terms. Ce document-là n'a pas été lu :
+    la confiance reste donc medium, et un relecteur qui voudra du high devra
+    citer les Service Specific Terms directement.
+
+zero_retention_option:
+  value: true
+  verified_at: 2026-08-13
+  source_url: https://docs.cloud.google.com/gemini-enterprise-agent-platform/resources/zero-data-retention
+  confidence: medium
+  note: >
+    La rétention nulle n'est PAS un état par défaut ni un simple interrupteur :
+    « To achieve zero data retention, customers must take specific actions
+    within each of these areas ». Plusieurs domaines sont concernés
+    séparément, dont la journalisation des prompts pour surveillance d'abus,
+    la reprise de session de l'API Live et la mise en cache en mémoire.
+    Un éditeur qui croit avoir activé le ZDR d'un seul geste ne l'a pas.
+
+# baa_available — NON RENSEIGNÉ
+#   Google Cloud publie une liste de services couverts par son BAA, non lue.
+
+# default_retention — NON RENSEIGNÉ
+#   Les durées par domaine figurent sur la page lue mais n'ont pas été
+#   extraites une par une ; publier une durée unique serait faux.
+
+# data_residency — NON RENSEIGNÉ
+#   Aucune source de première partie lue.
+
+# dpa_eu — NON RENSEIGNÉ
+#   Aucune source de première partie lue.
