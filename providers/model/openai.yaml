@@ -1,0 +1,73 @@
+provider_id: openai
+legal_entity: OpenAI OpCo, LLC
+layer: model
+jurisdiction: US
+models: [gpt-5.2, gpt-5.2-mini, o4]
+
+baa_available:
+  value: true
+  verified_at: 2026-08-13
+  source_url: https://help.openai.com/en/articles/8660679-how-can-i-get-a-business-associate-agreement-baa-with-openai
+  confidence: high
+  note: >
+    BAA signable pour l'API Platform et ChatGPT for Healthcare. Un accord
+    entreprise n'est PAS requis pour signer un BAA sur l'API — contrairement
+    à ChatGPT Enterprise/Edu, réservé aux comptes gérés par les ventes.
+    ChatGPT Business n'est pas éligible.
+    La recherche web en accès internet direct n'est PAS éligible HIPAA et
+    n'est pas couverte par le BAA ; en mode cache seul elle l'est, mais
+    uniquement avec une clé d'un projet ZDR dans une organisation ZDR.
+    SOURCE CHANGÉE le 2026-08-13 : le fait figurait bien sur
+    openai.com/enterprise-privacy, mais derrière une FAQ repliée — donc non
+    re-vérifiable par un tiers sans interaction. La source enregistrée est
+    désormais celle qui l'énonce en texte principal.
+
+no_training_commitment:
+  value: true
+  verified_at: 2026-08-13
+  source_url: https://openai.com/enterprise-privacy/
+  confidence: high
+  note: >
+    Les données soumises via l'API, ChatGPT Enterprise et ChatGPT Team ne
+    servent pas à entraîner les modèles — énoncé en texte direct sur la page.
+    Les tiers consommateurs (Free, Plus) ont un défaut différent et ne sont
+    pas concernés.
+
+default_retention:
+  value: "30 jours"
+  verified_at: 2026-08-13
+  source_url: https://openai.com/enterprise-privacy/
+  confidence: high
+  note: >
+    Rétention jusqu'à 30 jours pour fourniture du service et détection d'abus,
+    sauf endpoints et fonctionnalités exclus listés dans la documentation
+    plateforme. Suppression après 30 jours sauf obligation légale.
+
+zero_retention_option:
+  value: true
+  verified_at: 2026-08-13
+  source_url: https://developers.openai.com/api/docs/guides/your-data
+  confidence: high
+  note: >
+    ZDR sur endpoints éligibles, soumis à approbation et à un cas d'usage
+    qualifiant. Contrôles configurables au niveau organisation et projet.
+    RÉSERVE PUBLIÉE : OpenAI se réserve le droit de rendre un modèle
+    inéligible au ZDR pour un client donné en cas d'investigation de risque
+    sévère, avec notification écrite préalable.
+
+data_residency:
+  value: [us, eu, uk, jp, ca, kr, sg, au, in, ae]
+  verified_at: 2026-08-13
+  source_url: https://openai.com/business-data/
+  confidence: high
+  note: >
+    Résidence AU REPOS dans ces régions pour les clients éligibles. En plus,
+    inférence GPU en région disponible aux US et en Europe ; les clients API
+    peuvent sélectionner explicitement US ou Europe pour le traitement
+    (inférence GPU et hors GPU) sur les endpoints supportés.
+
+dpa_eu:
+  value: true
+  verified_at: 2026-08-13
+  source_url: https://openai.com/business-data/
+  confidence: high

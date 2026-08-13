@@ -61,3 +61,26 @@ describe("les sources qui qualifient un fait sont surveillées aussi", () => {
     );
   });
 });
+
+describe("une source refusée n'est pas une source morte", () => {
+  it("tolère les paramètres AJOUTÉS par une redirection", async () => {
+    const { sameDocument } = await import("./check-sources.ts");
+    // Constaté sur la documentation Google, qui redirige vers `?hl=he`. Une
+    // langue ne change pas le document, et le signaler noierait le rapport.
+    expect(sameDocument("https://x.test/doc", "https://x.test/doc?hl=he")).toBe(true);
+    expect(sameDocument("https://x.test/doc", "https://x.test/doc?utm_source=a")).toBe(
+      true,
+    );
+  });
+
+  it("refuse en revanche qu'un paramètre d'origine soit modifié ou perdu", async () => {
+    const { sameDocument } = await import("./check-sources.ts");
+    // `?article=12` et `?article=13` ne servent pas le même texte.
+    expect(
+      sameDocument("https://x.test/doc?article=12", "https://x.test/doc?article=13"),
+    ).toBe(false);
+    expect(sameDocument("https://x.test/doc?article=12", "https://x.test/doc")).toBe(
+      false,
+    );
+  });
+});

@@ -32,6 +32,10 @@ D'un document du fournisseur lui-même : conditions commerciales, avenant de sou
 
 Le niveau de confiance qualifie la NATURE DE LA SOURCE, jamais notre degré de conviction. « Je pense que c'est vrai » n'est pas un niveau de confiance : c'est une opinion, et ce registre n'en publie pas.
 
+UNE SOURCE DOIT ÉNONCER LE FAIT DANS SON TEXTE PRINCIPAL. Pas derrière un accordéon, un onglet, une fenêtre modale ou un second lien à suivre. Une page qui contient la réponse mais ne l'affiche qu'après un geste n'est pas re-vérifiable par un tiers : celui qui ouvre l'adresse doit y lire le fait, sinon il ne peut ni le confirmer ni le contester.
+
+Cette règle vient d'une erreur réelle : un fait avait été rattaché à une page qui le portait effectivement, mais dans une question repliée. L'adresse répondait, le fait était vrai, et pourtant la source ne prouvait rien à qui l'ouvrait. Elle a été remplacée par celle qui l'énonce directement.
+
 - high — document contractuel du fournisseur
 - medium — documentation publique non contractuelle
 - low — réponse de support, non publiée

@@ -61,6 +61,12 @@ function stateOf(fait: Fact<unknown> | undefined): FactState {
   if (fait === undefined) return "verifie"; // ignoré : la cellule absente ne porte pas de puce
   const statut = statuts.get(fait.source_url);
   if (statut === undefined) return "verifie";
+  // `bloquee` ne fait PAS redescendre : le contrôleur s'est vu refuser l'entrée,
+  // il n'a pas constaté la disparition du document. Faire descendre un fait
+  // parce qu'un site refuse les robots punirait le lecteur pour une décision
+  // qui ne le concerne pas, et remplirait la matrice de « non vérifié » vides
+  // de sens — jusqu'à ce que plus personne ne les lise.
+  if (statut.state === "bloquee") return "verifie";
   return statut.state === "ok" ? "verifie" : "non_verifie";
 }
 
