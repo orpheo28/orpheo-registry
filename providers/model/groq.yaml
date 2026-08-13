@@ -1,0 +1,75 @@
+provider_id: groq
+service_name: "GroqCloud"
+entity: groq
+legal_entity: Groq, Inc.
+layer: model
+jurisdiction: US
+models: [llama, qwen, kimi, gpt-oss]
+
+no_training_commitment:
+  value: true
+  verified_at: 2026-08-13
+  source_url: https://console.groq.com/docs/legal/services-agreement
+  confidence: high
+  note: >
+    CONTRACTUAL, not a product page — section 4.2 of the Groq Services
+    Agreement: « For the avoidance of any doubt and to the extent permitted by
+    applicable law, Groq is not permitted to use Inputs or Outputs for training
+    or fine-tuning any AI Model Services or other models, unless explicitly
+    granted permission or instructed by Customer. »
+    The same section bounds access itself: « Groq does not access, use, store,
+    or retain Inputs or Outputs except as necessary to provide the Cloud
+    Services, in accordance with the Customer's permission or instruction,
+    comply with applicable law, ensure the reliable operation of the Cloud
+    Services, or confirm Customer's compliance with the AUP. »
+    This is one of the few `high` marks in the registry, and it is earned by the
+    NATURE OF THE DOCUMENT rather than by the strength of the wording.
+
+zero_retention_option:
+  value: true
+  verified_at: 2026-08-13
+  source_url: https://console.groq.com/docs/your-data
+  confidence: medium
+  note: >
+    « All customers may enable Zero Data Retention (ZDR) in Data Controls
+    settings. »
+    NO APPROVAL, NO QUALIFYING USE CASE, NO SALES CONVERSATION — worth comparing
+    with OpenAI on the same layer, where ZDR is « subject to approval and to a
+    qualifying use case ». Same feature name, different reachability, and the
+    difference is invisible in any column that prints yes for both.
+    The reservation is stated by Groq: enabling it disables the features that
+    need data to persist. A setting that costs nothing to turn on would be worth
+    doubting.
+
+default_retention:
+  value: "none for inference; logs up to 30 days"
+  verified_at: 2026-08-13
+  source_url: https://console.groq.com/docs/your-data
+  confidence: medium
+  note: >
+    « By default, Groq does not retain customer data for inference requests. »
+    Inference request logs are kept only when troubleshooting an error or
+    investigating abuse, for up to « 30 days, unless legally required to retain
+    longer ».
+    The exception is narrow and stated, which is what distinguishes it from a
+    thirty-day retention applied to everything.
+
+# baa_available — NOT RECORDED
+#   Neither the privacy policy, the services agreement nor the data
+#   documentation read mentions HIPAA or a BAA. Notable rather than neutral: a
+#   provider with a contractual no-training clause and self-serve zero retention
+#   is exactly the profile a healthcare buyer would shortlist, and this is the
+#   agreement that would stop them.
+
+# data_residency — NOT RECORDED
+#   The privacy policy states that Groq « maintains processing operations in
+#   various global jurisdictions » and may transfer information « to countries
+#   other than the country where you are located ». That governs Groq's own
+#   processing, and the same policy says explicitly that it does NOT apply to
+#   Customer Data, which is governed by the services agreement and the DPA.
+#   Reading a residency answer out of it would be citing a document about one
+#   thing to answer about another.
+
+# dpa_eu — NOT RECORDED
+#   A Data Processing Addendum for GroqCloud exists and is referenced by the
+#   privacy policy. It was not read.

@@ -1,0 +1,52 @@
+provider_id: cohere
+service_name: "Cohere Platform"
+entity: cohere
+# Entité signataire non établie sur un document de première partie lu ce jour.
+legal_entity: Cohere
+layer: model
+jurisdiction: CA
+models: [command, embed, rerank]
+
+default_retention:
+  value: "30 days"
+  verified_at: 2026-08-13
+  source_url: https://cohere.com/enterprise-data-commitments
+  confidence: medium
+  note: >
+    « We automatically delete logged prompts and generations after 30 days,
+    unless we need it to comply with a legal requirement or customer contract. »
+    Exceptions stated on the same page: usage flagged for a possible policy
+    violation, and customers who opt in to data use for model training. Access
+    to those logs « is limited to authorized employees and service providers
+    bound by confidentiality and security controls ».
+    Same figure as OpenAI, and it is worth noticing that thirty days is becoming
+    a convention rather than a computed answer.
+
+# no_training_commitment — NOT RECORDED, AND THE SOURCES DISAGREE
+#   The page offers an OPT-OUT: « You can opt out from your prompts and
+#   generations being used to train Cohere models in your dashboard settings at
+#   any time. » An opt-out that exists suggests the opposite default — but
+#   suggesting is not stating, and the same page also refers to customers who
+#   « opt in to allow data use for model training purposes ». Opt-out and opt-in
+#   describe contradictory defaults, and neither is written as a default.
+#   The registry therefore records nothing here. This is the identical refusal
+#   made for Deepgram, on the identical shape of evidence: the question is worth
+#   asking the provider, and worth more asked than guessed either way.
+
+# baa_available — NOT RECORDED
+#   The security page directs healthcare questions to privacy@cohere.com rather
+#   than to a document. A support address is not a published agreement.
+
+# zero_retention_option — NOT RECORDED
+#   No first-party source read states one for the hosted API.
+
+# data_residency — NOT RECORDED
+#   « Deploy through your virtual private cloud (VPC), on-premises setup, or
+#   dedicated, Cohere-managed Model Vault » describes deployment options, under
+#   which « Cohere does not receive any customer inputs (prompts) or outputs
+#   (generations) ». That is a different architecture, not a residency guarantee
+#   for the hosted API — and an editor calling the public endpoint gets nothing
+#   from it.
+
+# dpa_eu — NOT RECORDED
+#   No first-party source read.

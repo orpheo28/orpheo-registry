@@ -1,0 +1,61 @@
+provider_id: together
+service_name: "Together AI Inference"
+entity: together
+# Entité signataire non établie sur un document de première partie lu ce jour.
+legal_entity: Together AI
+layer: model
+jurisdiction: US
+models: [llama, qwen, deepseek, mixtral]
+
+default_retention:
+  value: "none by default"
+  verified_at: 2026-08-13
+  source_url: https://docs.together.ai/docs/privacy-and-security
+  confidence: medium
+  note: >
+    « Together does not store inputs or outputs by default, i.e. it supports
+    zero data retention (ZDR). »
+    Zero retention is the DEFAULT rather than a setting to enable — the same
+    position as Scaleway, and the opposite of OpenAI, where it must be requested
+    and approved. Nothing to configure means nothing to forget to configure.
+
+zero_retention_option:
+  value: true
+  verified_at: 2026-08-13
+  source_url: https://docs.together.ai/docs/privacy-and-security
+  confidence: medium
+  note: >
+    Recorded as available because it is the default state, not because a switch
+    exists. Documentation page, non-contractual: an editor who needs this in
+    writing should ask for the clause, not cite this page.
+
+no_training_commitment:
+  value: true
+  verified_at: 2026-08-13
+  source_url: https://docs.together.ai/docs/privacy-and-security
+  confidence: medium
+  note: >
+    « Data sharing for training other models is opt-in and not enabled by
+    default. »
+    READ THE SHAPE OF THIS SENTENCE: it states a DEFAULT, not an undertaking.
+    A default is changed by a product decision; a contractual commitment is
+    changed by an amendment. The distinction is the whole reason the confidence
+    scale exists, and it is why this fact is `medium` while Groq's — identical
+    in substance, written into section 4.2 of a signed agreement — is `high`.
+
+# baa_available — NOT RECORDED
+#   No first-party page read states that Together signs a BAA with its
+#   customers. Marketing material found elsewhere describes « business associate
+#   agreements with our partners » — agreements with ITS OWN subprocessors, not
+#   with the editor. Those are opposite ends of the chain, and reading one as
+#   the other would credit a provider with a commitment it never made to you.
+#   Not recorded, and worth asking directly.
+
+# data_residency — NOT RECORDED
+#   « Together supports private networking and VPC-based deployments, including
+#   in EU regions » describes a deployment OPTION, not a residency guarantee for
+#   the shared API. An editor calling the public endpoint gets nothing from this
+#   sentence.
+
+# dpa_eu — NOT RECORDED
+#   No first-party source read.

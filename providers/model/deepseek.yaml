@@ -1,0 +1,66 @@
+provider_id: deepseek
+service_name: "DeepSeek API"
+entity: deepseek
+# L'entité signataire exacte n'a pas été établie sur un document de première
+# partie : la politique de confidentialité ne la nomme pas dans le texte lu, et
+# les conditions de la plateforme ouverte répondent 403 à un robot.
+legal_entity: DeepSeek
+layer: model
+jurisdiction: CN
+models: [deepseek-chat, deepseek-reasoner]
+
+data_residency:
+  value: [cn]
+  verified_at: 2026-08-13
+  source_url: https://cdn.deepseek.com/policies/en-US/deepseek-privacy-policy.html
+  confidence: medium
+  note: >
+    Exact wording, in the main text: « To provide you with our services, we
+    directly collect, process and store your Personal Data in People's Republic
+    of China. »
+    THIS IS THE ANSWER, NOT A GAP, and it is the reason this provider is indexed
+    first among the low-cost hosts. A buyer whose customers are US clinics or
+    European practices does not need a comparison of benchmarks to decide here;
+    they need this one sentence, and it is rarely the sentence they are shown.
+    The policy adds that data « may be stored on a server located outside of the
+    country where you live », which is the same fact seen from the user's side.
+    A column that only ever prints « yes » discriminates nothing. This one
+    prints the jurisdiction, and the jurisdiction is the product question.
+
+no_training_commitment:
+  value: false
+  verified_at: 2026-08-13
+  source_url: https://cdn.deepseek.com/policies/en-US/deepseek-privacy-policy.html
+  confidence: medium
+  note: >
+    VERIFIED AS ABSENT, not unknown. The policy states that personal data is
+    processed « To improve and develop the Services and to train and improve our
+    technology, such as our machine learning models and algorithms » — training
+    is a stated purpose, not an exception.
+    An opt-out exists: users have « the right to opt-out of using your Personal
+    Data for training our models or optimizing our technologies ». A right to
+    opt out is the opposite of a commitment not to train; it confirms the
+    default rather than removing it.
+    SCOPE RESERVATION: this is the privacy policy covering the services. The
+    DeepSeek Open Platform terms of service, which would say whether the API
+    regime differs, return HTTP 403 to an automated reader and were not read.
+    OpenAI is the precedent that makes this reservation necessary rather than
+    cautious: there, the consumer tiers and the API have different defaults, and
+    reading one for the other would have been wrong.
+
+# baa_available — NOT RECORDED
+#   No first-party document read mentions a BAA. Given the residency fact above,
+#   the question is largely academic for a US healthcare buyer — but « largely
+#   academic » is not « verified », and the registry does not publish the first
+#   as if it were the second.
+
+# zero_retention_option — NOT RECORDED
+#   No first-party source read.
+
+# default_retention — NOT RECORDED
+#   The policy says data is kept « for as long as necessary to provide our
+#   Services ». That is a purpose, not a duration. Same refusal as Speechmatics:
+#   publishing it in a duration column would turn a formula into a number.
+
+# dpa_eu — NOT RECORDED
+#   No first-party source read.

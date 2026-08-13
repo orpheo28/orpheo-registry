@@ -1,0 +1,43 @@
+provider_id: baseten
+service_name: "Baseten"
+entity: baseten
+# Entité signataire non établie sur un document de première partie lu ce jour.
+legal_entity: Baseten
+layer: model
+jurisdiction: US
+models: [llama, deepseek, qwen, whisper]
+
+default_retention:
+  value: "none by default; async inputs held until processed"
+  verified_at: 2026-08-13
+  source_url: https://docs.baseten.co/observability/security
+  confidence: medium
+  note: >
+    « Baseten does not store model inputs, outputs, or weights by default. »
+    THE EXCEPTION IS NAMED BY THE PROVIDER, which is what makes it usable:
+    « Inputs for async inference are temporarily stored until processed. Outputs
+    are never stored. » Asynchronous inference is the ordinary way to handle a
+    long transcription or a batch of documents — precisely the workloads that
+    carry the most health data — so the exception applies exactly where the
+    stakes are highest, not at the margin.
+
+# baa_available — NOT RECORDED, AND THE PAGE SHOWS WHY THAT MATTERS
+#   The same page states: « Baseten maintains SOC 2 Type II certification and
+#   HIPAA compliance ». This registry does not publish compliance claims (INV-4),
+#   and — more to the point — a claim of HIPAA compliance is NOT the provision of
+#   a Business Associate Agreement. A provider can hold every certification and
+#   still not sign the one document that makes it lawful for a covered entity to
+#   send it PHI. The page that says « HIPAA compliance » says nothing about a
+#   BAA, and that gap is the fact.
+
+# no_training_commitment — NOT RECORDED
+#   Not addressed by the page read.
+
+# zero_retention_option — NOT RECORDED
+#   Absence of retention is the default posture, not a setting.
+
+# data_residency — NOT RECORDED
+#   No first-party source read.
+
+# dpa_eu — NOT RECORDED
+#   No first-party source read.

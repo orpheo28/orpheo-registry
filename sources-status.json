@@ -10,12 +10,32 @@
     "checked_at": "2026-08-13"
   },
   {
+    "url": "https://cdn.deepseek.com/policies/en-US/deepseek-privacy-policy.html",
+    "state": "ok",
+    "checked_at": "2026-08-13"
+  },
+  {
     "url": "https://cloud.google.com/security/compliance/hipaa",
     "state": "ok",
     "checked_at": "2026-08-13"
   },
   {
     "url": "https://cloud.google.com/terms/hipaa-baa",
+    "state": "ok",
+    "checked_at": "2026-08-13"
+  },
+  {
+    "url": "https://cohere.com/enterprise-data-commitments",
+    "state": "ok",
+    "checked_at": "2026-08-13"
+  },
+  {
+    "url": "https://console.groq.com/docs/legal/services-agreement",
+    "state": "ok",
+    "checked_at": "2026-08-13"
+  },
+  {
+    "url": "https://console.groq.com/docs/your-data",
     "state": "ok",
     "checked_at": "2026-08-13"
   },
@@ -35,12 +55,27 @@
     "checked_at": "2026-08-13"
   },
   {
+    "url": "https://docs.baseten.co/observability/security",
+    "state": "ok",
+    "checked_at": "2026-08-13"
+  },
+  {
     "url": "https://docs.cloud.google.com/gemini-enterprise-agent-platform/resources/zero-data-retention",
     "state": "ok",
     "checked_at": "2026-08-13"
   },
   {
     "url": "https://docs.cloud.google.com/storage/docs/locations",
+    "state": "ok",
+    "checked_at": "2026-08-13"
+  },
+  {
+    "url": "https://docs.fireworks.ai/guides/security_compliance/data_handling",
+    "state": "ok",
+    "checked_at": "2026-08-13"
+  },
+  {
+    "url": "https://docs.together.ai/docs/privacy-and-security",
     "state": "ok",
     "checked_at": "2026-08-13"
   },

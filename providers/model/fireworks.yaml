@@ -1,0 +1,42 @@
+provider_id: fireworks
+service_name: "Fireworks AI"
+entity: fireworks
+# Entité signataire non établie sur un document de première partie lu ce jour.
+legal_entity: Fireworks AI
+layer: model
+jurisdiction: US
+models: [llama, qwen, deepseek, kimi]
+
+default_retention:
+  value: "none for open models, absent opt-in"
+  verified_at: 2026-08-13
+  source_url: https://docs.fireworks.ai/guides/security_compliance/data_handling
+  confidence: medium
+  note: >
+    « Fireworks does not log or store prompt or generation data for any open
+    models, without explicit user opt-in. »
+    THE SCOPE LIMIT IS IN THE SENTENCE, and it is easy to read past: the
+    commitment is made « for any open models ». What happens on anything that is
+    not an open model is not stated on this page. An editor whose product calls
+    both kinds through one provider has an answer for half of their traffic.
+    For the Response API specifically, storage is switched off per request with
+    `store=False` — a per-call parameter, which means it can be omitted per call.
+
+# baa_available — NOT RECORDED
+#   No first-party page read mentions HIPAA or a BAA.
+
+# no_training_commitment — NOT RECORDED
+#   The page read addresses logging and storage, not training. Not storing and
+#   undertaking not to train are two different facts; the registry keeps them
+#   apart everywhere, and this file is not the place to start merging them.
+
+# zero_retention_option — NOT RECORDED
+#   Zero retention is described as the default behaviour for open models rather
+#   than as an option to enable. Recording an option would suggest a switch
+#   protects the case the default does not cover.
+
+# data_residency — NOT RECORDED
+#   Not addressed by the page read.
+
+# dpa_eu — NOT RECORDED
+#   No first-party source read.
