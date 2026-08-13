@@ -112,7 +112,12 @@ export function collectSources(racine: string): string[] {
       // Un fait absent n'a pas de source à contrôler — et n'en aura pas tant
       // qu'un document de première partie ne l'établira pas.
       const fait = data[cle];
-      if (fait !== undefined) urls.add(fait.source_url);
+      if (fait === undefined) continue;
+      urls.add(fait.source_url);
+      // Les sources qui QUALIFIENT le fait sont surveillées comme celle qui
+      // l'établit : ce sont elles qui portent les conflits, donc celles dont la
+      // disparition trompe le plus.
+      for (const autre of fait.additional_source_urls ?? []) urls.add(autre);
     }
   }
   return [...urls].sort();

@@ -121,6 +121,18 @@ export function factSchema<T extends z.ZodType>(valueSchema: T) {
     confidence: confidenceSchema,
     /** Nuance sans laquelle le fait serait faux. Ex. « niveau Enterprise seul ». */
     note: z.string().min(1).optional(),
+    /**
+     * Les autres documents qui QUALIFIENT le fait — typiquement celui qui
+     * établit un conflit ou une exception.
+     *
+     * Ce champ existe parce qu'une URL citée dans `note` échappait au
+     * contrôleur de fraîcheur : seule `source_url` était collectée. Or ce sont
+     * précisément ces sources-là — celles qui documentent qu'une option en
+     * annule une autre — dont la disparition coûte le plus cher, puisqu'elles
+     * portent ce qu'aucun comparatif ne dit. Une source qu'on ne surveille pas
+     * pourrit en silence, et le fait continue de s'afficher comme vérifié.
+     */
+    additional_source_urls: z.array(sourceUrlSchema).min(1).optional(),
   });
 }
 
