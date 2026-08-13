@@ -108,6 +108,51 @@ h1 {
   font-size: 11px;
   color: var(--ink-muted);
 }
+/* Un fait sous condition : la matrice dit que la condition existe. */
+.cell__reserve {
+  display: block;
+  font-size: 11px;
+  color: var(--amber);
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+}
+
+/* Le détail d'un fait, sur la page d'un fournisseur. */
+.couche-detail {
+  margin-top: calc(var(--space) * 12);
+}
+.fait {
+  background: var(--paper-raised);
+  border-top: 1px solid var(--graphite);
+  padding: calc(var(--space) * 4) 0;
+}
+.fait h3 {
+  font-size: 14px;
+  margin: 0 0 calc(var(--space) * 2);
+}
+.fait__valeur {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  margin: 0 0 calc(var(--space) * 2);
+  display: flex;
+  align-items: center;
+  gap: calc(var(--space) * 2);
+  flex-wrap: wrap;
+}
+.fait__note {
+  margin: 0 0 calc(var(--space) * 2);
+  max-width: 78ch;
+  white-space: pre-line;
+  color: var(--ink);
+}
+.fait__meta,
+.fait__absence {
+  font-size: 12px;
+  color: var(--ink-muted);
+  margin: 0;
+}
+.fait--absent .fait__valeur {
+  color: var(--ink-muted);
+}
+
 /* Un fait absent : lisible comme une absence, pas comme une valeur. */
 .cell--absent .cell__value {
   color: var(--ink-muted);

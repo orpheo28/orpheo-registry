@@ -1,0 +1,47 @@
+provider_id: google-speech
+legal_entity: Google LLC
+layer: transcription
+jurisdiction: US
+models: [chirp]
+
+baa_available:
+  value: true
+  verified_at: 2026-08-13
+  source_url: https://cloud.google.com/security/compliance/hipaa
+  confidence: medium
+  additional_source_urls:
+    - https://cloud.google.com/terms/hipaa-baa
+  note: >
+    Speech-to-Text figure explicitement dans la liste des produits couverts par
+    le BAA Google Cloud, lequel « covers Google Cloud's entire infrastructure
+    (all regions, all zones, all network paths, all points of presence) ».
+    CONDITION QUI ANNULE LA COUVERTURE, et c'est le fait décisif : « If you are
+    using Cloud Speech-to-Text, and you have entered into a BAA with Google
+    covering any PHI obligations under HIPAA, then you SHOULD NOT OPT INTO the
+    data logging program. » Un réglage, activé côté client, suffit donc à sortir
+    de la couverture — sans changer de fournisseur, sans renégocier quoi que ce
+    soit, et sans que rien ne le signale.
+    Deuxième condition, générale : le client doit s'assurer de ne pas utiliser,
+    avec des données de santé, des produits Google Cloud qui ne sont pas
+    explicitement couverts. La couverture est une liste, pas un état.
+    Le BAA lui-même est enregistré en source complémentaire, donc surveillé.
+    Cette page est une page de conformité, pas le contrat : confidence medium.
+
+# no_training_commitment — NON RENSEIGNÉ
+#   Le « data logging program » cité ci-dessus suggère un régime d'usage des
+#   données activable, mais la page ne dit pas ce qu'il advient des données hors
+#   de ce programme. Question ouverte, à poser plutôt qu'à deviner.
+
+# zero_retention_option — NON RENSEIGNÉ
+#   Aucune source de première partie lue.
+
+# default_retention — NON RENSEIGNÉ
+#   Aucune source de première partie lue.
+
+# data_residency — NON RENSEIGNÉ
+#   Le BAA couvre toutes les régions, ce qui ne dit rien de l'endroit où les
+#   données sont traitées. Couverture et résidence sont deux questions
+#   distinctes, et les confondre serait une faute de lecture.
+
+# dpa_eu — NON RENSEIGNÉ
+#   Aucune source de première partie lue.

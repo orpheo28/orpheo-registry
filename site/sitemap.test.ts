@@ -75,3 +75,44 @@ describe("aucune route déclarée ne mène à la 404", () => {
     );
   });
 });
+
+describe("les conditions sont lisibles sur la page, pas seulement dans les fichiers", () => {
+  /**
+   * L'argumentaire du produit tient dans ces trois cas : une couverture peut
+   * être annulée par un réglage, une garantie peut ne couvrir qu'une partie de
+   * la chaîne, un défaut peut s'appliquer quand on ne configure rien. Les
+   * laisser dans le YAML revenait à les réserver à qui lit le dépôt.
+   */
+  it("la rupture de chaîne documentée par Deepgram est publiée", () => {
+    const html = readFileSync(join(dist, "p/deepgram.html"), "utf8");
+    expect(html).toContain("third-party provider");
+    expect(html).toContain("listen");
+  });
+
+  it("la condition qui annule la couverture Google est publiée", () => {
+    const html = readFileSync(join(dist, "p/google-speech.html"), "utf8");
+    // La note reprend la formulation du fournisseur en capitales pour marquer
+    // que c'est cette condition-là qui annule la couverture.
+    expect(html.toLowerCase()).toContain("should not opt into");
+  });
+
+  it("le défaut du traitement par lots d'Azure est publié", () => {
+    const html = readFileSync(join(dist, "p/azure-speech.html"), "utf8");
+    expect(html).toContain("NO STORAGE IS SPECIFIED");
+  });
+
+  it("la matrice signale qu'un fait est sous condition", () => {
+    // Elle ne peut pas afficher la condition — un tableau dense y perdrait sa
+    // lisibilité — mais elle doit dire qu'elle existe, sinon elle affirme
+    // « oui » là où le fournisseur écrit « oui, sauf si ».
+    const accueil = readFileSync(join(dist, "index.html"), "utf8");
+    expect(accueil).toContain("sous condition");
+  });
+
+  it("un fait vérifié comme ABSENT se distingue d'un fait inconnu", () => {
+    const html = readFileSync(join(dist, "p/speechmatics.html"), "utf8");
+    // Le fournisseur a répondu : il ne garantit rien. Ce n'est pas une inconnue.
+    expect(html).toContain("aucune garantie");
+    expect(html).toContain("outside of the European Economic Area");
+  });
+});

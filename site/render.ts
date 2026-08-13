@@ -49,9 +49,16 @@ export function chip(state: FactState, verifiedAt: string): string {
 
 /** Ce qu'affiche une valeur de fait. Jamais « conforme » (INV-4). */
 function renderValue(value: unknown): string {
+  // `null` = VÉRIFIÉ COMME ABSENT. À distinguer d'un fait manquant : ici le
+  // fournisseur a répondu, et sa réponse est qu'il ne garantit rien.
+  if (value === null) return "aucune garantie";
   if (typeof value === "boolean") return value ? "oui" : "non";
   if (Array.isArray(value)) return escape(value.join(", "));
-  return escape(String(value));
+  if (typeof value === "string") return escape(value);
+  if (typeof value === "number") return escape(String(value));
+  // Aucune conversion implicite : un objet rendu par défaut donnerait
+  // « [object Object] » sur une page publique, ce qui serait pire qu'une erreur.
+  return "[valeur non représentable]";
 }
 
 /**
@@ -77,13 +84,71 @@ export function cell(fait: Fact<unknown> | undefined, state: FactState): string 
     );
   }
 
+  // Un fait qui porte une note est un fait SOUS CONDITION. La matrice ne peut
+  // pas afficher la condition — un tableau dense y perdrait sa lisibilité — mais
+  // elle doit dire qu'elle existe, sinon elle affirme « oui » là où le
+  // fournisseur écrit « oui, sauf si ». C'est la différence entre un
+  // comparatif et ce registre.
+  const reserve =
+    fait.note === undefined
+      ? ""
+      : `<span class="cell__reserve" title="ce fait est assorti d'une condition">sous condition</span>`;
+
   return (
     `<td class="cell">` +
     `<span class="cell__value">${renderValue(fait.value)}</span>` +
     chip(state, fait.verified_at) +
+    reserve +
     `<a class="cell__source" href="${escape(fait.source_url)}" rel="nofollow noopener" ` +
     `title="confiance : ${escape(fait.confidence)}">source</a>` +
     `</td>`
+  );
+}
+
+/**
+ * Le fait rendu EN ENTIER, note comprise — pour la page d'un fournisseur.
+ *
+ * C'est ici que vit ce qu'aucun comparatif ne dit : la condition qui annule une
+ * couverture, le maillon que la garantie ne couvre pas, le défaut qui s'applique
+ * quand on ne configure rien. Le laisser dans les fichiers du dépôt revenait à
+ * le réserver à ceux qui lisent du YAML.
+ */
+export function factBlock(
+  cle: string,
+  libelle: string,
+  fait: Fact<unknown> | undefined,
+  state: FactState,
+): string {
+  if (fait === undefined) {
+    return (
+      `<section class="fait fait--absent" id="${escape(cle)}">` +
+      `<h3>${escape(libelle)}</h3>` +
+      `<p class="fait__valeur">non renseigné</p>` +
+      `<p class="fait__absence">Aucune source de première partie ne l'établit. ` +
+      `Ce n'est pas une réponse négative : c'est une inconnue.</p>` +
+      `</section>`
+    );
+  }
+
+  const note =
+    fait.note === undefined ? "" : `<p class="fait__note">${escape(fait.note)}</p>`;
+  const autres = (fait.additional_source_urls ?? [])
+    .map(
+      (u) =>
+        ` <a class="fait__source" href="${escape(u)}" rel="nofollow noopener">source complémentaire</a>`,
+    )
+    .join("");
+
+  return (
+    `<section class="fait" id="${escape(cle)}">` +
+    `<h3>${escape(libelle)}</h3>` +
+    `<p class="fait__valeur">${renderValue(fait.value)} ${chip(state, fait.verified_at)}</p>` +
+    note +
+    `<p class="fait__meta">` +
+    `<a class="fait__source" href="${escape(fait.source_url)}" rel="nofollow noopener">source</a>` +
+    autres +
+    ` — confiance : ${escape(fait.confidence)}</p>` +
+    `</section>`
   );
 }
 

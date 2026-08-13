@@ -1,0 +1,59 @@
+provider_id: deepgram
+legal_entity: Deepgram, Inc.
+layer: transcription
+jurisdiction: US
+models: [nova, whisper]
+
+baa_available:
+  value: true
+  verified_at: 2026-08-13
+  source_url: https://developers.deepgram.com/trust-security/data-privacy-compliance
+  confidence: medium
+  note: >
+    « We can provide our Business Associate Agreement to such customers upon
+    request » — sur demande, et pour les clients qui se qualifient eux-mêmes
+    comme Covered Entity au sens de HIPAA. Deepgram se présente comme Business
+    Associate.
+    Ce n'est pas un accord disponible en libre-service : il faut le demander,
+    donc il faut avoir prévu le délai. Page de documentation, pas le contrat
+    lui-même, d'où confidence medium.
+
+data_residency:
+  value: [eu, au-sydney]
+  verified_at: 2026-08-13
+  source_url: https://developers.deepgram.com/trust-security/data-privacy-compliance
+  confidence: medium
+  note: >
+    Points d'accès régionaux dédiés : `api.eu.deepgram.com` pour un traitement
+    dans l'Union européenne, `api.au.deepgram.com` pour l'Australie — ce dernier
+    « runs exclusively on Australian infrastructure (AWS ap-southeast-2,
+    Sydney). Storage and inference both happen in-country — not storage alone ».
+    La distinction stockage/inférence est explicitement faite, ce qui est rare.
+    RUPTURE DE CHAÎNE DOCUMENTÉE PAR LE FOURNISSEUR LUI-MÊME, et c'est le fait
+    le plus utile de cette fiche : pour les clients Voice Agent, Deepgram
+    exécute `listen` et `speak` sur l'infrastructure australienne, mais l'étape
+    `think` tourne « on the third-party provider's infrastructure, which may
+    process data outside Australia ». La garantie de résidence couvre donc deux
+    maillons sur trois, et Deepgram écrit qu'il revient au client de vérifier le
+    troisième. Un éditeur qui lit « résidence australienne » et s'arrête là a
+    une chaîne rompue sans le savoir.
+
+# no_training_commitment — NON RENSEIGNÉ, ET LA QUESTION EST OUVERTE
+#   La page établit qu'un programme d'amélioration des modèles existe et qu'on
+#   peut s'en retirer par un paramètre — `mip_opt_out=true` — mais elle
+#   n'énonce nulle part l'état PAR DÉFAUT sur les points d'accès ordinaires.
+#   Un opt-out qui existe suggère un défaut opposé ; le supposer serait
+#   toutefois déduire, pas vérifier. C'est la première question à poser à
+#   Deepgram, et elle vaut mieux qu'un fait inventé dans un sens ou dans l'autre.
+
+# zero_retention_option — NON RENSEIGNÉ
+#   Aucune source de première partie lue.
+
+# default_retention — NON RENSEIGNÉ
+#   Aucune source de première partie lue.
+
+# dpa_eu — NON RENSEIGNÉ
+#   La page affirme être « GDPR ready » — une déclaration de conformité, que ce
+#   registre ne publie pas (INV-4), et qui n'est pas la mise à disposition d'un
+#   accord signable. Un DPA est bien mentionné, mais AUSTRALIEN et sur demande ;
+#   rien n'établit l'existence d'un équivalent européen.
