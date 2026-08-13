@@ -43,49 +43,98 @@ baa_available:
 no_training_commitment:
   value: true
   verified_at: 2026-08-13
-  source_url: https://openai.com/enterprise-privacy/
+  source_url: https://developers.openai.com/api/docs/guides/your-data
   confidence: medium
+  quote: "data sent to the OpenAI API is not used to train or improve OpenAI models (unless you explicitly opt in to share data with us)"
   note: >
-    Data submitted through the API, ChatGPT Enterprise and ChatGPT Team is not
-    used to train the models — stated in direct text on the page. Consumer tiers
-    (Free, Plus) have a different default and are not covered here.
+    SOURCE CHANGED on 2026-08-13. The fact was attached to
+    openai.com/enterprise-privacy, where it is carried by a bullet point and
+    which now refuses automated readers. It is stated in the main text of the API
+    documentation, which answers — so the fact stays replayable.
+    Scope and exception are both in the sentence: it covers data sent to the API,
+    and the commitment holds unless the customer opts in to share data.
+    Consumer tiers (Free, Plus) have a different default and are not covered here.
+    Documentation rather than a contractual document: medium.
 
 default_retention:
-  value: "30 days"
+  value: "up to 30 days for abuse monitoring logs"
   verified_at: 2026-08-13
-  source_url: https://openai.com/enterprise-privacy/
+  source_url: https://developers.openai.com/api/docs/guides/your-data
   confidence: medium
+  quote: "By default, abuse monitoring logs are generated for all API feature usage and retained for up to 30 days"
   note: >
-    Retention of up to 30 days to provide the service and detect abuse, except
-    for the endpoints and features excluded in the platform documentation.
-    Deletion after 30 days unless a legal obligation applies.
+    SOURCE CHANGED on 2026-08-13, and THE VALUE WAS NARROWED WITH IT. The fact
+    was attached to openai.com/enterprise-privacy, where the thirty days sit
+    behind a COLLAPSED FAQ — not in the main text. That breaks the rule written
+    after the `baa_available` case, and it is the SECOND time the same rule
+    catches the same provider. It is not a coincidence: this publisher puts its
+    load-bearing detail behind disclosure widgets.
+    Re-sourced from the API documentation, which states it directly. Reading the
+    sentence changed the fact: thirty days is the retention of ABUSE MONITORING
+    LOGS, not a blanket retention of everything for thirty days. The previous
+    value said the second, which claimed more than the document does.
+    Documentation rather than a contractual document: medium.
 
 zero_retention_option:
   value: true
   verified_at: 2026-08-13
   source_url: https://developers.openai.com/api/docs/guides/your-data
-  confidence: high
+  confidence: medium
   quote: "Eligible customers may have their customer content excluded from these abuse monitoring logs, subject to the limitations below, by getting approved for the Zero Data Retention or Modified Abuse Monitoring controls."
   note: >
     ZDR on eligible endpoints, subject to approval and to a qualifying use case.
     Controls are configurable at the organization and project level.
-    PUBLISHED RESERVATION: OpenAI reserves the right to make a model ineligible
-    for ZDR for a given customer during a severe risk investigation, with prior
-    written notice.
+    PUBLISHED RESERVATION, verbatim: « we reserve the right to make models
+    ineligible for Zero Data Retention or Modified Abuse Monitoring for specific
+    customers if reasonably necessary to investigate or prevent severe risk
+    activity, as notified in advance to the impacted customers in writing. »
+    GRADED DOWN FROM high ON 2026-08-13, on review of the scale rather than of
+    the fact: this is API documentation, and the scale reserves `high` for the
+    provider's own CONTRACTUAL document. The sentence is quoted and the source
+    answers; it is the nature of the document that caps the level. The
+    misgrading was mine.
 
 data_residency:
   value: [us, eu, uk, jp, ca, kr, sg, au, in, ae]
   verified_at: 2026-08-13
+  human_reviewed_at: 2026-08-13
   source_url: https://openai.com/business-data/
   confidence: medium
   note: >
-    Residency AT REST in these regions for eligible customers. In addition,
-    in-region GPU inference is available in the US and in Europe; API customers
-    can explicitly select US or Europe for processing (GPU and non-GPU) on
-    supported endpoints.
+    CONFIRMED BY A HUMAN REREADING on 2026-08-13, the page being closed to
+    automated readers (HTTP 403). The reader established two distinct things,
+    and the second is the one editors miss:
+    residency AT REST in these regions, for eligible customers of ChatGPT
+    Enterprise, ChatGPT Edu, ChatGPT for Healthcare and the API platform;
+    and, separately, that API customers can explicitly select the United States
+    or Europe for PROCESSING — GPU inference and non-GPU processing alike.
+    Storage and processing are two guarantees, not one. A provider can hold data
+    at rest in a region and compute elsewhere, and only the second is affected by
+    where the model runs.
+    NO QUOTE RECORDED, so the level is capped at medium: the sentence read is the
+    French localisation of the page, and this registry quotes documents in the
+    language of the URL it publishes. Recording an English back-translation as
+    verbatim would fabricate the one thing a quote exists to prove.
 
-dpa_eu:
-  value: true
-  verified_at: 2026-08-13
-  source_url: https://openai.com/business-data/
-  confidence: medium
+# dpa_eu — RETIRÉ le 2026-08-13, après relecture humaine de la source
+#
+#   Le fait était enregistré `true` depuis openai.com/business-data. La relecture
+#   manuelle de la page établit qu'elle propose « un Accord relatif au traitement
+#   des données » — un DPA GÉNÉRIQUE — et qu'elle ne dit nulle part « DPA
+#   européen ». Le RGPD y est mentionné séparément, sous la forme d'une aide à la
+#   conformité, ce qui n'est pas la même affirmation.
+#
+#   Or ce champ ne demande pas « un DPA existe-t-il ». Il demande un accord de
+#   sous-traitance EUROPÉEN, et c'est ainsi que la matrice le lit — à côté de
+#   Mistral et d'AssemblyAI, dont les DPA citent nommément le règlement 2016/679
+#   et les clauses contractuelles types de la décision 2021/914. Publier `true`
+#   pour OpenAI dans cette colonne aurait mis sur la même ligne un accord dont on
+#   sait qu'il porte les clauses et un accord dont on sait seulement qu'il est
+#   proposé.
+#
+#   Un DPA proposé n'est pas un DPA aux clauses contractuelles types. Le fait
+#   redevient donc une inconnue plutôt qu'un `true` affaibli : « non renseigné »
+#   dit ce qu'on sait, « oui » dirait ce qu'on ne sait pas.
+#
+#   Pour le rétablir : le document lui-même, et la clause qui vise les CCT.
+
