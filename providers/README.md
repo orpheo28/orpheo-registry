@@ -1,7 +1,6 @@
-# Les faits
+# The facts
 
-Un fichier par fournisseur **et par couche**, rangé dans le répertoire de sa
-couche :
+One file per provider **and per layer**, filed in its layer's directory:
 
 ```
 providers/
@@ -11,17 +10,23 @@ providers/
   storage/aws-s3.yaml
 ```
 
-Les couches sont `model`, `transcription`, `tts`, `telephony`, `storage` et
-`platform` — les cinq maillons possibles d'une chaîne de traitement, plus la
-synthèse vocale. Un même fournisseur occupe souvent plusieurs couches : il a
-alors un fichier par couche, et la couche déclarée dans le fichier doit
-correspondre à son répertoire.
+The layers are `model`, `transcription`, `tts`, `telephony`, `storage` and
+`platform` — the five possible links of a processing chain, plus text-to-speech.
+One provider often occupies several layers: it then has one file per layer, and
+the layer declared inside the file must match its directory.
 
-Chaque fait porte sa valeur, sa date de vérification, l'URL du document du
-fournisseur qui le porte, et le niveau de confiance de cette source. Sans ces
-quatre éléments, le fichier ne valide pas — lancez `pnpm registry:check`, il
-nomme le fichier et le champ fautifs.
+The unit is the provider and the layer, never the model. A BAA, a data
+processing agreement, a retention policy and a residency guarantee are
+commitments made by the entity that signs them. Where a fact genuinely depends
+on the model, it belongs in that provider's note and in its `models` field — not
+in a row of its own. `METHODOLOGY.md` explains why.
 
-Les sources doivent être en `http` ou `https` et mener à un document qu'un tiers
-peut aller relire. Un article de blog tiers n'est pas une source ; la
-documentation d'un concurrent non plus.
+Every fact carries its value, the date it was verified, the URL of the provider
+document that states it, and the confidence level of that source. Without those
+four elements the file does not validate — run `pnpm registry:check`, it names
+the offending file and field.
+
+Sources must be `http` or `https` and must lead to a document a third party can
+go and read. A third-party blog post is not a source; nor is a competitor's
+documentation. And the source must state the fact in its main text — not behind
+an accordion, a tab or a second link.
