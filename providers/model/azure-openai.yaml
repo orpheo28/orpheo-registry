@@ -1,0 +1,63 @@
+provider_id: azure-openai
+legal_entity: Microsoft Corporation
+layer: model
+jurisdiction: US
+models: [gpt-5.2, gpt-5.2-mini, o4]
+
+no_training_commitment:
+  value: true
+  verified_at: 2026-08-13
+  source_url: https://learn.microsoft.com/en-us/azure/foundry/responsible-ai/openai/data-privacy
+  confidence: medium
+  note: >
+    Formulation exacte : entrées, sorties, embeddings et données
+    d'entraînement « are NOT available to OpenAI or other providers of Models
+    sold by Azure », « are NOT used by providers of Models sold by Azure to
+    improve their models or services », et « are NOT used to train any
+    generative AI foundation models without your permission or instruction ».
+    NUANCE QUI PORTE : la dernière clause est conditionnelle — « without your
+    permission or instruction » — et non un interdit absolu.
+    Microsoft indique que le traitement est régi par le Products and Services
+    Data Protection Addendum, qui est le document contractuel ; cette page-ci
+    est de la documentation, d'où confidence medium.
+
+zero_retention_option:
+  value: true
+  verified_at: 2026-08-13
+  source_url: https://learn.microsoft.com/en-us/azure/foundry/responsible-ai/openai/data-privacy
+  confidence: medium
+  note: >
+    Par le mécanisme de « modified abuse monitoring », soumis à approbation et
+    réservé aux clients gérés : « If the customer has been approved for modified
+    abuse monitoring, the data storage and human review process described above
+    is not performed. »
+    RÉSERVES : une revue AUTOMATISÉE peut continuer, et si elle détecte un abus
+    sévère ou récurrent le client peut subir des limitations d'accès. Les
+    fonctionnalités en préversion peuvent appliquer d'autres pratiques.
+
+data_residency:
+  value: [géographie Azure désignée par le client]
+  verified_at: 2026-08-13
+  source_url: https://learn.microsoft.com/en-us/azure/foundry/responsible-ai/openai/data-privacy
+  confidence: medium
+  note: >
+    « Prompts and responses are processed within the customer-specified
+    geography », SAUF pour les types de déploiement Global et DataZone.
+    CONFLIT DOCUMENTÉ : un déploiement « Global » traite les requêtes dans
+    n'importe quelle géographie où le modèle est déployé ; un déploiement
+    « DataZone » dans n'importe quelle géographie de la zone. Le stockage AU
+    REPOS reste dans la géographie désignée dans les deux cas — c'est le
+    TRAITEMENT qui sort. Un éditeur qui croit avoir choisi sa région en
+    sélectionnant un déploiement Global se trompe.
+
+# baa_available — NON RENSEIGNÉ
+#   Microsoft propose un BAA HIPAA via ses Product Terms, mais la page lue
+#   n'établit pas la couverture d'Azure OpenAI en particulier. Ne pas déduire.
+
+# default_retention — NON RENSEIGNÉ
+#   La durée de conservation des données de surveillance d'abus est documentée
+#   sur une autre page, non lue.
+
+# dpa_eu — NON RENSEIGNÉ
+#   Le Data Protection Addendum est cité comme régissant le traitement, mais
+#   son URL canonique n'a pas été résolue et son contenu n'a pas été lu.

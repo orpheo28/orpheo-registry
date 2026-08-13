@@ -84,3 +84,16 @@ describe("aucun fait ne s'affiche sans sa date", () => {
     expect(formatDate("2026-01-05")).toBe("05.01.26");
   });
 });
+
+describe("un fait absent s'affiche comme absent", () => {
+  it("ne rend ni « non », ni une case vide, ni une puce", () => {
+    // Une case vide se lit comme un oubli de mise en page ; « non » affirmerait
+    // qu'on a vérifié que le fournisseur ne l'offre pas. Et aucune puce : la
+    // puce porte une date, il n'y en a pas (DESIGN_SYSTEM §3).
+    const html = cell(undefined, "verifie");
+    expect(html).toContain("non renseigné");
+    expect(html).toContain("aucune source de première partie");
+    expect(html).not.toContain('class="chip');
+    expect(html).not.toMatch(/>non</);
+  });
+});
