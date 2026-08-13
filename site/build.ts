@@ -12,7 +12,7 @@ import { loadRegistry } from "../scripts/load.ts";
 import type { SourceStatus } from "../scripts/check-sources.ts";
 import { FACT_ORDER, MATRIX_FACTS, type Fact } from "../schema.ts";
 import { cell, escape, factBlock, factLabel, page, type FactState } from "./render.ts";
-import { methodologieHtml, methodologieMarkdown } from "./methodologie.ts";
+import { methodologyHtml, methodologyMarkdown } from "./methodology.ts";
 import * as changelog from "./changelog.ts";
 
 /**
@@ -94,8 +94,8 @@ const enTetes = FACT_ORDER.us
 
 const corps =
   lignes.length === 0
-    ? `<tr><td class="vide" colspan="${String(FACT_ORDER.us.length + 2)}">Le registre est en
-       cours de constitution. Aucun fait n'est publié tant qu'il n'est pas daté et sourcé.</td></tr>`
+    ? `<tr><td class="vide" colspan="${String(FACT_ORDER.us.length + 2)}">This registry is being
+       built. No fact is published until it is dated and sourced.</td></tr>`
     : lignes
         .map(({ data }) => {
           const cellules = FACT_ORDER.us
@@ -110,28 +110,28 @@ const corps =
 
 const matrice = page(
   {
-    title: `${productName} — BAA coverage par fournisseur et par couche`,
+    title: `${productName} — BAA coverage by provider and layer`,
     description:
-      "Registre public de faits datés et sourcés sur les fournisseurs d'IA : BAA, " +
-      "engagement de non-entraînement, rétention nulle, résidence des données, DPA européen.",
+      "A public registry of dated, sourced facts about AI providers: BAA coverage, " +
+      "no-training commitments, zero-retention options, data residency, EU DPA.",
     path: "/",
     siteUrl,
     structuredData: JSON.stringify({
       "@context": "https://schema.org",
       "@type": "Dataset",
-      name: `${productName} — registre des fournisseurs d'IA`,
+      name: `${productName} — AI provider registry`,
       description:
-        "Faits juridiques et contractuels par fournisseur et par couche, chacun daté et sourcé.",
+        "Legal and contractual facts by provider and layer, each one dated and sourced.",
       url: `${siteUrl}/`,
       license: "https://creativecommons.org/licenses/by/4.0/",
       isAccessibleForFree: true,
     }),
-    body: `<h1>BAA coverage, par fournisseur et par couche</h1>
-<p class="chapeau">Chaque fait porte la date à laquelle il a été vérifié et l'adresse
-du document qui le porte. Ce registre ne dit jamais qu'un fournisseur est conforme :
-il dit ce qu'un document affirmait, à une date, et où le relire.</p>
+    body: `<h1>BAA coverage, by provider and layer</h1>
+<p class="chapeau">Every fact carries the date it was verified and the address of the
+document that states it. This registry never says a provider is compliant: it says
+what a document stated, on a date, and where to read it again.</p>
 <table class="matrice">
-  <thead><tr><th scope="col">Fournisseur</th><th scope="col">Couche</th>${enTetes}</tr></thead>
+  <thead><tr><th scope="col">Provider</th><th scope="col">Layer</th>${enTetes}</tr></thead>
   <tbody>
 ${corps}
   </tbody>
@@ -146,13 +146,13 @@ writeFileSync(
   join(dist, "404.html"),
   page(
     {
-      title: `${productName} — page introuvable`,
-      description: "Cette adresse ne correspond à aucune page du registre.",
+      title: `${productName} — page not found`,
+      description: "This address does not match any page in the registry.",
       path: "/404",
       siteUrl,
-      body: `<h1>Cette adresse ne mène à rien</h1>
-<p class="chapeau">Un fournisseur a peut-être été renommé, ou l'adresse a été mal
-recopiée. La matrice complète est <a href="/">ici</a>.</p>`,
+      body: `<h1>This address leads nowhere</h1>
+<p class="chapeau">A provider may have been renamed, or the address mistyped. The
+full matrix is <a href="/">here</a>.</p>`,
     },
     productName,
   ),
@@ -180,7 +180,7 @@ function tableauDeFaits(lignes: typeof providers): string {
     })
     .join("\n");
   return `<table class="matrice">
-  <thead><tr><th scope="col">Fournisseur</th><th scope="col">Couche</th>${enTete}</tr></thead>
+  <thead><tr><th scope="col">Provider</th><th scope="col">Layer</th>${enTete}</tr></thead>
   <tbody>\n${corpsTable}\n  </tbody>
 </table>`;
 }
@@ -202,8 +202,8 @@ for (const [id, fichiers] of parFournisseur) {
     join(dist, "p", `${id}.html`),
     page(
       {
-        title: `${nom} — faits datés et sourcés`,
-        description: `BAA, non-entraînement, rétention et résidence des données pour ${nom}, par couche, avec la date et la source de chaque fait.`,
+        title: `${nom} — dated, sourced facts`,
+        description: `BAA coverage, no-training, retention and data residency for ${nom}, by layer, with the date and source of every fact.`,
         path: `/p/${id}`,
         siteUrl,
         structuredData: JSON.stringify({
@@ -213,20 +213,20 @@ for (const [id, fichiers] of parFournisseur) {
           url: `${siteUrl}/p/${id}`,
         }),
         body: `<h1>${escape(nom)}</h1>
-<p class="chapeau">Juridiction de rattachement : ${escape(premier.data.jurisdiction)}. Chaque
-fait porte la date à laquelle il a été vérifié, l'adresse du document qui le porte,
-et — quand il y en a une — la condition qui le limite. C'est cette condition qui
-manque partout ailleurs.</p>
+<p class="chapeau">Governing jurisdiction: ${escape(premier.data.jurisdiction)}. Every fact
+carries the date it was verified, the address of the document that states it, and —
+where there is one — the condition that limits it. That condition is what is missing
+everywhere else.</p>
 ${tableauDeFaits(fichiers)}
 ${fichiers
   .map(
     ({ data }) => `<section class="couche-detail">
-<h2>Couche ${escape(data.layer)} — le détail des faits</h2>
+<h2>${escape(data.layer)} layer — fact by fact</h2>
 ${[...FACT_ORDER.us, "default_retention" as const]
   .map((f) =>
     factBlock(
       `${data.layer}-${f}`,
-      f === "default_retention" ? "Rétention par défaut" : factLabel(f),
+      f === "default_retention" ? "Default retention" : factLabel(f),
       data[f],
       stateOf(data[f]),
     ),
@@ -257,14 +257,13 @@ for (const [couche, fichiers] of parCouche) {
     join(dist, "c", `${couche}.html`),
     page(
       {
-        title: `Couche ${couche} — BAA coverage par fournisseur`,
-        description: `Tous les fournisseurs indexés sur la couche ${couche}, avec la date et la source de chaque fait.`,
+        title: `${couche} layer — BAA coverage by provider`,
+        description: `Every provider indexed on the ${couche} layer, with the date and source of each fact.`,
         path: `/c/${couche}`,
         siteUrl,
-        body: `<h1>Couche ${escape(couche)}</h1>
-<p class="chapeau">Une chaîne de traitement compte jusqu'à cinq couches, et il
-suffit d'une seule non couverte pour créer une exposition. Voici les fournisseurs
-indexés sur celle-ci.</p>
+        body: `<h1>${escape(couche)} layer</h1>
+<p class="chapeau">A processing chain can run through five layers, and a single
+uncovered one creates exposure. These are the providers indexed on this layer.</p>
 ${tableauDeFaits(fichiers)}`,
       },
       productName,
@@ -276,15 +275,15 @@ ${tableauDeFaits(fichiers)}`,
 
 // ── Méthodologie — même source que METHODOLOGY.md ────────────────────────────
 writeFileSync(
-  join(dist, "methodologie.html"),
+  join(dist, "methodology.html"),
   page(
     {
-      title: `${productName} — méthodologie du registre`,
+      title: `${productName} — registry methodology`,
       description:
-        "Comment un fait entre dans ce registre, à quelle fréquence il est revérifié, et ce que nous ne vérifions pas.",
-      path: "/methodologie",
+        "How a fact enters this registry, how often it is re-checked, and what we do not verify.",
+      path: "/methodology",
       siteUrl,
-      body: methodologieHtml(),
+      body: methodologyHtml(),
     },
     productName,
   ),
@@ -293,7 +292,7 @@ writeFileSync(
 // Écrit à la racine du dépôt pour qui lit le dépôt plutôt que le site. La CI
 // vérifie qu'il est committé et à jour : deux copies finiraient par diverger, et
 // c'est la version publique qui aurait tort.
-writeFileSync(join(racine, "METHODOLOGY.md"), methodologieMarkdown(), "utf8");
+writeFileSync(join(racine, "METHODOLOGY.md"), methodologyMarkdown(), "utf8");
 
 // ── Changelog ────────────────────────────────────────────────────────────────
 // L'historique doit être COMPLET. Un clone superficiel produirait un journal
@@ -310,7 +309,7 @@ writeFileSync(
   join(dist, "changelog.html"),
   page(
     {
-      title: `${productName} — changelog du registre`,
+      title: `${productName} — registry changelog`,
       description:
         "Chaque modification d'un fait, datée, avec le commit qui l'a produite.",
       path: "/changelog",
@@ -334,7 +333,7 @@ writeFileSync(
 
 const urls = [
   "/",
-  "/methodologie",
+  "/methodology",
   "/changelog",
   ...providers.map((p) => `/p/${p.data.provider_id}`),
 ];
@@ -350,28 +349,42 @@ writeFileSync(
 // humains. Un agent qui cite un fait doit pouvoir en citer la date et la source.
 writeFileSync(
   join(dist, "llms.txt"),
-  `# ${productName} — registre des fournisseurs d'IA
+  `# ${productName} — AI provider registry
 
-> Faits juridiques et contractuels sur les fournisseurs d'IA, par fournisseur et
-> par couche. Chaque fait porte sa date de vérification et l'URL du document qui
-> le porte. Le registre ne qualifie jamais un fournisseur de « conforme ».
+> Legal and contractual facts about AI providers, by provider and by layer. Every
+> fact carries its verification date and the URL of the document that states it.
+> This registry never calls a provider "compliant".
 
-## Comment citer un fait
+## The unit is the provider and the layer
 
-Citez la valeur, sa date de vérification et son URL de source. Un fait cité sans
-sa date ne dit rien : ces informations changent, et c'est précisément ce que ce
-registre existe pour suivre.
+One entry per provider and per layer — model, transcription, text-to-speech,
+telephony, storage, platform. Not one entry per model: a BAA, a DPA, a retention
+policy and a residency guarantee are commitments made by the entity that signs,
+not properties of a model. Where a fact does depend on the model, it is recorded
+in the provider's note and in its \`models\` field.
 
-## Niveaux de confiance
+## How to cite a fact
 
-- high — document contractuel du fournisseur
-- medium — documentation publique non contractuelle
-- low — réponse de support, non publiée
+Cite the value, its verification date and its source URL. A fact cited without its
+date says nothing: these commitments change, and tracking that change is exactly
+why this registry exists.
+
+## Three states
+
+- a value — the provider states this, at this date, in this document
+- no guarantee — the provider states that it does not commit
+- not recorded — no first-party source establishes anything; an unknown, not a no
+
+## Confidence levels
+
+- high — the provider's own contractual document
+- medium — public, non-contractual documentation
+- low — a support answer, not published
 
 ## Pages
 
-- [Matrice complète](${siteUrl}/)
-- [Méthodologie](${siteUrl}/methodologie)
+- [Full matrix](${siteUrl}/)
+- [Methodology](${siteUrl}/methodology)
 - [Changelog](${siteUrl}/changelog)
 `,
   "utf8",

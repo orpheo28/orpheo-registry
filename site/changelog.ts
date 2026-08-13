@@ -51,11 +51,11 @@ export function collect(): ChangelogEntry[] {
 export function render(entrees: readonly ChangelogEntry[], repoUrl: string): string {
   const corps =
     entrees.length === 0
-      ? `<p class="vide">Aucune modification de fait à ce jour. Ce journal se remplira
-         à mesure que le registre sera constitué : chaque ajout ou correction d'un
-         fait y apparaîtra, daté, avec le commit qui l'a produit.</p>`
+      ? `<p class="vide">No fact has changed yet. This log fills as the registry is
+         built: every addition or correction to a fact appears here, dated, with the
+         commit that produced it.</p>`
       : `<table class="matrice">
-  <thead><tr><th scope="col">Date</th><th scope="col">Modification</th><th scope="col">Commit</th></tr></thead>
+  <thead><tr><th scope="col">Date</th><th scope="col">Change</th><th scope="col">Commit</th></tr></thead>
   <tbody>
 ${entrees
   .map(
@@ -69,8 +69,8 @@ ${entrees
 </table>`;
 
   return `<h1>Changelog</h1>
-<p class="chapeau">Chaque modification d'un fait, datée, avec le commit qui l'a
-produite. L'historique complet est public : il permet de voir non seulement ce
-que ce registre affirme, mais ce qu'il a affirmé, et quand cela a changé.</p>
+<p class="chapeau">Every change to a fact, dated, with the commit that produced it.
+The full history is public: it shows not only what this registry states, but what
+it stated, and when that changed.</p>
 ${corps}`;
 }

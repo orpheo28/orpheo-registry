@@ -11,12 +11,10 @@ baa_available:
   confidence: medium
   note: >
     « We can provide our Business Associate Agreement to such customers upon
-    request » — sur demande, et pour les clients qui se qualifient eux-mêmes
-    comme Covered Entity au sens de HIPAA. Deepgram se présente comme Business
-    Associate.
-    Ce n'est pas un accord disponible en libre-service : il faut le demander,
-    donc il faut avoir prévu le délai. Page de documentation, pas le contrat
-    lui-même, d'où confidence medium.
+    request » — on request, and for customers who qualify as a Covered Entity
+    under HIPAA. Deepgram presents itself as a Business Associate.
+    This is not a self-serve agreement: it must be asked for, so the lead time
+    must be planned. Documentation page, not the contract, hence medium.
 
 data_residency:
   value: [eu, au-sydney]
@@ -24,36 +22,34 @@ data_residency:
   source_url: https://developers.deepgram.com/trust-security/data-privacy-compliance
   confidence: medium
   note: >
-    Points d'accès régionaux dédiés : `api.eu.deepgram.com` pour un traitement
-    dans l'Union européenne, `api.au.deepgram.com` pour l'Australie — ce dernier
-    « runs exclusively on Australian infrastructure (AWS ap-southeast-2,
-    Sydney). Storage and inference both happen in-country — not storage alone ».
-    La distinction stockage/inférence est explicitement faite, ce qui est rare.
-    RUPTURE DE CHAÎNE DOCUMENTÉE PAR LE FOURNISSEUR LUI-MÊME, et c'est le fait
-    le plus utile de cette fiche : pour les clients Voice Agent, Deepgram
-    exécute `listen` et `speak` sur l'infrastructure australienne, mais l'étape
-    `think` tourne « on the third-party provider's infrastructure, which may
-    process data outside Australia ». La garantie de résidence couvre donc deux
-    maillons sur trois, et Deepgram écrit qu'il revient au client de vérifier le
-    troisième. Un éditeur qui lit « résidence australienne » et s'arrête là a
-    une chaîne rompue sans le savoir.
+    Dedicated regional endpoints: `api.eu.deepgram.com` for processing in the
+    European Union, `api.au.deepgram.com` for Australia — the latter « runs
+    exclusively on Australian infrastructure (AWS ap-southeast-2, Sydney).
+    Storage and inference both happen in-country — not storage alone. » The
+    storage/inference distinction is made explicitly, which is rare.
+    CHAIN BREAK, DOCUMENTED BY THE PROVIDER ITSELF, and the most useful fact on
+    this page: for Voice Agent customers, Deepgram runs `listen` and `speak` on
+    Australian infrastructure, but the `think` step runs « on the third-party
+    provider's infrastructure, which may process data outside Australia ». The
+    residency guarantee therefore covers two links out of three, and Deepgram
+    writes that verifying the third is the customer's job. An editor who reads
+    « Australian residency » and stops there has a broken chain and no signal.
 
-# no_training_commitment — NON RENSEIGNÉ, ET LA QUESTION EST OUVERTE
-#   La page établit qu'un programme d'amélioration des modèles existe et qu'on
-#   peut s'en retirer par un paramètre — `mip_opt_out=true` — mais elle
-#   n'énonce nulle part l'état PAR DÉFAUT sur les points d'accès ordinaires.
-#   Un opt-out qui existe suggère un défaut opposé ; le supposer serait
-#   toutefois déduire, pas vérifier. C'est la première question à poser à
-#   Deepgram, et elle vaut mieux qu'un fait inventé dans un sens ou dans l'autre.
+# no_training_commitment — NOT RECORDED, AND THE QUESTION IS OPEN
+#   The page establishes that a model improvement programme exists and can be
+#   opted out of — `mip_opt_out=true` — but nowhere states the DEFAULT on
+#   ordinary endpoints. An opt-out that exists suggests the opposite default;
+#   assuming so would be inferring, not verifying. This is the first question to
+#   put to Deepgram, and it is worth more than a fact invented either way.
 
-# zero_retention_option — NON RENSEIGNÉ
-#   Aucune source de première partie lue.
+# zero_retention_option — NOT RECORDED
+#   No first-party source read.
 
-# default_retention — NON RENSEIGNÉ
-#   Aucune source de première partie lue.
+# default_retention — NOT RECORDED
+#   No first-party source read.
 
-# dpa_eu — NON RENSEIGNÉ
-#   La page affirme être « GDPR ready » — une déclaration de conformité, que ce
-#   registre ne publie pas (INV-4), et qui n'est pas la mise à disposition d'un
-#   accord signable. Un DPA est bien mentionné, mais AUSTRALIEN et sur demande ;
-#   rien n'établit l'existence d'un équivalent européen.
+# dpa_eu — NOT RECORDED
+#   The page states it is « GDPR ready » — a compliance claim, which this
+#   registry does not publish (INV-4), and which is not the provision of a
+#   signable agreement. A DPA is mentioned, but an AUSTRALIAN one, on request;
+#   nothing establishes a European equivalent.

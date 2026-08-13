@@ -69,9 +69,9 @@ describe("aucune route déclarée ne mène à la 404", () => {
 
   it("une 404 nous appartient, et la méthodologie est publique", () => {
     expect(existsSync(join(dist, "404.html"))).toBe(true);
-    expect(existsSync(join(dist, "methodologie.html"))).toBe(true);
-    expect(readFileSync(join(dist, "methodologie.html"), "utf8")).toContain(
-      "ce que nous ne vérifions pas",
+    expect(existsSync(join(dist, "methodology.html"))).toBe(true);
+    expect(readFileSync(join(dist, "methodology.html"), "utf8")).toContain(
+      "What we do not verify",
     );
   });
 });
@@ -106,13 +106,13 @@ describe("les conditions sont lisibles sur la page, pas seulement dans les fichi
     // lisibilité — mais elle doit dire qu'elle existe, sinon elle affirme
     // « oui » là où le fournisseur écrit « oui, sauf si ».
     const accueil = readFileSync(join(dist, "index.html"), "utf8");
-    expect(accueil).toContain("sous condition");
+    expect(accueil).toContain("conditional");
   });
 
   it("un fait vérifié comme ABSENT se distingue d'un fait inconnu", () => {
     const html = readFileSync(join(dist, "p/speechmatics.html"), "utf8");
     // Le fournisseur a répondu : il ne garantit rien. Ce n'est pas une inconnue.
-    expect(html).toContain("aucune garantie");
+    expect(html).toContain("no guarantee");
     expect(html).toContain("outside of the European Economic Area");
   });
 });

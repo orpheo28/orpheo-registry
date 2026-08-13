@@ -10,31 +10,30 @@ baa_available:
   source_url: https://aws.amazon.com/compliance/hipaa-eligible-services-reference/
   confidence: medium
   note: >
-    Listé comme « AWS Transcribe [Includes Healthscribe] » — annotation
-    INCLUSIVE cette fois, là où Bedrock porte une exclusion de modèles sur la
-    même page. Les deux se lisent au même endroit et disent l'inverse : la
-    liste mérite d'être relue ligne à ligne plutôt que parcourue.
-    LE BAA EST UN PRÉALABLE, pas une conséquence de l'éligibilité : « you agree
-    not to use these HIPAA Eligible Services ... without first entering into an
-    AWS business associate agreement ».
-    L'éligibilité reste soumise au modèle de responsabilité partagée :
-    « Customers still must configure these services consistent with HIPAA
-    requirements ». Référence de conformité publiée par AWS, pas le contrat :
-    confidence medium.
+    Listed as « AWS Transcribe [Includes Healthscribe] » — an INCLUSIVE
+    annotation, where Bedrock carries a model exclusion on the same page. The two
+    read in the same place and say opposite things: this list rewards reading
+    line by line rather than skimming.
+    THE BAA IS A PREREQUISITE, not a consequence of eligibility: « you agree not
+    to use these HIPAA Eligible Services ... without first entering into an AWS
+    business associate agreement ».
+    Eligibility remains subject to the shared responsibility model: « Customers
+    still must configure these services consistent with HIPAA requirements. »
+    Compliance reference published by AWS, not the contract: medium confidence.
 
-# no_training_commitment — NON RENSEIGNÉ
-#   Les AWS Service Terms comportent des clauses sur l'usage du contenu des
-#   services d'IA, non lues. Ne pas déduire d'une éligibilité HIPAA.
+# no_training_commitment — NOT RECORDED
+#   The AWS Service Terms contain clauses on AI service content usage, not read.
+#   Do not infer from HIPAA eligibility.
 
-# zero_retention_option — NON RENSEIGNÉ
-#   Aucune source de première partie lue.
+# zero_retention_option — NOT RECORDED
+#   No first-party source read.
 
-# default_retention — NON RENSEIGNÉ
-#   Aucune source de première partie lue.
+# default_retention — NOT RECORDED
+#   No first-party source read.
 
-# data_residency — NON RENSEIGNÉ
-#   Les régions AWS sont documentées ailleurs ; aucune page de première partie
-#   lue n'établit la résidence des données de transcription.
+# data_residency — NOT RECORDED
+#   AWS regions are documented elsewhere; no first-party page read establishes
+#   residency for transcription data.
 
-# dpa_eu — NON RENSEIGNÉ
-#   Aucune source de première partie lue.
+# dpa_eu — NOT RECORDED
+#   No first-party source read.

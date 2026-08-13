@@ -66,7 +66,7 @@ describe("aucun fait ne s'affiche sans sa date", () => {
 
   it("une cellule porte la valeur, la date ET le lien vers la source", () => {
     const html = cell(fait, "verifie");
-    expect(html).toContain("oui");
+    expect(html).toContain("yes");
     expect(html).toContain("14.07.26");
     expect(html).toContain("https://exemple.test/cgu");
   });
@@ -75,9 +75,9 @@ describe("aucun fait ne s'affiche sans sa date", () => {
     // INV-11 et INV-12 : le niveau peut descendre, et la descente se voit. Le
     // fait garde sa dernière date connue — c'est elle qui informe le lecteur.
     const html = cell(fait, "non_verifie");
-    expect(html).toContain("non vérifié");
+    expect(html).toContain("unverified");
     expect(html).toContain("14.07.26");
-    expect(html).toContain("oui");
+    expect(html).toContain("yes");
   });
 
   it("formate la date comme le système de design l'impose", () => {
@@ -91,9 +91,9 @@ describe("un fait absent s'affiche comme absent", () => {
     // qu'on a vérifié que le fournisseur ne l'offre pas. Et aucune puce : la
     // puce porte une date, il n'y en a pas (DESIGN_SYSTEM §3).
     const html = cell(undefined, "verifie");
-    expect(html).toContain("non renseigné");
-    expect(html).toContain("aucune source de première partie");
+    expect(html).toContain("not recorded");
+    expect(html).toContain("no first-party source");
     expect(html).not.toContain('class="chip');
-    expect(html).not.toMatch(/>non</);
+    expect(html).not.toMatch(/>no</);
   });
 });

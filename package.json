@@ -7,7 +7,7 @@
     "node": "22.x"
   },
   "scripts": {
-    "registry:check": "tsx scripts/check.ts",
+    "registry:check": "node scripts/check.ts",
     "typecheck": "tsc --noEmit",
     "lint": "eslint .",
     "format:check": "prettier --check .",

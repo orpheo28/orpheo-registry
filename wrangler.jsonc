@@ -25,7 +25,7 @@
     // la page 404 par défaut — celle de Cloudflare en est une.
     "not_found_handling": "404-page",
 
-    // `/methodologie` sert `methodologie.html`, et `/methodologie/` y redirige.
+    // `/methodology` sert `methodology.html`, et `/methodology/` y redirige.
     // Les URL de l'index sont citées dans des documents qui vivront longtemps :
     // elles n'ont pas à porter une extension de fichier.
     "html_handling": "auto-trailing-slash",

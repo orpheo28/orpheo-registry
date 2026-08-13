@@ -1,84 +1,99 @@
-# Méthodologie
+# Methodology
 
-Comment un fait entre dans ce registre, à quelle fréquence il est revérifié, et
-ce que nous ne vérifions pas.
+How a fact enters this registry, how often it is re-checked, and what we do not
+verify.
 
-> Ce fichier est GÉNÉRÉ depuis `site/methodologie.ts`, qui est aussi la source
-> de la page publique. Ne le modifiez pas à la main : la CI vérifie qu'il
-> correspond, pour que la version du dépôt et la version publiée ne puissent pas
-> diverger.
+> This file is GENERATED from `site/methodology.ts`, which is also the source of
+> the public page. Do not edit it by hand: CI checks that the two match, so the
+> repository version and the published version cannot drift apart.
 
-## Ce que ce registre affirme, et ce qu'il n'affirme pas
+## What this registry claims — and what it does not
 
-Ce registre ne dit jamais qu'un fournisseur est « conforme ». La conformité dépend de votre usage, de votre juridiction et de votre contrat — pas du fournisseur seul, et certainement pas de nous.
+This registry never says a provider is compliant. Compliance depends on your use, your jurisdiction and your contract — not on the provider alone, and certainly not on us.
 
-Il dit une seule chose, et la dit précisément : à telle date, tel document du fournisseur affirmait telle chose, et voici son adresse. Ce que vous en concluez vous appartient.
+It says one thing, precisely: on this date, this document from this provider stated this, and here is where to read it. What you conclude is yours.
 
-Chaque fait porte donc trois éléments inséparables : sa valeur, la date à laquelle elle a été vérifiée, et l'URL du document qui la porte. Un fait auquel il manque l'un des trois n'est pas publié — ce n'est pas une règle de rédaction, c'est le validateur qui refuse le fichier.
+Every fact therefore carries three inseparable elements: its value, the date it was verified, and the URL of the document that states it. A fact missing any of the three is not published — that is not an editorial guideline, it is the validator refusing the file.
 
-## Ce que ce registre indexe — et ce qu'il n'indexe pas
+## The unit of this registry is the provider and the layer
 
-Ce registre décrit des SERVICES : une entité qui exploite l'inférence, détient les données pendant qu'elle les traite, et peut donc s'engager contractuellement sur ce qu'elle en fait. C'est un critère d'inclusion, pas une commodité.
+One entry per provider and per layer — model, transcription, text-to-speech, telephony, storage, platform. Not one entry per model.
 
-Un distributeur de poids ouverts n'en est pas un. Personne n'exploite le service à sa place : il n'y a chez lui ni rétention, ni accord de sous-traitance à signer, parce que la question ne se pose pas à son niveau. Elle se pose à celui qui héberge le modèle — et c'est cet hébergeur qui figure ici, sur la couche qui lui revient.
+This is deliberate. A BAA, a data processing agreement, a retention policy and a residency guarantee are commitments made by the ENTITY THAT SIGNS. They are facts about the provider, not about the model: the same provider offers the same agreement whichever of its models you call.
 
-L'absence d'un tel acteur n'est donc pas un oubli. L'inscrire avec des faits vides ferait conclure « ne signe pas d'accord », alors que la vraie réponse est que l'accord n'est pas de son ressort. Un registre qui répond à une question qu'on ne lui a pas posée trompe plus sûrement qu'un registre incomplet.
+Indexing model by model would multiply rows without adding a single fact, and would suggest that the answer changes with the model — which is exactly the confusion a buyer needs removed.
 
-Corollaire pour un éditeur : si votre pile utilise un modèle à poids ouverts, la couche à vérifier est celle de votre hébergeur d'inférence, pas celle de l'auteur du modèle.
+Where a fact genuinely does depend on the model, it is recorded in the provider's note and in the `models` field, not in a separate row. Two such cases are already indexed: a HIPAA eligibility that excludes two named models, and a retention regime that applies to a specific class of models and is incompatible with zero retention. Both are exceptions written inside the provider's entry — which is where a reader will look for them.
 
-## D'où viennent les faits
+The same rule explains why an open-weight model distributor is absent entirely: it operates no inference service, holds no data, and signs no agreement about either. The question does not arise at its level — it arises for whoever hosts the model, and that host is indexed on the layer it occupies.
 
-D'un document du fournisseur lui-même : conditions commerciales, avenant de sous-traitance, centre de confidentialité, documentation technique. Jamais d'un article de blog tiers, jamais d'un comparatif publié par un concurrent, jamais d'un résumé produit par une machine.
+## Where the facts come from
 
-Le niveau de confiance qualifie la NATURE DE LA SOURCE, jamais notre degré de conviction. « Je pense que c'est vrai » n'est pas un niveau de confiance : c'est une opinion, et ce registre n'en publie pas.
+From a document published by the provider itself: commercial terms, data processing addendum, privacy centre, technical documentation. Never a third-party blog post, never a competitor's comparison, never a machine-generated summary.
 
-UNE SOURCE DOIT ÉNONCER LE FAIT DANS SON TEXTE PRINCIPAL. Pas derrière un accordéon, un onglet, une fenêtre modale ou un second lien à suivre. Une page qui contient la réponse mais ne l'affiche qu'après un geste n'est pas re-vérifiable par un tiers : celui qui ouvre l'adresse doit y lire le fait, sinon il ne peut ni le confirmer ni le contester.
+A source must state the fact IN ITS MAIN TEXT — not behind an accordion, a tab, a modal or a second link to follow. A page that contains the answer but only reveals it after a gesture is not re-verifiable by a third party: whoever opens the address must read the fact there, or they can neither confirm nor challenge it.
 
-Cette règle vient d'une erreur réelle : un fait avait été rattaché à une page qui le portait effectivement, mais dans une question repliée. L'adresse répondait, le fait était vrai, et pourtant la source ne prouvait rien à qui l'ouvrait. Elle a été remplacée par celle qui l'énonce directement.
+This rule comes from a real mistake. A fact had been attached to a page that did carry it — inside a collapsed question. The address responded, the fact was true, and yet the source proved nothing to anyone who opened it. It was replaced by the page that states it directly.
 
-- high — document contractuel du fournisseur
-- medium — documentation publique non contractuelle
-- low — réponse de support, non publiée
+The confidence level qualifies THE NATURE OF THE SOURCE, never our degree of conviction. « I think this is true » is not a confidence level: it is an opinion, and this registry does not publish opinions.
 
-## À quelle fréquence
+- high — the provider's own contractual document
+- medium — public, non-contractual documentation
+- low — a support answer, not published
 
-Revue mensuelle par fournisseur, et immédiate sur annonce majeure. Entre deux revues, un contrôle automatique hebdomadaire vérifie que chaque source répond encore.
+## Three states, and the difference matters
 
-Une source qui disparaît ou qui redirige ailleurs fait redescendre son fait à NON VÉRIFIÉ, avec sa dernière date connue. Le fait n'est pas retiré : le retirer en silence reviendrait à effacer le fait qu'on ne sait plus.
+A fact can carry a value, be recorded as verifiably absent, or be missing. Collapsing the last two would make the matrix lie.
 
-Une redirection n'est pas toujours une erreur — un site change d'adresse. Mais aucune machine ne peut juger si la page d'arrivée porte encore le fait : cette vérification-là est humaine, et jusqu'à ce qu'elle ait lieu, le registre affiche qu'il ne sait plus.
+- A value — the provider states this, at this date, in this document.
+- No guarantee — the provider states that it does NOT commit. This is an answer, dated and sourced, and often the one a buyer most needs.
+- Not recorded — no first-party source establishes anything. This is an unknown, not a negative answer.
 
-## Deux contrôles, parce qu'ils attrapent des erreurs différentes
+One provider writes that customer data « may be stored and processed in a location outside of the European Economic Area ». Filing that with the unknowns would have silenced something the provider took the trouble to say.
 
-Chaque source est contrôlée automatiquement chaque semaine, et relue par un humain à la revue mensuelle. Ce n'est pas une redondance : les deux ne voient pas les mêmes défauts, et aucun des deux ne suffit.
+## Conditions are part of the fact
 
-La machine vérifie qu'une source RÉPOND ENCORE, et qu'elle n'a pas déménagé. Elle ne sait pas lire : une page peut répondre parfaitement et ne plus rien prouver.
+Most facts here are not booleans. A coverage can be cancelled by a setting the customer enables. A residency guarantee can cover two steps of a three-step pipeline. A default can apply when nothing is configured.
 
-L'humain vérifie qu'elle DIT ENCORE le fait. Il lit le document, en contexte, ce qu'aucun contrôle d'adresse ne fera jamais.
+The matrix marks such facts as conditional and links to the provider's page, where the condition is written out in full with the provider's own wording. A comparison table that prints « yes » where the provider writes « yes, unless » is worse than no table at all.
 
-Deux cas réels, survenus le même jour, montrent pourquoi il faut les deux :
+## How often
 
-- Un fait exact rattaché à une page qui le portait — mais derrière une question repliée. L'adresse répondait, le fait était vrai : le contrôle automatique l'aurait validée indéfiniment. Seule une relecture humaine a vu que la source ne prouvait rien à qui l'ouvrait. C'est de là que vient la règle du texte principal, plus haut.
-- À l'inverse, une relecture humaine a conclu qu'une mention n'était pas sur la page — une exclusion de modèles, annotée entre crochets au milieu d'une liste alphabétique de plusieurs centaines de services. Elle y était. Retirer ce fait aurait supprimé une exclusion exacte, c'est-à-dire précisément l'information qui protège le lecteur.
+Monthly review per provider, and immediately on a major announcement. Between reviews, an automated weekly check confirms that every source still responds.
 
-Le second cas donne la règle d'arbitrage : quand un contrôle et une relecture se contredisent, ni la mémoire de l'un ni l'impression de l'autre ne tranchent. On retourne au document, on le récupère à nouveau, et on cherche la chaîne exacte. C'est le document qui décide, jamais celui qui l'a lu.
+A source that disappears or redirects elsewhere drops its fact to UNVERIFIED, with its last known date. The fact is not removed: removing it quietly would erase the fact that we no longer know.
 
-## Ce que nous ne vérifions pas
+A redirect is not always an error — sites move. But no machine can judge whether the destination still carries the fact: that check is human, and until it happens the registry displays that it no longer knows.
 
-Nous lisons ce que le fournisseur publie. Nous ne vérifions pas qu'il l'applique : cela demanderait un audit, que nous ne faisons pas et ne prétendons pas faire.
+## Two checks, because they catch different failures
 
-Nous ne suivons pas les sous-traitants de nos sous-traitants au-delà de ce que les documents publient.
+The automated check and the human review are not redundant. Neither is sufficient.
 
-Un fait absent de ce registre ne veut pas dire qu'il est faux : il veut dire que nous ne l'avons pas vérifié.
+The machine verifies that a source STILL RESPONDS and has not moved. It cannot read: a page can respond perfectly and prove nothing.
 
-## Indépendance
+The human verifies that it STILL STATES the fact, in context. Two real cases, on the same day, show why both are needed:
 
-Aucune position n'est achetable. Aucun fournisseur ne paie pour figurer, pour être mieux placé, ou pour qu'un fait disparaisse. Le registre est publié gratuitement et son historique — celui de git, public — fait foi.
+- A true fact attached to a page that carried it — behind a collapsed question. The address responded: the automated check would have validated it indefinitely. Only a human reading saw that the source proved nothing.
+- Conversely, a human reading concluded that a mention was not on a page — a model exclusion, annotated in brackets inside an alphabetical list of several hundred services. It was there. Removing that fact would have deleted an exact exclusion, which is precisely the information that protects the reader.
 
-Nous vendons un produit à certains des acteurs que ce registre décrit. C'est exactement pourquoi cette page existe et pourquoi l'historique est public : un index qui note ceux à qui il vend doit être vérifiable par ses lecteurs, pas cru sur parole.
+Hence the tie-breaker: when a check and a reading contradict each other, neither one's memory nor the other's impression settles it. Fetch the document again and search for the exact string. The document decides, never the person who read it.
 
-## Corriger un fait
+## What we do not verify
 
-Si un fait est faux ou périmé, ouvrez une pull request sur le dépôt du registre avec le document qui l'établit. Les corrections venant des fournisseurs eux-mêmes sont bienvenues et traitées comme les autres : avec leur source.
+We read what the provider publishes. We do not verify that it applies it: that would require an audit, which we do not perform and do not claim to.
 
-L'historique de ces corrections est public. C'est ce qui permet de voir non seulement ce que le registre affirme aujourd'hui, mais ce qu'il a affirmé, et quand cela a changé.
+We do not follow our subprocessors' subprocessors beyond what the documents publish.
+
+A fact absent from this registry does not mean it is false. It means we have not verified it.
+
+## Independence
+
+No position is for sale. No provider pays to appear, to rank higher, or to make a fact disappear. This registry is published free of charge and its history — public git history — is the record.
+
+We sell a product to some of the companies described here. That is exactly why this page exists and why the history is public: an index that rates the companies it sells to must be verifiable by its readers, not taken on trust.
+
+## Correcting a fact
+
+If a fact is wrong or out of date, open a pull request on the registry repository with the document that establishes it. Corrections from providers themselves are welcome and treated like any other: with their source.
+
+The history of these corrections is public. That is what lets a reader see not only what the registry states today, but what it stated, and when it changed.

@@ -12,36 +12,36 @@ baa_available:
   additional_source_urls:
     - https://cloud.google.com/terms/hipaa-baa
   note: >
-    Speech-to-Text figure explicitement dans la liste des produits couverts par
-    le BAA Google Cloud, lequel « covers Google Cloud's entire infrastructure
-    (all regions, all zones, all network paths, all points of presence) ».
-    CONDITION QUI ANNULE LA COUVERTURE, et c'est le fait décisif : « If you are
-    using Cloud Speech-to-Text, and you have entered into a BAA with Google
+    Speech-to-Text is explicitly listed among the products covered by the Google
+    Cloud BAA, which « covers Google Cloud's entire infrastructure (all regions,
+    all zones, all network paths, all points of presence) ».
+    A CONDITION THAT CANCELS THE COVERAGE, and it is the decisive fact: « If you
+    are using Cloud Speech-to-Text, and you have entered into a BAA with Google
     covering any PHI obligations under HIPAA, then you SHOULD NOT OPT INTO the
-    data logging program. » Un réglage, activé côté client, suffit donc à sortir
-    de la couverture — sans changer de fournisseur, sans renégocier quoi que ce
-    soit, et sans que rien ne le signale.
-    Deuxième condition, générale : le client doit s'assurer de ne pas utiliser,
-    avec des données de santé, des produits Google Cloud qui ne sont pas
-    explicitement couverts. La couverture est une liste, pas un état.
-    Le BAA lui-même est enregistré en source complémentaire, donc surveillé.
-    Cette page est une page de conformité, pas le contrat : confidence medium.
+    data logging program. » One customer-side setting is therefore enough to
+    leave the coverage — without changing provider, renegotiating anything, or
+    receiving any signal.
+    A second, general condition: the customer must ensure they do not use Google
+    Cloud products that are not explicitly covered when working with PHI.
+    Coverage is a list, not a state.
+    The BAA itself is recorded as an additional source, so it is monitored too.
+    This is a compliance page, not the contract: medium confidence.
 
-# no_training_commitment — NON RENSEIGNÉ
-#   Le « data logging program » cité ci-dessus suggère un régime d'usage des
-#   données activable, mais la page ne dit pas ce qu'il advient des données hors
-#   de ce programme. Question ouverte, à poser plutôt qu'à deviner.
+# no_training_commitment — NOT RECORDED
+#   The « data logging program » cited above implies an opt-in data usage regime,
+#   but the page does not say what happens to data outside that programme. An
+#   open question, better asked than guessed.
 
-# zero_retention_option — NON RENSEIGNÉ
-#   Aucune source de première partie lue.
+# zero_retention_option — NOT RECORDED
+#   No first-party source read.
 
-# default_retention — NON RENSEIGNÉ
-#   Aucune source de première partie lue.
+# default_retention — NOT RECORDED
+#   No first-party source read.
 
-# data_residency — NON RENSEIGNÉ
-#   Le BAA couvre toutes les régions, ce qui ne dit rien de l'endroit où les
-#   données sont traitées. Couverture et résidence sont deux questions
-#   distinctes, et les confondre serait une faute de lecture.
+# data_residency — NOT RECORDED
+#   The BAA covers all regions, which says nothing about where data is processed.
+#   Coverage and residency are distinct questions, and conflating them would be a
+#   reading error.
 
-# dpa_eu — NON RENSEIGNÉ
-#   Aucune source de première partie lue.
+# dpa_eu — NOT RECORDED
+#   No first-party source read.

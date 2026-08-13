@@ -50,7 +50,7 @@ jobs:
       - name: La méthodologie committée correspond-elle à celle publiée ?
         run: |
           if ! git diff --quiet -- METHODOLOGY.md; then
-            echo "METHODOLOGY.md a divergé de site/methodologie.ts."
+            echo "METHODOLOGY.md a divergé de site/methodology.ts."
             echo "Lancez pnpm run build et committez le résultat."
             git --no-pager diff -- METHODOLOGY.md
             exit 1
