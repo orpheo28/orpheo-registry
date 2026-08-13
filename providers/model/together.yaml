@@ -3,7 +3,6 @@ service_name: "Together AI Inference"
 entity: together
 entity_name: "Together AI"
 layer: model
-jurisdiction: US
 models: [llama, qwen, deepseek, mixtral]
 
 default_retention:

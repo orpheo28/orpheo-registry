@@ -281,3 +281,59 @@ describe("l'entité qui signe est un fait, pas une étiquette", () => {
     expect(html).toContain("not recorded");
   });
 });
+
+describe("la juridiction se dérive de l'entité, elle ne se stocke pas", () => {
+  it("elle est PLURIELLE quand l'entité l'est", () => {
+    // Une valeur unique était fausse pour une partie des lecteurs, en silence.
+    // Sous cette forme, la réponse dit de qui elle dépend.
+    const html = readFileSync(join(dist, "p/groq.html"), "utf8");
+    expect(html).toContain("EEA, Switzerland → GB");
+    expect(html).toContain("elsewhere → US");
+  });
+
+  it("sans entité établie, il n'y a pas de juridiction à afficher", () => {
+    // On ne connaît pas le droit d'une entité qu'on n'a pas nommée. Déduire la
+    // juridiction du nom commercial serait le raccourci refusé partout ailleurs.
+    const html = readFileSync(join(dist, "p/deepgram.html"), "utf8");
+    expect(html).toContain("Governing jurisdiction: not");
+    expect(html).toContain("names the signing entity");
+  });
+
+  it("le cas Groq est sur la page d'accueil, pas seulement sur sa fiche", () => {
+    // C'est ce qu'un DPO cherche et que personne ne publie.
+    const accueil = readFileSync(join(dist, "index.html"), "utf8");
+    expect(accueil).toContain("Groq UK Limited");
+    expect(accueil).toContain("third country");
+  });
+
+  it("un fichier qui stocke une juridiction est REFUSÉ, pas nettoyé", async () => {
+    // Zod supprimait silencieusement l'inconnu : le champ serait revenu par une
+    // contribution sans que rien ne le dise, et aurait recommencé à contredire
+    // la note qui le corrige. Le refus est la seule réponse qui se voit.
+    const { providerFileSchema } = await import("../schema.ts");
+    const fichier = {
+      provider_id: "x",
+      service_name: "X",
+      entity: "x",
+      entity_name: "X",
+      layer: "model",
+      models: [],
+      dpa_eu: {
+        value: true,
+        verified_at: "2026-08-13",
+        source_url: "https://exemple.test/x",
+        confidence: "high",
+      },
+    };
+    expect(providerFileSchema.safeParse(fichier).success).toBe(true);
+    expect(providerFileSchema.safeParse({ ...fichier, jurisdiction: "US" }).success).toBe(
+      false,
+    );
+    // Et la vraie raison d'être du refus : une clé de fait mal orthographiée
+    // validait, le fait disparaissait, et la page affichait « non renseigné »
+    // pour un fait que quelqu'un venait d'écrire, de sourcer et de dater.
+    expect(
+      providerFileSchema.safeParse({ ...fichier, baa_avaliable: fichier.dpa_eu }).success,
+    ).toBe(false);
+  });
+});

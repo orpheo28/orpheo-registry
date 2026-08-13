@@ -3,7 +3,6 @@ service_name: "Fireworks AI"
 entity: fireworks
 entity_name: "Fireworks AI"
 layer: model
-jurisdiction: US
 models: [llama, qwen, deepseek, kimi]
 
 default_retention:

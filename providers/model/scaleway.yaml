@@ -3,7 +3,6 @@ service_name: "Scaleway Generative APIs"
 entity: scaleway
 entity_name: "Scaleway"
 layer: model
-jurisdiction: FR
 models: [llama, mistral, qwen]
 
 zero_retention_option:

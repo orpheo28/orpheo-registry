@@ -11,7 +11,15 @@ import { dirname, join } from "node:path";
 import { loadRegistry } from "../scripts/load.ts";
 import type { SourceStatus } from "../scripts/check-sources.ts";
 import { FACT_ORDER, MATRIX_FACTS, type Fact } from "../schema.ts";
-import { cell, escape, factBlock, factLabel, page, type FactState } from "./render.ts";
+import {
+  cell,
+  escape,
+  factBlock,
+  factLabel,
+  jurisdictionLine,
+  page,
+  type FactState,
+} from "./render.ts";
 import { methodologyHtml, methodologyMarkdown } from "./methodology.ts";
 import * as changelog from "./changelog.ts";
 import { highlights, retentionGap, reviewCoverage } from "./highlights.ts";
@@ -221,10 +229,15 @@ for (const [id, fichiers] of parEntite) {
           url: `${siteUrl}/p/${id}`,
         }),
         body: `<h1>${escape(nom)}</h1>
-<p class="chapeau">Governing jurisdiction: ${escape(premier.data.jurisdiction)}. Every fact
-carries the date it was verified, the address of the document that states it, and —
-where there is one — the condition that limits it. That condition is what is missing
-everywhere else.</p>
+<p class="chapeau">Every fact carries the date it was verified, the address of the
+document that states it, and — where there is one — the condition that limits it. That
+condition is what is missing everywhere else.</p>
+${fichiers
+  .map(
+    ({ data }) =>
+      `<p class="chapeau chapeau--droit">${escape(data.service_name)} — ${jurisdictionLine(data.legal_entity)}</p>`,
+  )
+  .join("\n")}
 ${tableauDeFaits(fichiers)}
 ${fichiers
   .map(

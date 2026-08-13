@@ -3,7 +3,6 @@ service_name: "Cohere Platform"
 entity: cohere
 entity_name: "Cohere"
 layer: model
-jurisdiction: CA
 models: [command, embed, rerank]
 
 default_retention:

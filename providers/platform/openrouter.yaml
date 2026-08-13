@@ -3,7 +3,6 @@ service_name: "OpenRouter"
 entity: openrouter
 entity_name: "OpenRouter"
 layer: platform
-jurisdiction: US
 models: []
 
 no_training_commitment:

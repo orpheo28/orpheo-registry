@@ -3,7 +3,6 @@ service_name: "Azure AI Speech"
 entity: microsoft
 entity_name: "Microsoft"
 layer: transcription
-jurisdiction: US
 models: []
 
 default_retention:

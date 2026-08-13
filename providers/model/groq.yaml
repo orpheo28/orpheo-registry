@@ -3,7 +3,6 @@ service_name: "GroqCloud"
 entity: groq
 entity_name: "Groq"
 layer: model
-jurisdiction: US
 models: [llama, qwen, kimi, gpt-oss]
 
 no_training_commitment:
@@ -75,7 +74,16 @@ default_retention:
 #   privacy policy. It was not read.
 
 legal_entity:
-  value: "Groq LLC — or Groq UK Limited for EEA and Swiss customers"
+  value:
+    - scope: "EEA, Switzerland"
+      entity: "Groq UK Limited"
+      jurisdiction: GB
+    - scope: "Kingdom of Saudi Arabia"
+      entity: "Groq Limited"
+      jurisdiction: SA
+    - scope: "elsewhere"
+      entity: "Groq LLC"
+      jurisdiction: US
   verified_at: 2026-08-13
   source_url: https://console.groq.com/docs/legal/services-agreement
   confidence: high

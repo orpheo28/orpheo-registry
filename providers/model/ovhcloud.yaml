@@ -3,7 +3,6 @@ service_name: "OVHcloud AI Endpoints"
 entity: ovhcloud
 entity_name: "OVHcloud"
 layer: model
-jurisdiction: FR
 models: [llama, qwen, deepseek]
 
 no_training_commitment:

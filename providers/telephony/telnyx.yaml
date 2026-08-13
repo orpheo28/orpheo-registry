@@ -3,7 +3,6 @@ service_name: "Telnyx"
 entity: telnyx
 entity_name: "Telnyx"
 layer: telephony
-jurisdiction: US
 models: []
 
 baa_available:

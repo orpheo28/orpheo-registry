@@ -3,7 +3,6 @@ service_name: "Amazon Transcribe"
 entity: aws
 entity_name: "Amazon Web Services"
 layer: transcription
-jurisdiction: US
 models: []
 
 baa_available:

@@ -3,7 +3,6 @@ service_name: "Scaleway Object Storage"
 entity: scaleway
 entity_name: "Scaleway"
 layer: storage
-jurisdiction: FR
 models: []
 
 data_residency:

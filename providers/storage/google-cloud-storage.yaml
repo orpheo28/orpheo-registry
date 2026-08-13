@@ -3,7 +3,6 @@ service_name: "Google Cloud Storage"
 entity: google
 entity_name: "Google"
 layer: storage
-jurisdiction: US
 models: []
 
 baa_available:

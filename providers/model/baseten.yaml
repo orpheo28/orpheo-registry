@@ -3,7 +3,6 @@ service_name: "Baseten"
 entity: baseten
 entity_name: "Baseten"
 layer: model
-jurisdiction: US
 models: [llama, deepseek, qwen, whisper]
 
 default_retention:

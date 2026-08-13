@@ -3,7 +3,6 @@ service_name: "OpenAI API"
 entity: openai
 entity_name: "OpenAI"
 layer: model
-jurisdiction: US
 models: [gpt-5.2, gpt-5.2-mini, o4]
 
 baa_available:

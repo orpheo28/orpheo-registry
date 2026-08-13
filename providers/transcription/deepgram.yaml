@@ -3,7 +3,6 @@ service_name: "Deepgram"
 entity: deepgram
 entity_name: "Deepgram"
 layer: transcription
-jurisdiction: US
 models: [nova, whisper]
 
 baa_available:

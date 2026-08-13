@@ -3,7 +3,6 @@ service_name: "Azure Blob Storage"
 entity: microsoft
 entity_name: "Microsoft"
 layer: storage
-jurisdiction: US
 models: []
 
 baa_available:

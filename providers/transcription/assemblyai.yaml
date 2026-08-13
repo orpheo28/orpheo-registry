@@ -3,7 +3,6 @@ service_name: "AssemblyAI"
 entity: assemblyai
 entity_name: "AssemblyAI"
 layer: transcription
-jurisdiction: US
 models: [universal, slam]
 
 baa_available:
@@ -61,7 +60,10 @@ data_residency:
 #   No first-party source read.
 
 legal_entity:
-  value: "AssemblyAI Inc."
+  value:
+    - scope: "all customers"
+      entity: "AssemblyAI Inc."
+      jurisdiction: US
   verified_at: 2026-08-13
   source_url: https://www.assemblyai.com/legal/business-associate-agreement
   confidence: high

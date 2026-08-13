@@ -3,7 +3,6 @@ service_name: "Mistral La Plateforme"
 entity: mistral
 entity_name: "Mistral AI"
 layer: model
-jurisdiction: FR
 models: [mistral-large, mistral-small, codestral]
 
 no_training_commitment:
@@ -69,7 +68,10 @@ dpa_eu:
 #   first-party source read establishes residency.
 
 legal_entity:
-  value: "Mistral AI"
+  value:
+    - scope: "all customers"
+      entity: "Mistral AI"
+      jurisdiction: FR
   verified_at: 2026-08-13
   source_url: https://legal.mistral.ai/terms/commercial-terms-of-service
   confidence: high

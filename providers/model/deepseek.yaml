@@ -3,7 +3,6 @@ service_name: "DeepSeek API"
 entity: deepseek
 entity_name: "DeepSeek"
 layer: model
-jurisdiction: CN
 models: [deepseek-chat, deepseek-reasoner]
 
 data_residency:

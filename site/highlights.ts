@@ -1,5 +1,5 @@
 import { escape } from "./render.ts";
-import { ALL_FACTS, type ProviderFile } from "../schema.ts";
+import { ALL_FACTS, type AnyFact, type ProviderFile } from "../schema.ts";
 
 /**
  * Ce que le registre a TROUVÉ — sur la page d'accueil, pas enterré.
@@ -18,12 +18,17 @@ import { ALL_FACTS, type ProviderFile } from "../schema.ts";
  */
 interface Renvoi {
   provider_id: string;
-  fait:
-    "baa_available" | "data_residency" | "zero_retention_option" | "default_retention";
+  /** Repris du schéma : une accroche ne peut désigner qu'un fait qui existe. */
+  fait: AnyFact;
   titre: string;
 }
 
 const RENVOIS: readonly Renvoi[] = [
+  {
+    provider_id: "groq",
+    fait: "legal_entity",
+    titre: "A European customer contracting with a British entity",
+  },
   {
     provider_id: "twilio",
     fait: "data_residency",

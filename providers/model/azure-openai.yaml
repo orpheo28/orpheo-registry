@@ -3,7 +3,6 @@ service_name: "Azure OpenAI Service"
 entity: microsoft
 entity_name: "Microsoft"
 layer: model
-jurisdiction: US
 models: [gpt-5.2, gpt-5.2-mini, o4]
 
 no_training_commitment:

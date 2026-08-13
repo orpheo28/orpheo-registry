@@ -3,7 +3,6 @@ service_name: "Service de test"
 entity: fournisseur-valide
 entity_name: "Societe de test"
 layer: model
-jurisdiction: EU
 models: [modele-a]
 
 baa_available:

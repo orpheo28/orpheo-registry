@@ -3,7 +3,6 @@ service_name: "Claude API"
 entity: anthropic
 entity_name: "Anthropic"
 layer: model
-jurisdiction: US
 models: [claude-opus-5, claude-sonnet-5, claude-haiku-4-5]
 
 baa_available:
@@ -62,7 +61,13 @@ zero_retention_option:
 #   No first-party source found.
 
 legal_entity:
-  value: "Anthropic, PBC — or Anthropic Ireland, Limited for EEA, Swiss and UK customers"
+  value:
+    - scope: "EEA, Switzerland, UK"
+      entity: "Anthropic Ireland, Limited"
+      jurisdiction: IE
+    - scope: "elsewhere"
+      entity: "Anthropic, PBC"
+      jurisdiction: US
   verified_at: 2026-08-13
   source_url: https://www.anthropic.com/legal/commercial-terms
   confidence: high

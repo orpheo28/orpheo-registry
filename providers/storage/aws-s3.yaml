@@ -3,7 +3,6 @@ service_name: "Amazon S3"
 entity: aws
 entity_name: "Amazon Web Services"
 layer: storage
-jurisdiction: US
 models: []
 
 baa_available:

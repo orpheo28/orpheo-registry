@@ -1,5 +1,7 @@
 import {
   CUSTOMER_SELECTED,
+  deriveJurisdiction,
+  type Signatory,
   FACT_LABELS,
   type Confidence,
   type Fact,
@@ -53,6 +55,39 @@ export function chip(state: FactState, verifiedAt: string): string {
   );
 }
 
+function estSignataires(v: unknown): v is Signatory[] {
+  return (
+    Array.isArray(v) &&
+    v.length > 0 &&
+    v.every(
+      (x) =>
+        typeof x === "object" &&
+        x !== null &&
+        "scope" in x &&
+        "entity" in x &&
+        "jurisdiction" in x,
+    )
+  );
+}
+
+/**
+ * LA JURIDICTION, telle qu'elle se lit — plurielle, ou pas du tout.
+ *
+ * Rien n'est stocké : la chaîne se recalcule depuis les parties contractantes à
+ * chaque rendu. Là où l'entité n'est pas établie, il n'y a pas de juridiction à
+ * afficher — on ne connaît pas le droit d'une entité qu'on n'a pas nommée.
+ */
+export function jurisdictionLine(fait: Fact<unknown> | undefined): string {
+  if (fait === undefined || !estSignataires(fait.value)) {
+    return `<span class="juridiction juridiction--absente">Governing jurisdiction: not
+recorded — no first-party document read names the signing entity.</span>`;
+  }
+  return (
+    `<span class="juridiction">Governing jurisdiction: ` +
+    `${escape(deriveJurisdiction(fait.value))}</span>`
+  );
+}
+
 /** Ce qu'affiche une valeur de fait. Jamais « conforme » (INV-4). */
 function renderValue(value: unknown): string {
   // `null` = VÉRIFIÉ COMME ABSENT. À distinguer d'un fait manquant : ici le
@@ -63,6 +98,18 @@ function renderValue(value: unknown): string {
   // nommer de région. Rendu en toutes lettres : le jeton brut du fichier n'est
   // pas une phrase, et la matrice se lit, elle ne se décode pas.
   if (value === CUSTOMER_SELECTED) return "stays in the region you choose";
+  // Les parties contractantes : « EEA → Anthropic Ireland, Limited (IE) ».
+  // Une seule ligne par périmètre, parce qu'il n'existe pas de bonne réponse
+  // unique — celle qui vaut dépend du domicile du lecteur.
+  if (estSignataires(value)) {
+    return value
+      .map(
+        (s) =>
+          `<span class="signataire">${escape(s.scope)} → ${escape(s.entity)} ` +
+          `<span class="signataire__droit">(${escape(s.jurisdiction)})</span></span>`,
+      )
+      .join("");
+  }
   if (Array.isArray(value)) return escape(value.join(", "));
   if (typeof value === "string") return escape(value);
   if (typeof value === "number") return escape(String(value));

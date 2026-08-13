@@ -3,7 +3,6 @@ service_name: "Speechmatics"
 entity: speechmatics
 entity_name: "Speechmatics"
 layer: transcription
-jurisdiction: GB
 models: [ursa]
 
 dpa_eu:

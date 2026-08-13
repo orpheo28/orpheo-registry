@@ -3,7 +3,6 @@ service_name: "Amazon Connect"
 entity: aws
 entity_name: "Amazon Web Services"
 layer: telephony
-jurisdiction: US
 models: []
 
 baa_available:

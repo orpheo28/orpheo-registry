@@ -253,6 +253,44 @@ export const FACT_LABELS: Readonly<Record<MatrixFact, string>> = {
 };
 
 /**
+ * UNE PARTIE CONTRACTANTE : pour qui elle signe, qui elle est, sous quel droit.
+ *
+ * Structuré, et non rédigé, parce que la juridiction s'en DÉRIVE. Une phrase
+ * comme « Twilio Inc., ou Twilio Ireland Limited pour l'EEE » se lit très bien
+ * et ne se calcule pas : il fallait alors ranger la juridiction à côté, dans un
+ * champ à part, et un champ à part finit par contredire la note qui le corrige.
+ * C'est précisément le défaut constaté — `jurisdiction: US` sur Twilio, faux
+ * pour un client européen, et affiché en titre de page.
+ *
+ * Sous cette forme, la juridiction n'est plus stockée du tout : elle se lit dans
+ * les entités. Elle devient plurielle par construction, et elle ne peut plus
+ * diverger de ce qui la fonde, puisqu'elle n'a plus d'existence séparée.
+ */
+const signatorySchema = z.object({
+  /** Pour quels clients — « EEA, Switzerland, UK », « Mexico », « elsewhere ». */
+  scope: z.string().min(1),
+  /** Le nom exact, tel que le document contractuel l'écrit. */
+  entity: z.string().min(1),
+  /** Le pays de rattachement, en ISO 3166-1 alpha-2. `IE`, `US`, `GB`, `FR`. */
+  jurisdiction: z.string().regex(/^[A-Z]{2}$/, "code pays ISO 3166-1 alpha-2 attendu"),
+});
+
+export type Signatory = z.infer<typeof signatorySchema>;
+
+/**
+ * La juridiction, DÉRIVÉE des parties contractantes — jamais stockée.
+ *
+ * Rend « EEA, Switzerland, UK → IE · elsewhere → US » plutôt qu'une valeur
+ * unique, parce que c'est la vérité : la réponse dépend du domicile du lecteur.
+ * Une chaîne vide quand l'entité n'est pas établie — on ne connaît pas la
+ * juridiction d'une entité qu'on n'a pas nommée, et le déduire du nom commercial
+ * serait exactement le raccourci que ce registre refuse ailleurs.
+ */
+export function deriveJurisdiction(signataires: readonly Signatory[]): string {
+  return signataires.map((s) => `${s.scope} → ${s.jurisdiction}`).join(" · ");
+}
+
+/**
  * La résidence garantie « là où le client l'a mise », sans liste de régions.
  *
  * Une constante et non une chaîne libre : voir `data_residency` plus bas.
@@ -297,8 +335,6 @@ export const providerFileSchema = z
     /** Le nom usuel de la société, pour le titre de page. Un libellé, pas un fait. */
     entity_name: z.string().min(1),
     layer: layerSchema,
-    /** Juridiction de rattachement de l'entité légale. Code ISO ou « US », « EU ». */
-    jurisdiction: z.string().min(1),
     models: z.array(z.string().min(1)).default([]),
 
     // ── LES FAITS SONT OPTIONNELS, ET C'EST ESSENTIEL ──────────────────────────
@@ -380,8 +416,20 @@ export const providerFileSchema = z
      * nomment la partie contractante —, d'où des `high`. Là où aucun document lu
      * ne la nomme, le fait reste vide comme n'importe quel autre.
      */
-    legal_entity: factSchema(z.string().min(1)).optional(),
+    legal_entity: factSchema(z.array(signatorySchema).min(1)).optional(),
   })
+  // REFUSE TOUT CHAMP INCONNU, et ce n'est pas du purisme.
+  //
+  // Par défaut, Zod SUPPRIME silencieusement ce qu'il ne connaît pas. Une
+  // contribution écrivant `baa_avaliable` — une lettre de travers — validait
+  // sans un mot, et le fait disparaissait : la page affichait « non renseigné »
+  // pour un fait que quelqu'un venait d'écrire, de sourcer et de dater. C'est
+  // exactement l'échec silencieux que ce registre existe pour ne pas commettre,
+  // et il était logé dans le validateur censé l'empêcher.
+  //
+  // C'est aussi ce qui empêche `jurisdiction` de revenir par une contribution :
+  // le champ n'existe plus, et le dire vaut mieux que l'ignorer.
+  .strict()
   .refine((f) => ALL_FACTS.some((cle) => f[cle] !== undefined), {
     // Un fichier sans aucun fait n'est pas un trou honnête : c'est une entrée
     // vide qui gonflerait la matrice sans rien apprendre à personne.

@@ -99,7 +99,6 @@ describe("le fichier provider", () => {
     entity: "exemple",
     entity_name: "Exemple",
     layer: "model",
-    jurisdiction: "EU",
     models: [],
     baa_available: fait(),
     no_training_commitment: fait(),
@@ -193,7 +192,6 @@ describe("un trou reste un trou", () => {
     entity: "exemple",
     entity_name: "Exemple",
     layer: "model",
-    jurisdiction: "US",
     models: [],
   };
 
@@ -246,7 +244,6 @@ describe("aucun fait n'échappe à la surveillance", () => {
       "entity",
       "entity_name",
       "layer",
-      "jurisdiction",
       "models",
     ]);
     const champs = Object.keys(providerFileSchema.def.shape).filter(

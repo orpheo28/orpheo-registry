@@ -3,7 +3,6 @@ service_name: "Google Vertex AI"
 entity: google
 entity_name: "Google"
 layer: model
-jurisdiction: US
 models: [gemini-3-pro, gemini-3-flash]
 
 no_training_commitment:

@@ -3,7 +3,6 @@ service_name: "Google Cloud Speech-to-Text"
 entity: google
 entity_name: "Google"
 layer: transcription
-jurisdiction: US
 models: [chirp]
 
 baa_available:

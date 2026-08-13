@@ -3,7 +3,6 @@ service_name: "Amazon Bedrock"
 entity: aws
 entity_name: "Amazon Web Services"
 layer: model
-jurisdiction: US
 models: [anthropic.claude, amazon.nova, meta.llama, mistral]
 
 baa_available:
