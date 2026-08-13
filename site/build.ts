@@ -14,7 +14,7 @@ import { FACT_ORDER, MATRIX_FACTS, type Fact } from "../schema.ts";
 import { cell, escape, factBlock, factLabel, page, type FactState } from "./render.ts";
 import { methodologyHtml, methodologyMarkdown } from "./methodology.ts";
 import * as changelog from "./changelog.ts";
-import { highlights, retentionGap } from "./highlights.ts";
+import { highlights, retentionGap, reviewCoverage } from "./highlights.ts";
 
 /**
  * Le générateur : lit le registre, écrit `dist/`.
@@ -131,6 +131,7 @@ const matrice = page(
 <p class="chapeau">Every fact carries the date it was verified and the address of the
 document that states it. This registry never says a provider is compliant: it says
 what a document stated, on a date, and where to read it again.</p>
+${reviewCoverage(providers)}
 <table class="matrice">
   <thead><tr><th scope="col">Provider</th><th scope="col">Layer</th>${enTetes}</tr></thead>
   <tbody>

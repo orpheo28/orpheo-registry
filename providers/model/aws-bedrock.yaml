@@ -9,6 +9,7 @@ models: [anthropic.claude, amazon.nova, meta.llama, mistral]
 baa_available:
   value: true
   verified_at: 2026-08-13
+  human_reviewed_at: 2026-08-13
   source_url: https://aws.amazon.com/compliance/hipaa-eligible-services-reference/
   confidence: medium
   note: >

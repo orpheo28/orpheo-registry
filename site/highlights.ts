@@ -122,3 +122,51 @@ covered the agreement and not the recording.</p>
 documents its retention, it disappears on its own.</p>
 </section>`;
 }
+
+/**
+ * COMBIEN DE FAITS UN HUMAIN A ROUVERTS — calculé, affiché en tête.
+ *
+ * Le chiffre est inconfortable, et c'est exactement pourquoi il est en haut de
+ * la page plutôt qu'au bas de la méthodologie. Un lecteur qui découvre après
+ * coup que l'essentiel du registre n'a jamais été relu se sent trompé ; un
+ * lecteur à qui on l'annonce sait ce qu'il tient.
+ *
+ * Il se calcule à chaque build : il descendra à mesure des relectures, sans que
+ * personne ait à penser à corriger une phrase.
+ */
+export function reviewCoverage(providers: readonly { data: ProviderFile }[]): string {
+  const CLES = [
+    "baa_available",
+    "no_training_commitment",
+    "zero_retention_option",
+    "data_residency",
+    "dpa_eu",
+    "default_retention",
+  ] as const;
+
+  let total = 0;
+  let relus = 0;
+  for (const { data } of providers) {
+    for (const cle of CLES) {
+      const fait = data[cle];
+      if (fait === undefined) continue;
+      total += 1;
+      if (fait.human_reviewed_at !== undefined) relus += 1;
+    }
+  }
+  if (total === 0) return "";
+
+  return `<section class="relecture-bilan">
+<h2>How much of this has a human re-read</h2>
+<p><strong>${String(relus)} of ${String(total)} published facts</strong> have been reopened and
+re-read by a human. The rest were established by reading a page fetched automatically,
+and no one has been back to them.</p>
+<p>They are not marked wrong — most of them are right. They are marked
+<em>unconfirmed</em>, cell by cell, because the automated weekly check confirms that an
+address still answers and cannot read what it returns. That method has already produced
+errors in both directions here: a source attached to a page that only revealed the fact
+behind a collapsed question, and a mention judged absent from a page where it was
+present. Neither was catchable by a machine.</p>
+<p>This count is computed at build time. It moves as the re-reading happens.</p>
+</section>`;
+}

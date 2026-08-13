@@ -367,4 +367,8 @@ export interface Fact<T> {
   confidence: Confidence;
   note?: string;
   additional_source_urls?: string[];
+  /** Le jour où un humain a rouvert la source et relu le fait. Absent = jamais. */
+  human_reviewed_at?: string;
+  /** Vrai sur une couche d'agrégation : la garantie réelle dépend de l'aval. */
+  downstream_dependent?: true;
 }

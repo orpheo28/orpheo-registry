@@ -1,0 +1,71 @@
+provider_id: openrouter
+service_name: "OpenRouter"
+entity: openrouter
+# Entité signataire non établie sur un document de première partie lu ce jour.
+legal_entity: OpenRouter
+layer: platform
+jurisdiction: US
+models: []
+
+no_training_commitment:
+  value: true
+  verified_at: 2026-08-13
+  source_url: https://openrouter.ai/privacy
+  confidence: medium
+  downstream_dependent: true
+  note: >
+    « OpenRouter does not use your Inputs or Outputs for model training. » True,
+    and true only of OpenRouter.
+    THE SAME PAGE WITHDRAWS THE END-TO-END READING: « We do not control, and are
+    not responsible for, LLMs' handling of your Inputs or Outputs, including for
+    use in their model training », and « Some Model Providers may use your
+    Inputs and Outputs for model training or improvement. »
+    So the commitment covers the router and stops there. An editor who routes
+    through OpenRouter and reads « does not train » has one link covered out of
+    two, and the uncovered link is the one that actually sees the prompt.
+
+zero_retention_option:
+  value: true
+  verified_at: 2026-08-13
+  source_url: https://openrouter.ai/docs/guides/privacy/provider-logging
+  confidence: medium
+  downstream_dependent: true
+  note: >
+    A filter exists — a user « can restrict individual requests to only use
+    providers with a certain data policy », and account-wide settings do the
+    same.
+    BUT THE ROUTER ENFORCES NOTHING OF ITS OWN: « OpenRouter does not have
+    routing rules that change based on data retention policies of providers. »
+    The policies are DISPLAYED, and the exclusion is the customer's job: « Any
+    user of OpenRouter can ignore providers that don't meet their own data
+    retention requirements. »
+    THE EFFECTIVE GUARANTEE IS THE UNION OF TWO POLICIES, never the better of
+    them. Turning zero retention on at this layer does not turn it on at the
+    layer below, and nothing at this layer will tell you when it is off down
+    there. That is the whole difference between an aggregator and a provider,
+    and it is why this row is marked chain-dependent rather than simply « yes ».
+
+# baa_available — NOT RECORDED, AND NOT « NO »
+#   The privacy policy does not mention HIPAA, a Business Associate Agreement,
+#   or protected health information ANYWHERE. That is silence, and silence is an
+#   unknown, not a refusal — the registry keeps those apart on purpose. A `false`
+#   here would state that OpenRouter has been asked and has declined, which no
+#   document read establishes.
+#   The absence is nonetheless worth reading: a routing layer that never raises
+#   the question is unlikely to have an answer prepared, and this is the first
+#   thing to ask before sending anything covered through it.
+
+# default_retention — NOT RECORDED
+#   The policy states that image, audio and video files are not persisted
+#   « beyond the duration necessary to route the request, except as required for
+#   abuse detection, security, billing, or legal compliance » — a media-specific
+#   statement, not a retention duration for prompts and completions, and it is
+#   the second half of the sentence that would decide it.
+
+# data_residency — NOT RECORDED
+#   No first-party source read. On an aggregation layer the question is in any
+#   case downstream-dependent: the residency actually obtained is that of the
+#   provider selected, not that of the router.
+
+# dpa_eu — NOT RECORDED
+#   No first-party source read.

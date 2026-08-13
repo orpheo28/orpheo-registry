@@ -122,6 +122,16 @@
     "checked_at": "2026-08-13"
   },
   {
+    "url": "https://openrouter.ai/docs/guides/privacy/provider-logging",
+    "state": "ok",
+    "checked_at": "2026-08-13"
+  },
+  {
+    "url": "https://openrouter.ai/privacy",
+    "state": "ok",
+    "checked_at": "2026-08-13"
+  },
+  {
     "url": "https://platform.claude.com/docs/en/manage-claude/api-and-data-retention",
     "state": "ok",
     "checked_at": "2026-08-13"

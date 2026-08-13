@@ -104,11 +104,33 @@ export function cell(fait: Fact<unknown> | undefined, state: FactState): string 
       ? ""
       : `<span class="cell__reserve" title="this fact carries a condition">conditional</span>`;
 
+  // UNE DÉPENDANCE DE CHAÎNE N'EST PAS UNE CONDITION, et les confondre ferait
+  // mentir la case. Une condition se lève en configurant quelque chose ; une
+  // dépendance de chaîne ne se lève pas, elle se propage — le fait décrit ce que
+  // FAIT CE FOURNISSEUR-CI, et la garantie réellement subie est la combinaison
+  // avec celui qu'on a choisi en dessous. « Oui » y signifie « oui de mon côté ».
+  // JAMAIS ROUVERT PAR UN HUMAIN. Ce n'est pas « faux » : c'est « établi en
+  // lisant une page récupérée automatiquement, et personne n'y est retourné ».
+  // Le contrôleur hebdomadaire ne comble pas ce trou — il vérifie qu'une adresse
+  // répond, il ne lit rien. Afficher un fait relu et un fait jamais relu de la
+  // même façon serait mentir par uniformité.
+  const relu =
+    fait.human_reviewed_at === undefined
+      ? `<span class="cell__relecture" title="no human has reopened this source and re-read it">unconfirmed</span>`
+      : "";
+
+  const chaine =
+    fait.downstream_dependent === true
+      ? `<span class="cell__chaine" title="applies to this provider only; the provider underneath decides the rest">chain-dependent</span>`
+      : "";
+
   return (
     `<td class="cell">` +
     `<span class="cell__value">${renderValue(fait.value)}</span>` +
     chip(state, fait.verified_at) +
     reserve +
+    chaine +
+    relu +
     `<a class="cell__source" href="${escape(fait.source_url)}" rel="nofollow noopener" ` +
     `title="confidence: ${escape(fait.confidence)}">source</a>` +
     `</td>`
@@ -142,6 +164,21 @@ export function factBlock(
 
   const note =
     fait.note === undefined ? "" : `<p class="fait__note">${escape(fait.note)}</p>`;
+  const relu =
+    fait.human_reviewed_at === undefined
+      ? `<p class="fait__relecture">No human has reopened this source and re-read it. The
+weekly check confirms the address still answers; it cannot read what comes back. Treat
+this fact as established, not as confirmed.</p>`
+      : `<p class="fait__relecture fait__relecture--ok">Re-read by a human on
+<time datetime="${escape(fait.human_reviewed_at)}">${formatDate(fait.human_reviewed_at)}</time>.</p>`;
+
+  const chaine =
+    fait.downstream_dependent === true
+      ? `<p class="fait__chaine">This fact describes what this provider does. It is not an
+end-to-end guarantee: the effective outcome is the combination of this policy and the
+policy of the provider selected underneath it. Turning this on here does not turn it on
+below.</p>`
+      : "";
   const autres = (fait.additional_source_urls ?? [])
     .map(
       (u) =>
@@ -153,7 +190,9 @@ export function factBlock(
     `<section class="fait" id="${escape(cle)}">` +
     `<h3>${escape(libelle)}</h3>` +
     `<p class="fait__valeur">${renderValue(fait.value)} ${chip(state, fait.verified_at)}</p>` +
+    chaine +
     note +
+    relu +
     `<p class="fait__meta">` +
     `<a class="fait__source" href="${escape(fait.source_url)}" rel="nofollow noopener">source</a>` +
     autres +

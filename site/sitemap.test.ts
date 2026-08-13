@@ -207,3 +207,52 @@ describe("la page d'accueil porte ce que le registre a trouvé", () => {
     expect(() => highlights([])).toThrow(HighlightMissingError);
   });
 });
+
+describe("une dépendance de chaîne ne se confond pas avec une condition", () => {
+  /**
+   * Sur une couche d'agrégation, « oui » veut dire « oui de mon côté ». Une
+   * condition se lève en configurant ; une dépendance de chaîne se propage. La
+   * matrice doit les distinguer, sans quoi la ligne OpenRouter affirme une
+   * garantie de bout en bout que le fournisseur lui-même dément.
+   */
+  it("la matrice marque le fait comme dépendant de l'aval", () => {
+    const accueil = readFileSync(join(dist, "index.html"), "utf8");
+    expect(accueil).toContain("chain-dependent");
+  });
+
+  it("la page dit ce que la dépendance implique, en toutes lettres", () => {
+    const html = readFileSync(join(dist, "p/openrouter.html"), "utf8");
+    expect(html).toContain("It is not an");
+    expect(html).toContain("does not have routing rules");
+  });
+
+  it("le silence sur le BAA reste « non renseigné », jamais « non »", () => {
+    // Le fournisseur n'a pas refusé : il n'a rien dit. Écrire « non » lui
+    // prêterait une réponse qu'aucun document ne porte.
+    const html = readFileSync(join(dist, "p/openrouter.html"), "utf8");
+    expect(html).toContain("not recorded");
+  });
+});
+
+describe("ce qu'aucun humain n'a relu s'affiche comme tel", () => {
+  it("chaque fait jamais relu porte sa marque dans la matrice", () => {
+    const accueil = readFileSync(join(dist, "index.html"), "utf8");
+    expect(accueil).toContain("unconfirmed");
+    expect(accueil).toContain("published facts");
+  });
+
+  it("un fait relu par un humain porte la DATE de la relecture", () => {
+    // Une marque sans date vaudrait la puce sans date que DESIGN_SYSTEM §3
+    // interdit : « relu » sans « quand » ne dit rien de l'état d'aujourd'hui.
+    const html = readFileSync(join(dist, "p/anthropic.html"), "utf8");
+    expect(html).toContain("Re-read by a human on");
+    expect(html).toContain('datetime="2026-08-13"');
+  });
+
+  it("le compte est calculé, pas écrit", async () => {
+    // Un chiffre saisi à la main survit à sa propre correction. Celui-ci tombe
+    // à mesure des relectures, sans que personne ait à y penser.
+    const { reviewCoverage } = await import("./highlights.ts");
+    expect(reviewCoverage([])).toBe("");
+  });
+});

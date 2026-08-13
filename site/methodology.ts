@@ -66,6 +66,23 @@ const SECTIONS: readonly Section[] = [
     ],
   },
   {
+    titre: "On an aggregation layer, « yes » means « yes on my side »",
+    blocs: [
+      "A router or a gateway sits above the provider that actually sees your prompt. Its policy is a real policy — and it is not the one your data experiences. What you actually get is the combination of its policy and that of the provider selected underneath.",
+      "One indexed router states that it does not train on inputs or outputs, and on the same page states that it does not control what the models it routes to do with them, and that some of them may train. Both sentences are true. Only the first fits in a column.",
+      "Facts like these are marked chain-dependent, which is not the same as conditional. A condition is lifted by configuring something. A chain dependency is not lifted at all — it propagates. Turning zero retention on at the routing layer does not turn it on at the layer below, and nothing at the routing layer will tell you when it is off down there.",
+      "This is also why the registry indexes layers separately rather than scoring a stack. A chain is only as covered as its least covered link, and no single row can carry that.",
+    ],
+  },
+  {
+    titre: "Which facts a human has re-read",
+    blocs: [
+      "Almost every fact here was written by reading a page fetched automatically. That method works, and it has produced errors in both directions on the same day: a source attached to a page that carried the fact only behind a collapsed question, and a mention judged absent from a page where it was in fact present.",
+      "Neither error is detectable by the automated check, which confirms that an address still answers and cannot read what it returns. So the two are recorded separately: the date a fact was established, and the date a human reopened the source and read it again.",
+      "Facts never re-read by a human are shown as such. They are not marked wrong — most of them are right. They are marked unconfirmed, because a registry that displayed re-read facts and never-re-read facts identically would be lying by uniformity.",
+    ],
+  },
+  {
     titre: "How often",
     blocs: [
       "Monthly review per provider, and immediately on a major announcement. Between reviews, an automated weekly check confirms that every source still responds.",
