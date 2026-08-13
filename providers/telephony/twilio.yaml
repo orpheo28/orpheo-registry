@@ -1,0 +1,68 @@
+provider_id: twilio
+legal_entity: Twilio Inc.
+layer: telephony
+jurisdiction: US
+models: []
+
+baa_available:
+  value: true
+  verified_at: 2026-08-13
+  source_url: https://www.twilio.com/en-us/hipaa
+  confidence: medium
+  additional_source_urls:
+    - https://www.twilio.com/docs/iam/twilio-editions/hippa
+  note: >
+    « customers that are subject to HIPAA and intend to utilize Twilio's products
+    and services to develop communication workflows containing PHI must execute a
+    Business Associate Addendum (BAA) ».
+    THE BAA IS GATED BEHIND A PAID TIER, and that is the fact to plan around:
+    « Customers wishing to sign a BAA with Twilio must have our Security Edition
+    or Enterprise Edition ». The answer to « can I get a BAA » is therefore also
+    a pricing answer, which no yes/no column can carry — same shape as OpenAI,
+    where ChatGPT Business is excluded while the API is not.
+    COVERAGE IS A LIST, AND THE LIST MOVES: only « HIPAA Eligible Products and
+    Services » may carry PHI, and the list is maintained separately and grows
+    over time. A product eligible today was not necessarily eligible when the
+    integration was built, and nothing re-checks it.
+    Twilio states the limit of its own agreement: « HIPAA compliance is a shared
+    responsibility between you and Twilio. Signing a BAA alone does not make your
+    application HIPAA-compliant. »
+    Documentation, not the addendum itself: medium confidence.
+
+data_residency:
+  value: [us1, ie1, au1]
+  verified_at: 2026-08-13
+  source_url: https://www.twilio.com/docs/global-infrastructure
+  confidence: medium
+  note: >
+    THE PAGE CONTRADICTS ITSELF, AND BOTH SENTENCES ARE QUOTED HERE BECAUSE THE
+    CONFLICT IS THE FACT.
+    First: « By configuring your application to use a specific Twilio Region, you
+    can ensure that your Twilio data remains within that territory. »
+    Then: « During this initial phase of the Twilio Regions rollout, Twilio does
+    not guarantee that all data will remain within your selected Region. »
+    The second sentence withdraws what the first grants. Three regions exist —
+    United States (US1), Ireland (IE1), Australia (AU1) — and selecting one is a
+    real configuration, but the guarantee an editor would quote to their own
+    customer is disclaimed on the same page by the provider.
+    An editor who cites « Ireland region » to a European client is repeating the
+    first sentence and omitting the second. This registry publishes both.
+    Recorded as a region list rather than as « no guarantee », because the
+    regions and the partial commitment are real; the reservation lives here.
+
+# no_training_commitment — NOT RECORDED
+#   No first-party source read addresses use of call or message content for
+#   model training. Twilio ships AI features, so the question is live, not moot.
+
+# zero_retention_option — NOT RECORDED
+#   Twilio offers message redaction and recording controls; no first-party page
+#   read frames them as a zero-retention regime, and describing them as one from
+#   memory would be inventing.
+
+# default_retention — NOT RECORDED
+#   No first-party source read states how long message bodies or recordings are
+#   kept by default. This is the most consequential gap on this provider: a
+#   telephony layer holds call audio, and audio is the richest PHI in the chain.
+
+# dpa_eu — NOT RECORDED
+#   No first-party source read.

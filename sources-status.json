@@ -107,6 +107,16 @@
     "checked_at": "2026-08-13"
   },
   {
+    "url": "https://support.telnyx.com/en/articles/3347891-hipaa-baas-and-the-conduit-exception",
+    "state": "ok",
+    "checked_at": "2026-08-13"
+  },
+  {
+    "url": "https://telnyx.com/resources/architecting-hipaa-telnyx",
+    "state": "ok",
+    "checked_at": "2026-08-13"
+  },
+  {
     "url": "https://www.assemblyai.com/legal/business-associate-agreement",
     "state": "ok",
     "checked_at": "2026-08-13"
@@ -143,6 +153,21 @@
   },
   {
     "url": "https://www.speechmatics.com/legal/privacy-policy",
+    "state": "ok",
+    "checked_at": "2026-08-13"
+  },
+  {
+    "url": "https://www.twilio.com/docs/global-infrastructure",
+    "state": "ok",
+    "checked_at": "2026-08-13"
+  },
+  {
+    "url": "https://www.twilio.com/docs/iam/twilio-editions/hippa",
+    "state": "ok",
+    "checked_at": "2026-08-13"
+  },
+  {
+    "url": "https://www.twilio.com/en-us/hipaa",
     "state": "ok",
     "checked_at": "2026-08-13"
   }

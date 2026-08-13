@@ -151,3 +151,25 @@ describe("la quatrième forme de résidence se lit, et ne se confond avec rien",
     expect(html.toLowerCase()).toContain("lifecycle rule");
   });
 });
+
+describe("un fournisseur qui se contredit est publié avec sa contradiction", () => {
+  /**
+   * Twilio accorde une garantie de résidence puis la retire sur la même page.
+   * Un comparatif n'en retient qu'une moitié — celle qui tient dans une case.
+   * Ce registre publie les deux phrases, parce que c'est l'écart entre elles
+   * qu'un éditeur répète ensuite à son propre client.
+   */
+  it("les deux phrases de Twilio sont sur la page", () => {
+    const html = readFileSync(join(dist, "p/twilio.html"), "utf8");
+    expect(html).toContain("remains within that territory");
+    expect(html).toContain("does not guarantee that all data will remain");
+  });
+
+  it("la position « conduit » de Telnyx est publiée avec son BAA", () => {
+    // Le fournisseur signe, tout en publiant qu'il n'a pas à signer. La case
+    // « oui » seule ferait disparaître une position qui pèse sur la négociation.
+    const html = readFileSync(join(dist, "p/telnyx.html"), "utf8");
+    expect(html).toContain("conduit exception");
+    expect(html).toContain("plan to enter into");
+  });
+});

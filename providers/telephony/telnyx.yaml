@@ -1,0 +1,51 @@
+provider_id: telnyx
+legal_entity: Telnyx LLC
+layer: telephony
+jurisdiction: US
+models: []
+
+baa_available:
+  value: true
+  verified_at: 2026-08-13
+  source_url: https://telnyx.com/resources/architecting-hipaa-telnyx
+  confidence: medium
+  additional_source_urls:
+    - https://support.telnyx.com/en/articles/3347891-hipaa-baas-and-the-conduit-exception
+  note: >
+    TWO TELNYX PAGES ANSWER THIS QUESTION DIFFERENTLY, and an editor needs both.
+    The architecture guide is written « for Telnyx customers who have, or plan to
+    enter into, a Business Associate Addendum (BAA) with Telnyx to use
+    HIPAA-eligible services » — so BAAs with Telnyx exist and are signed.
+    The help centre argues the opposite need: « Telnyx's services fall within this
+    conduit exception under HIPAA, and therefore there is no need for Telnyx to
+    sign a BAA. »
+    They are reconcilable — Telnyx holds that it is not REQUIRED to sign, while
+    signing anyway — but the position is not neutral for a buyer. A provider that
+    publishes the view that it is a mere conduit has a reason to resist, delay or
+    narrow the agreement, and the conduit exception is contested when the
+    provider stores content rather than only transmitting it. Recorded as
+    available, with the reservation attached, rather than as a clean yes.
+    TWO SCOPE LIMITS FROM THE SAME GUIDE: « Only services explicitly designated
+    as HIPAA-eligible should be used to process Protected Health Information
+    (PHI) », and « Only U.S.-based messaging traffic is HIPAA eligible » — so an
+    international SMS leg falls outside the coverage, which is precisely the leg
+    an editor forgets.
+    Public documentation, non-contractual: medium confidence.
+
+# no_training_commitment — NOT RECORDED
+#   No first-party source read.
+
+# zero_retention_option — NOT RECORDED
+#   No first-party source read.
+
+# default_retention — NOT RECORDED
+#   No first-party source read. Same gap as Twilio, and it matters as much.
+
+# data_residency — NOT RECORDED
+#   Third-party summaries credit Telnyx with US, EU and APAC residency. No
+#   first-party page read states it, so it is not recorded. Note that the BAA
+#   scope limit above points the other way — U.S.-only messaging traffic — which
+#   makes the residency question worth asking directly rather than assuming.
+
+# dpa_eu — NOT RECORDED
+#   No first-party source read.

@@ -1,0 +1,44 @@
+provider_id: amazon-connect
+legal_entity: Amazon Web Services, Inc.
+layer: telephony
+jurisdiction: US
+models: []
+
+baa_available:
+  value: true
+  verified_at: 2026-08-13
+  source_url: https://aws.amazon.com/compliance/hipaa-eligible-services-reference/
+  confidence: medium
+  note: >
+    « Amazon Connect » and « Amazon Chime SDK » both appear in the eligible list
+    with no annotation and no exclusion — unlike Bedrock on the same page, which
+    carries a model exclusion in brackets, and like S3 and Transcribe, which
+    carry none.
+    THE BAA IS A PREREQUISITE: « you agree not to use these HIPAA Eligible
+    Services for any purpose or in any manner involving Protected Health
+    Information ... without first entering into an AWS business associate
+    agreement ».
+    ELIGIBILITY IS NOT CONFIGURATION: « Customers still must configure these
+    services consistent with HIPAA requirements. » On a telephony service that
+    records calls and transcribes them, that sentence carries most of the work.
+    Compliance reference published by AWS, not the contract: medium confidence.
+
+# no_training_commitment — NOT RECORDED
+#   No first-party source read. Connect ships AI features (Contact Lens, Q), so
+#   the question is live and unanswered here.
+
+# zero_retention_option — NOT RECORDED
+#   No first-party source read.
+
+# default_retention — NOT RECORDED
+#   Recordings and transcripts land in a customer-owned S3 bucket, which moves
+#   the question to the storage layer rather than answering it. No first-party
+#   page read states a provider-side default.
+
+# data_residency — NOT RECORDED
+#   Connect is a regional service, but no first-party page read states a
+#   residency commitment for call audio, and the S3 guarantee recorded on the
+#   storage layer covers the bucket, not the leg before it.
+
+# dpa_eu — NOT RECORDED
+#   The AWS GDPR Data Processing Addendum exists; it was not read.
