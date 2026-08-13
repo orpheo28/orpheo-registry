@@ -1,4 +1,6 @@
 provider_id: mistral
+service_name: "Mistral La Plateforme"
+entity: mistral
 legal_entity: Mistral AI SAS
 layer: model
 jurisdiction: FR

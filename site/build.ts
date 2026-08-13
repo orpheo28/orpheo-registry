@@ -14,6 +14,7 @@ import { FACT_ORDER, MATRIX_FACTS, type Fact } from "../schema.ts";
 import { cell, escape, factBlock, factLabel, page, type FactState } from "./render.ts";
 import { methodologyHtml, methodologyMarkdown } from "./methodology.ts";
 import * as changelog from "./changelog.ts";
+import { highlights, retentionGap } from "./highlights.ts";
 
 /**
  * Le générateur : lit le registre, écrit `dist/`.
@@ -102,7 +103,7 @@ const corps =
             .map((f) => cell(data[f], stateOf(data[f])))
             .join("");
           return (
-            `<tr><th scope="row"><a href="/p/${escape(data.provider_id)}">${escape(data.legal_entity)}</a></th>` +
+            `<tr><th scope="row"><a href="/p/${escape(data.entity)}">${escape(data.service_name)}</a></th>` +
             `<td class="couche">${escape(data.layer)}</td>${cellules}</tr>`
           );
         })
@@ -135,7 +136,9 @@ what a document stated, on a date, and where to read it again.</p>
   <tbody>
 ${corps}
   </tbody>
-</table>`,
+</table>
+${highlights(providers)}
+${retentionGap(providers)}`,
   },
   productName,
 );
@@ -174,7 +177,7 @@ function tableauDeFaits(lignes: typeof providers): string {
     .map(({ data }) => {
       const cellules = FACT_ORDER.us.map((f) => cell(data[f], stateOf(data[f]))).join("");
       return (
-        `<tr><th scope="row"><a href="/p/${escape(data.provider_id)}">${escape(data.legal_entity)}</a></th>` +
+        `<tr><th scope="row"><a href="/p/${escape(data.entity)}">${escape(data.service_name)}</a></th>` +
         `<td class="couche"><a href="/c/${escape(data.layer)}">${escape(data.layer)}</a></td>${cellules}</tr>`
       );
     })
@@ -185,16 +188,20 @@ function tableauDeFaits(lignes: typeof providers): string {
 </table>`;
 }
 
-const parFournisseur = new Map<string, typeof providers>();
+// Une page par SOCIÉTÉ, pas par service. Un acheteur cherche « AWS » ; sans ce
+// regroupement, Amazon se fragmente en quatre pages dont aucune ne le montre
+// entier. Les faits, eux, restent portés par le service : c'est la seule
+// granularité où deux rétentions différentes ne s'écrasent pas.
+const parEntite = new Map<string, typeof providers>();
 for (const p of providers) {
-  const liste = parFournisseur.get(p.data.provider_id) ?? [];
+  const liste = parEntite.get(p.data.entity) ?? [];
   liste.push(p);
-  parFournisseur.set(p.data.provider_id, liste);
+  parEntite.set(p.data.entity, liste);
 }
 
 const cheminsProviders: string[] = [];
 mkdirSync(join(dist, "p"), { recursive: true });
-for (const [id, fichiers] of parFournisseur) {
+for (const [id, fichiers] of parEntite) {
   const premier = fichiers[0];
   if (premier === undefined) continue;
   const nom = premier.data.legal_entity;
@@ -221,11 +228,11 @@ ${tableauDeFaits(fichiers)}
 ${fichiers
   .map(
     ({ data }) => `<section class="couche-detail">
-<h2>${escape(data.layer)} layer — fact by fact</h2>
+<h2>${escape(data.service_name)} — ${escape(data.layer)} layer</h2>
 ${[...FACT_ORDER.us, "default_retention" as const]
   .map((f) =>
     factBlock(
-      `${data.layer}-${f}`,
+      `${data.provider_id}-${f}`,
       f === "default_retention" ? "Default retention" : factLabel(f),
       data[f],
       stateOf(data[f]),
@@ -335,7 +342,7 @@ const urls = [
   "/",
   "/methodology",
   "/changelog",
-  ...providers.map((p) => `/p/${p.data.provider_id}`),
+  ...providers.map((p) => `/p/${p.data.entity}`),
 ];
 writeFileSync(
   join(dist, "sitemap.xml"),

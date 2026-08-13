@@ -1,4 +1,6 @@
 provider_id: scaleway
+service_name: "Scaleway Generative APIs"
+entity: scaleway
 legal_entity: Scaleway SAS
 layer: model
 jurisdiction: FR

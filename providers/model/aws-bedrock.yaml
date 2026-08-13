@@ -1,4 +1,6 @@
 provider_id: aws-bedrock
+service_name: "Amazon Bedrock"
+entity: aws
 legal_entity: Amazon Web Services, Inc.
 layer: model
 jurisdiction: US

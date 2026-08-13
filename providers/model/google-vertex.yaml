@@ -1,4 +1,6 @@
 provider_id: google-vertex
+service_name: "Google Vertex AI"
+entity: google
 legal_entity: Google LLC
 layer: model
 jurisdiction: US

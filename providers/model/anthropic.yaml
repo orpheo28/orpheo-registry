@@ -1,4 +1,6 @@
 provider_id: anthropic
+service_name: "Claude API"
+entity: anthropic
 legal_entity: Anthropic PBC
 layer: model
 jurisdiction: US

@@ -1,4 +1,6 @@
 provider_id: fournisseur-valide
+service_name: "Service de test"
+entity: fournisseur-valide
 legal_entity: Fournisseur Valide SAS
 layer: model
 jurisdiction: EU

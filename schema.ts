@@ -133,6 +133,44 @@ export function factSchema<T extends z.ZodType>(valueSchema: T) {
      * pourrit en silence, et le fait continue de s'afficher comme vérifié.
      */
     additional_source_urls: z.array(sourceUrlSchema).min(1).optional(),
+    /**
+     * LE JOUR OÙ UN HUMAIN A ROUVERT LA SOURCE ET RELU LE FAIT. Absent = jamais.
+     *
+     * `verified_at` dit quand le fait a été établi. Il ne dit pas PAR QUI, et la
+     * distinction n'est pas cosmétique : la quasi-totalité de ce registre a été
+     * rédigée en lisant des pages récupérées automatiquement. Ce mode de lecture
+     * a produit ici, en une seule journée, une source attachée à une FAQ repliée
+     * — vraie mais non re-vérifiable — et une mention réputée absente d'une page
+     * où elle figurait. Deux erreurs de sens opposé, aucune détectable par un
+     * contrôleur d'URL.
+     *
+     * Le contrôleur automatique vérifie qu'une source RÉPOND. Lui seul ne
+     * distingue pas un document intact d'un document réécrit, et il ne relit
+     * rien. Un registre qui afficherait ses faits relus et ses faits jamais
+     * relus de la même façon mentirait par uniformité — INV-11 dit que ce qui
+     * n'est pas vérifié s'affiche comme non vérifié, et « vérifié par une
+     * machine qui ne lit pas » n'est pas « vérifié ».
+     *
+     * Ce champ ne se remplit donc JAMAIS en même temps qu'on écrit le fait.
+     */
+    human_reviewed_at: verifiedAtSchema.optional(),
+    /**
+     * CE FAIT NE VAUT QUE POUR CE FOURNISSEUR-CI, ET LA CHAÎNE DÉCIDE DU RESTE.
+     *
+     * Une plateforme d'agrégation route vers un fournisseur en dessous d'elle.
+     * Sa politique de rétention est une vraie politique — mais la rétention que
+     * subit réellement une donnée est l'UNION de la sienne et de celle du
+     * fournisseur choisi en aval. Activer le zéro-rétention chez un routeur qui
+     * n'impose rien à ses fournisseurs ne garantit pas le zéro-rétention.
+     *
+     * Le schéma ne savait pas le dire : il ne connaît qu'un fait par couple
+     * (fournisseur, couche), et « oui » y signifiait « oui, de bout en bout ».
+     * Sur une couche plateforme, ce « oui » est faux — pas incomplet, faux. Le
+     * drapeau le rend disable, et le rendu le marque autrement qu'une réserve
+     * ordinaire : une condition se lève en configurant, une dépendance de chaîne
+     * ne se lève pas, elle se propage.
+     */
+    downstream_dependent: z.literal(true).optional(),
   });
 }
 
@@ -210,6 +248,34 @@ export const providerFileSchema = z
     provider_id: z
       .string()
       .regex(/^[a-z0-9-]+$/, "identifiant en minuscules, chiffres et tirets"),
+    /**
+     * LA SOCIÉTÉ, sous laquelle les services se regroupent. Devient `/p/<entity>`.
+     *
+     * `provider_id` reste au niveau SERVICE, et ce n'est pas un détail de
+     * nommage. Une société a couramment deux services sur une même couche, aux
+     * politiques différentes : Vertex et AI Studio chez Google, Bedrock et la
+     * plateforme Claude sur AWS. Un identifiant d'entité ferait perdre à la clé
+     * (fournisseur, couche) son unicité exactement là où la distinction porte le
+     * plus — deux rétentions différentes se seraient écrasées l'une l'autre.
+     *
+     * Mais un acheteur cherche « AWS », pas « aws-bedrock ». Sans regroupement,
+     * une société se fragmente en quatre pages dont aucune ne la montre entière.
+     * D'où deux niveaux : le service porte les faits, l'entité porte la page.
+     */
+    entity: z
+      .string()
+      .regex(/^[a-z0-9-]+$/, "identifiant en minuscules, chiffres et tirets"),
+    /**
+     * LE NOM COMMERCIAL DU SERVICE — « Amazon Bedrock », « Amazon S3 ».
+     *
+     * C'est lui qu'affiche la matrice, et il est indispensable dès que
+     * `provider_id` cesse d'être la clé d'affichage : deux services d'une même
+     * société sur une même couche donneraient sinon deux lignes « Google LLC —
+     * model » rigoureusement identiques, que rien ne permettrait de distinguer.
+     * L'entité regroupe, le service discrimine. Un slug ne fait ni l'un ni
+     * l'autre : `google-vertex` n'est pas un nom, c'est une clé.
+     */
+    service_name: z.string().min(1),
     /** L'entité qui SIGNE. C'est elle qui engage, pas la marque commerciale. */
     legal_entity: z.string().min(1),
     layer: layerSchema,

@@ -1,4 +1,6 @@
 provider_id: sans-source
+service_name: "Service de test"
+entity: sans-source
 legal_entity: Fournisseur Valide SAS
 layer: model
 jurisdiction: EU

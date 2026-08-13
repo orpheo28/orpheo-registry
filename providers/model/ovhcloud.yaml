@@ -1,4 +1,6 @@
 provider_id: ovhcloud
+service_name: "OVHcloud AI Endpoints"
+entity: ovhcloud
 legal_entity: OVH Groupe SA
 layer: model
 jurisdiction: FR

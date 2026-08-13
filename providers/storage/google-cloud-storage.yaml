@@ -1,4 +1,6 @@
 provider_id: google-cloud-storage
+service_name: "Google Cloud Storage"
+entity: google
 legal_entity: Google LLC
 layer: storage
 jurisdiction: US

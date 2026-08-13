@@ -1,4 +1,6 @@
 provider_id: openai
+service_name: "OpenAI API"
+entity: openai
 legal_entity: OpenAI OpCo, LLC
 layer: model
 jurisdiction: US

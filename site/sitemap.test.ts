@@ -90,14 +90,14 @@ describe("les conditions sont lisibles sur la page, pas seulement dans les fichi
   });
 
   it("la condition qui annule la couverture Google est publiée", () => {
-    const html = readFileSync(join(dist, "p/google-speech.html"), "utf8");
+    const html = readFileSync(join(dist, "p/google.html"), "utf8");
     // La note reprend la formulation du fournisseur en capitales pour marquer
     // que c'est cette condition-là qui annule la couverture.
     expect(html.toLowerCase()).toContain("should not opt into");
   });
 
   it("le défaut du traitement par lots d'Azure est publié", () => {
-    const html = readFileSync(join(dist, "p/azure-speech.html"), "utf8");
+    const html = readFileSync(join(dist, "p/microsoft.html"), "utf8");
     expect(html).toContain("NO STORAGE IS SPECIFIED");
   });
 
@@ -137,7 +137,7 @@ describe("la quatrième forme de résidence se lit, et ne se confond avec rien",
     // La garantie tient PAR DÉFAUT et se défait par un réglage client. La page
     // qui montrerait l'une sans l'autre affirmerait « oui » là où AWS écrit
     // « oui, sauf si vous les transférez ».
-    const html = readFileSync(join(dist, "p/aws-s3.html"), "utf8");
+    const html = readFileSync(join(dist, "p/aws.html"), "utf8");
     expect(html).toContain("never leave that Region");
     expect(html).toContain("replication");
   });
@@ -146,7 +146,7 @@ describe("la quatrième forme de résidence se lit, et ne se confond avec rien",
     // Une règle de cycle de vie sur un bucket néerlandais dépose la donnée en
     // France. C'est exactement le genre de rupture que ce registre existe pour
     // rendre visible, et elle vient du fournisseur lui-même.
-    const html = readFileSync(join(dist, "p/scaleway-object-storage.html"), "utf8");
+    const html = readFileSync(join(dist, "p/scaleway.html"), "utf8");
     expect(html).toContain("Paris and Amsterdam");
     expect(html.toLowerCase()).toContain("lifecycle rule");
   });
@@ -171,5 +171,39 @@ describe("un fournisseur qui se contredit est publié avec sa contradiction", ()
     const html = readFileSync(join(dist, "p/telnyx.html"), "utf8");
     expect(html).toContain("conduit exception");
     expect(html).toContain("plan to enter into");
+  });
+});
+
+describe("la page d'accueil porte ce que le registre a trouvé", () => {
+  const accueil = readFileSync(join(dist, "index.html"), "utf8");
+
+  it("le cas Twilio y figure, avec ses deux phrases", () => {
+    // Deux phrases consécutives dont la seconde annule la première : c'est la
+    // démonstration la plus nette de la thèse du registre. Elle ne peut pas
+    // vivre à un clic de là.
+    expect(accueil).toContain("remains within that territory");
+    expect(accueil).toContain("does not guarantee that all data will remain");
+  });
+
+  it("les quatre autres ruptures y figurent aussi", () => {
+    expect(accueil.toLowerCase()).toContain("should not opt into");
+    expect(accueil).toContain("NO STORAGE IS SPECIFIED");
+    expect(accueil).toContain("third-party provider");
+    expect(accueil).toContain("Paris and Amsterdam");
+  });
+
+  it("l'absence de rétention en téléphonie est affichée comme une information", () => {
+    expect(accueil).toContain("What no provider on the telephony layer states");
+    expect(accueil).toContain(
+      "Twilio, Telnyx".replace("Twilio, Telnyx", "Amazon Connect"),
+    );
+  });
+
+  it("une accroche qui cite un fait disparu fait ÉCHOUER le build", async () => {
+    // La page d'accueil ne recopie aucun texte : elle désigne des faits. Le
+    // risque de ce choix est le renvoi mort — une vitrine qui affirme ce que le
+    // registre ne dit plus. Il vaut mieux ne rien publier.
+    const { highlights, HighlightMissingError } = await import("./highlights.ts");
+    expect(() => highlights([])).toThrow(HighlightMissingError);
   });
 });

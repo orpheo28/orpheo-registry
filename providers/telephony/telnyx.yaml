@@ -1,4 +1,6 @@
 provider_id: telnyx
+service_name: "Telnyx"
+entity: telnyx
 legal_entity: Telnyx LLC
 layer: telephony
 jurisdiction: US

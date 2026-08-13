@@ -1,4 +1,6 @@
 provider_id: amazon-connect
+service_name: "Amazon Connect"
+entity: aws
 legal_entity: Amazon Web Services, Inc.
 layer: telephony
 jurisdiction: US

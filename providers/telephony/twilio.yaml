@@ -1,4 +1,6 @@
 provider_id: twilio
+service_name: "Twilio"
+entity: twilio
 legal_entity: Twilio Inc.
 layer: telephony
 jurisdiction: US

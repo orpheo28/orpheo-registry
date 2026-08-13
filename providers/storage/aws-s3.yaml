@@ -1,4 +1,6 @@
 provider_id: aws-s3
+service_name: "Amazon S3"
+entity: aws
 legal_entity: Amazon Web Services, Inc.
 layer: storage
 jurisdiction: US

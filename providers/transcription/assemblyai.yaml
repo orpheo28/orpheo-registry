@@ -1,4 +1,6 @@
 provider_id: assemblyai
+service_name: "AssemblyAI"
+entity: assemblyai
 legal_entity: AssemblyAI Inc.
 layer: transcription
 jurisdiction: US

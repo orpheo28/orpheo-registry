@@ -1,4 +1,6 @@
 provider_id: deepgram
+service_name: "Deepgram"
+entity: deepgram
 legal_entity: Deepgram, Inc.
 layer: transcription
 jurisdiction: US

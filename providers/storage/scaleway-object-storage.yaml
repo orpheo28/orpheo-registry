@@ -1,4 +1,6 @@
 provider_id: scaleway-object-storage
+service_name: "Scaleway Object Storage"
+entity: scaleway
 legal_entity: Scaleway SAS
 layer: storage
 jurisdiction: FR

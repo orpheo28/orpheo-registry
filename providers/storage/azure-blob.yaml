@@ -1,4 +1,6 @@
 provider_id: azure-blob
+service_name: "Azure Blob Storage"
+entity: microsoft
 legal_entity: Microsoft Corporation
 layer: storage
 jurisdiction: US

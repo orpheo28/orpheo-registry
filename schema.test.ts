@@ -94,6 +94,8 @@ describe("un fait — INV-4", () => {
 describe("le fichier provider", () => {
   const base = {
     provider_id: "exemple",
+    service_name: "Exemple API",
+    entity: "exemple",
     legal_entity: "Exemple SAS",
     layer: "model",
     jurisdiction: "EU",
@@ -186,6 +188,8 @@ describe("les couches", () => {
 describe("un trou reste un trou", () => {
   const base = {
     provider_id: "exemple",
+    service_name: "Exemple API",
+    entity: "exemple",
     legal_entity: "Exemple SAS",
     layer: "model",
     jurisdiction: "US",
