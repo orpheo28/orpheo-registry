@@ -42,6 +42,8 @@ const SECTIONS: readonly Section[] = [
     blocs: [
       "D'un document du fournisseur lui-même : conditions commerciales, avenant de sous-traitance, centre de confidentialité, documentation technique. Jamais d'un article de blog tiers, jamais d'un comparatif publié par un concurrent, jamais d'un résumé produit par une machine.",
       "Le niveau de confiance qualifie la NATURE DE LA SOURCE, jamais notre degré de conviction. « Je pense que c'est vrai » n'est pas un niveau de confiance : c'est une opinion, et ce registre n'en publie pas.",
+      "UNE SOURCE DOIT ÉNONCER LE FAIT DANS SON TEXTE PRINCIPAL. Pas derrière un accordéon, un onglet, une fenêtre modale ou un second lien à suivre. Une page qui contient la réponse mais ne l'affiche qu'après un geste n'est pas re-vérifiable par un tiers : celui qui ouvre l'adresse doit y lire le fait, sinon il ne peut ni le confirmer ni le contester.",
+      "Cette règle vient d'une erreur réelle : un fait avait été rattaché à une page qui le portait effectivement, mais dans une question repliée. L'adresse répondait, le fait était vrai, et pourtant la source ne prouvait rien à qui l'ouvrait. Elle a été remplacée par celle qui l'énonce directement.",
       Object.entries(CONFIDENCE_LABELS).map(([cle, libelle]) => `${cle} — ${libelle}`),
     ],
   },
@@ -51,6 +53,20 @@ const SECTIONS: readonly Section[] = [
       "Revue mensuelle par fournisseur, et immédiate sur annonce majeure. Entre deux revues, un contrôle automatique hebdomadaire vérifie que chaque source répond encore.",
       "Une source qui disparaît ou qui redirige ailleurs fait redescendre son fait à NON VÉRIFIÉ, avec sa dernière date connue. Le fait n'est pas retiré : le retirer en silence reviendrait à effacer le fait qu'on ne sait plus.",
       "Une redirection n'est pas toujours une erreur — un site change d'adresse. Mais aucune machine ne peut juger si la page d'arrivée porte encore le fait : cette vérification-là est humaine, et jusqu'à ce qu'elle ait lieu, le registre affiche qu'il ne sait plus.",
+    ],
+  },
+  {
+    titre: "Deux contrôles, parce qu'ils attrapent des erreurs différentes",
+    blocs: [
+      "Chaque source est contrôlée automatiquement chaque semaine, et relue par un humain à la revue mensuelle. Ce n'est pas une redondance : les deux ne voient pas les mêmes défauts, et aucun des deux ne suffit.",
+      "La machine vérifie qu'une source RÉPOND ENCORE, et qu'elle n'a pas déménagé. Elle ne sait pas lire : une page peut répondre parfaitement et ne plus rien prouver.",
+      "L'humain vérifie qu'elle DIT ENCORE le fait. Il lit le document, en contexte, ce qu'aucun contrôle d'adresse ne fera jamais.",
+      "Deux cas réels, survenus le même jour, montrent pourquoi il faut les deux :",
+      [
+        "Un fait exact rattaché à une page qui le portait — mais derrière une question repliée. L'adresse répondait, le fait était vrai : le contrôle automatique l'aurait validée indéfiniment. Seule une relecture humaine a vu que la source ne prouvait rien à qui l'ouvrait. C'est de là que vient la règle du texte principal, plus haut.",
+        "À l'inverse, une relecture humaine a conclu qu'une mention n'était pas sur la page — une exclusion de modèles, annotée entre crochets au milieu d'une liste alphabétique de plusieurs centaines de services. Elle y était. Retirer ce fait aurait supprimé une exclusion exacte, c'est-à-dire précisément l'information qui protège le lecteur.",
+      ],
+      "Le second cas donne la règle d'arbitrage : quand un contrôle et une relecture se contredisent, ni la mémoire de l'un ni l'impression de l'autre ne tranchent. On retourne au document, on le récupère à nouveau, et on cherche la chaîne exacte. C'est le document qui décide, jamais celui qui l'a lu.",
     ],
   },
   {

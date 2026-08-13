@@ -36,7 +36,19 @@ const DELAI_MS = 15_000;
 const AGENT =
   "orpheo-registry source checker (+https://github.com/orpheo28/orpheo-registry)";
 
-export type SourceState = "ok" | "redirigee" | "injoignable";
+/**
+ * `bloquee` n'est PAS `injoignable`.
+ *
+ * Un 403 ou un 429 ne dit pas « le document a disparu » : il dit « vous n'avez
+ * pas le droit de regarder ». Plusieurs fournisseurs — openai.com en est un —
+ * refusent les robots tout en servant la page à un humain. Faire redescendre le
+ * fait dans ce cas punirait le lecteur pour une protection anti-bot, et
+ * remplirait la matrice de « non vérifié » qui ne veulent rien dire.
+ *
+ * Le contrôleur constate qu'il ne peut pas juger, et le dit. C'est un humain
+ * qui tranche.
+ */
+export type SourceState = "ok" | "redirigee" | "injoignable" | "bloquee";
 
 export interface SourceStatus {
   url: string;
@@ -48,18 +60,32 @@ export interface SourceStatus {
   checked_at: string;
 }
 
-/** Deux URL désignent-elles le même document, aux détails de forme près ? */
+/**
+ * Deux URL désignent-elles le même document, aux détails de forme près ?
+ *
+ * Le schéma est ignoré — `http` → `https` est une mise à niveau — ainsi que le
+ * `www` et le fragment.
+ *
+ * Les PARAMÈTRES AJOUTÉS par la redirection sont tolérés : un site qui redirige
+ * vers `?hl=he` ou `?utm_source=…` sert le même document, et le signaler
+ * remplirait le rapport de bruit — constaté sur la documentation Google, qui
+ * ajoute une langue. En revanche, un paramètre PRÉSENT DANS L'ORIGINE et modifié
+ * ou perdu change potentiellement le document : celui-là compte.
+ */
 export function sameDocument(a: string, b: string): boolean {
-  const normalise = (raw: string): string => {
-    const u = new URL(raw);
-    const hote = u.host.replace(/^www\./, "");
-    const chemin = u.pathname.replace(/\/+$/, "");
-    // Le schéma est ignoré : `http` → `https` est une mise à niveau, pas un
-    // déménagement. Le fragment aussi : il ne change pas le document servi.
-    return `${hote}${chemin}${u.search}`;
-  };
   try {
-    return normalise(a) === normalise(b);
+    const origine = new URL(a);
+    const arrivee = new URL(b);
+
+    const hote = (u: URL): string => u.host.replace(/^www\./, "");
+    const chemin = (u: URL): string => u.pathname.replace(/\/+$/, "");
+    if (hote(origine) !== hote(arrivee)) return false;
+    if (chemin(origine) !== chemin(arrivee)) return false;
+
+    for (const [cle, valeur] of origine.searchParams) {
+      if (arrivee.searchParams.get(cle) !== valeur) return false;
+    }
+    return true;
   } catch {
     return false;
   }
@@ -84,9 +110,11 @@ export async function checkSource(
     });
 
     if (!reponse.ok) {
+      // 401, 403, 429 : on nous refuse l'entrée, ce qui ne dit rien du document.
+      const refuse = [401, 403, 429].includes(reponse.status);
       return {
         url,
-        state: "injoignable",
+        state: refuse ? "bloquee" : "injoignable",
         reason: `HTTP ${String(reponse.status)}`,
         checked_at: maintenant,
       };
@@ -149,13 +177,22 @@ async function main(): Promise<void> {
     statuts.push(await checkSource(url, maintenant));
   }
 
-  const fautives = statuts.filter((s) => s.state !== "ok");
-  for (const s of fautives) {
+  // Une source bloquée n'est pas fautive : elle est indécidable par une machine.
+  const fautives = statuts.filter((s) => s.state !== "ok" && s.state !== "bloquee");
+  const bloquees = statuts.filter((s) => s.state === "bloquee");
+
+  for (const s of [...fautives, ...bloquees]) {
     const detail =
       s.state === "redirigee"
         ? `mène désormais à ${s.final_url ?? "?"}`
         : (s.reason ?? "");
     console.error(`  ${s.state.toUpperCase()} — ${s.url}\n    ${detail}`);
+  }
+  if (bloquees.length > 0) {
+    console.error(
+      `\n${String(bloquees.length)} source(s) refusent l'accès à un robot. Le document existe` +
+        " peut-être toujours : cela demande une relecture humaine, et ne fait PAS redescendre le fait.",
+    );
   }
 
   if (mode === "changed") {
