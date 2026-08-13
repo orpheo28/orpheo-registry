@@ -49,6 +49,12 @@ This rule was written after finding six of sixteen high facts resting on a readi
 
 It also has a use nobody planned: recording the sentence caught a fact whose note claimed more than its source said. The quote and the claim did not match, and the claim was the one that was wrong.
 
+A quote must be in the LANGUAGE OF THE URL published beside it. This is the main-text rule applied to language, and for the same reason: a reader who opens the address has to find the sentence there. A translated quote fails that test exactly as a sentence hidden behind an accordion does — the fact may well be true, and the source still proves nothing to the person checking it.
+
+This one also comes from a real case, caught before publication. Two facts about one provider had been re-read by a human on pages that refuse automated readers — genuine verification, carefully done. But the pages had been opened in French, and the registry publishes the English addresses. Recording the French sentences would have sent an American reader to a page where they do not appear; back-translating them into English would have manufactured the very evidence the quote exists to supply. Neither was recorded. The facts kept their date and their source, and stayed at medium until the English sentences can be read.
+
+The rule cuts against convenience, and that is the point: a quote is not an illustration of a fact, it is the means of contesting it.
+
 ## Three states, and the difference matters
 
 A fact can carry a value, be recorded as verifiably absent, or be missing. Collapsing the last two would make the matrix lie.
