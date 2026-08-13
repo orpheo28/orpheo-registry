@@ -196,6 +196,13 @@ export const FACT_LABELS: Readonly<Record<MatrixFact, string>> = {
   dpa_eu: "DPA (EU)",
 };
 
+/**
+ * La résidence garantie « là où le client l'a mise », sans liste de régions.
+ *
+ * Une constante et non une chaîne libre : voir `data_residency` plus bas.
+ */
+export const CUSTOMER_SELECTED = "customer-selected";
+
 /** Un fichier du registre : un fournisseur, sur une couche. */
 export const providerFileSchema = z
   .object({
@@ -239,8 +246,30 @@ export const providerFileSchema = z
      *
      * Pour un fait booléen, `false` joue déjà ce rôle : il n'y a donc que les
      * valeurs composées qui ont besoin de `null`.
+     *
+     * QUATRIÈME FORME, apparue avec la couche stockage : `CUSTOMER_SELECTED`.
+     *
+     * AWS écrit « Objects that belong to a bucket that you create in a specific
+     * AWS Region never leave that Region » ; Google écrit « Cloud Storage stores
+     * object data in the selected location ». Ce sont des garanties réelles,
+     * datées et sourcées — mais ce sont des PROPRIÉTÉS, pas des listes : le
+     * fournisseur ne nomme aucune région, il promet que la donnée reste là où le
+     * client l'a mise. Les forcer dans un tableau obligeait à recopier une liste
+     * de régions qu'aucune des deux pages n'énonce, c'est-à-dire à inventer.
+     *
+     * C'est une CONSTANTE, pas du texte libre : autoriser une chaîne
+     * quelconque ferait entrer la prose approximative dans la valeur, là où la
+     * matrice a besoin d'un état comparable. Les nuances — la réplication
+     * inter-région d'AWS, le bucket multi-région de Google qui ne garantit qu'un
+     * continent — vivent dans la note, qui est faite pour ça.
      */
-    data_residency: factSchema(z.array(z.string().min(1)).min(1).nullable()).optional(),
+    data_residency: factSchema(
+      z.union([
+        z.array(z.string().min(1)).min(1),
+        z.literal(CUSTOMER_SELECTED),
+        z.null(),
+      ]),
+    ).optional(),
     dpa_eu: factSchema(z.boolean()).optional(),
     /** Texte libre : « 30 jours », « aucune », « indéterminée ». Pas un nombre : les
      *  politiques réelles ne sont presque jamais exprimables en un entier. */

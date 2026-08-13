@@ -1,0 +1,51 @@
+provider_id: scaleway-object-storage
+legal_entity: Scaleway SAS
+layer: storage
+jurisdiction: FR
+models: []
+
+data_residency:
+  value: [fr-par, nl-ams, pl-waw, it-mil]
+  verified_at: 2026-08-13
+  source_url: https://www.scaleway.com/en/docs/object-storage/concepts/
+  confidence: medium
+  additional_source_urls:
+    - https://www.scaleway.com/en/docs/object-storage/faq/
+  note: >
+    Four regional endpoints, each named with its country: Paris, France
+    (fr-par), Amsterdam, The Netherlands (nl-ams), Warsaw, Poland (pl-waw),
+    Milan, Italy (it-mil). All four inside the European Union — the only
+    provider on this layer that names countries rather than continents.
+    A STORAGE CLASS CAN MOVE DATA ACROSS BORDERS, and the provider documents it:
+    the Glacier archive cluster lives in one place, Scaleway's Paris DC4, and is
+    « available from any bucket in Paris and Amsterdam ». A Dutch bucket with a
+    lifecycle rule that transitions objects to Glacier therefore ends up storing
+    them in France. Nothing warns at the moment the rule fires, and the rule is
+    the ordinary way to cut archive costs.
+    The FAQ adds that transferring files to Glacier in Warsaw is « not yet
+    possible », which bounds the case rather than removing it.
+    A WIDELY REPEATED CLAIM, CORRECTED HERE: third-party summaries state that
+    Glacier stores objects in Paris « regardless of the region chosen ». The
+    provider's own text says something narrower — from Paris and Amsterdam
+    buckets — and the narrower version is the one recorded. The difference
+    matters to an Italian or Polish customer, for whom the sweeping version
+    would be false.
+    Documentation, non-contractual: medium confidence.
+
+# baa_available — NOT RECORDED
+#   French provider; no first-party document read mentions a HIPAA BAA.
+
+# no_training_commitment — NOT APPLICABLE AT THIS LAYER, AND NOT RECORDED
+#   Same reasoning as the other storage providers.
+
+# zero_retention_option — NOT RECORDED
+#   No first-party source read.
+
+# default_retention — NOT RECORDED
+#   Objects persist until deleted or moved by a lifecycle rule. Object Lock and
+#   legal hold let the CUSTOMER impose retention; that is the opposite fact, and
+#   recording it here would answer a question nobody asked.
+
+# dpa_eu — NOT RECORDED
+#   Not read for this layer. The model-layer file records the same gap for the
+#   same reason: an asserted compliance is not a signable agreement.

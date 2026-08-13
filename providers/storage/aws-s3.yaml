@@ -1,0 +1,58 @@
+provider_id: aws-s3
+legal_entity: Amazon Web Services, Inc.
+layer: storage
+jurisdiction: US
+models: []
+
+baa_available:
+  value: true
+  verified_at: 2026-08-13
+  source_url: https://aws.amazon.com/compliance/hipaa-eligible-services-reference/
+  confidence: medium
+  note: >
+    « Amazon Simple Storage Service (S3) » and « Amazon S3 Glacier » both appear
+    in the eligible list, with no exclusion annotated — unlike Bedrock on the
+    same page, which carries a model exclusion in brackets. Amazon EBS, EFS and
+    FSx are listed too, so the eligibility is not specific to object storage.
+    THE BAA IS A PREREQUISITE, not a consequence: « you agree not to use these
+    HIPAA Eligible Services for any purpose or in any manner involving Protected
+    Health Information ... without first entering into an AWS business associate
+    agreement ».
+    Compliance reference published by AWS, not the contract: medium confidence.
+
+data_residency:
+  value: customer-selected
+  verified_at: 2026-08-13
+  source_url: https://docs.aws.amazon.com/AmazonS3/latest/userguide/UsingBucket.html
+  confidence: medium
+  note: >
+    Exact wording, in the main text: « Objects that belong to a bucket that you
+    create in a specific AWS Region never leave that Region, unless you
+    explicitly transfer them to another Region. For example, objects that are
+    stored in the Europe (Ireland) Region never leave it. »
+    THE CONDITION IS THE WHOLE POINT, and it is customer-side: cross-Region
+    replication is a bucket subresource — « the automatic, asynchronous copying
+    of objects across buckets in different or the same AWS Regions ». Enabling
+    it moves data out of the Region without any further signal. The guarantee
+    holds by default and is undone by a setting, which is why it is recorded as
+    conditional rather than as a plain yes.
+    Documentation, not a contractual commitment: medium confidence.
+
+# no_training_commitment — NOT APPLICABLE AT THIS LAYER, AND NOT RECORDED
+#   Object storage does not train on what it stores. Recording `true` here would
+#   invent a commitment nobody made; recording `false` would suggest a risk that
+#   does not exist. The matrix says it is not recorded, which is accurate.
+
+# zero_retention_option — NOT RECORDED
+#   The question is inverted at this layer: storage retains BY DESIGN, and
+#   deletion is driven by the customer through lifecycle rules and Object Lock.
+#   No first-party source read frames this as a zero-retention option.
+
+# default_retention — NOT RECORDED
+#   S3 keeps objects until the customer deletes them; there is no provider-set
+#   default duration to quote, and quoting « indefinite » would be my wording,
+#   not AWS's.
+
+# dpa_eu — NOT RECORDED
+#   The AWS GDPR Data Processing Addendum exists and is part of the AWS Service
+#   Terms; it was not read, so it is not recorded.

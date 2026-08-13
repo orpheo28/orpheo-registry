@@ -116,3 +116,38 @@ describe("les conditions sont lisibles sur la page, pas seulement dans les fichi
     expect(html).toContain("outside of the European Economic Area");
   });
 });
+
+describe("la quatrième forme de résidence se lit, et ne se confond avec rien", () => {
+  /**
+   * AWS et Google garantissent que la donnée reste où le client l'a mise, sans
+   * nommer une seule région. C'est une garantie réelle — mais d'une autre forme
+   * qu'une liste, et il a fallu l'ajouter au schéma pour ne pas avoir à inventer
+   * la liste qu'aucune des deux pages n'énonce.
+   *
+   * Le risque de cette forme est le jeton brut : `customer-selected` recopié tel
+   * quel dans la matrice se décode au lieu de se lire. Ce test l'interdit.
+   */
+  it("s'affiche en toutes lettres, jamais comme le jeton du fichier", () => {
+    const accueil = readFileSync(join(dist, "index.html"), "utf8");
+    expect(accueil).toContain("stays in the region you choose");
+    expect(accueil).not.toContain(">customer-selected<");
+  });
+
+  it("la réplication inter-région d'AWS est publiée avec la garantie", () => {
+    // La garantie tient PAR DÉFAUT et se défait par un réglage client. La page
+    // qui montrerait l'une sans l'autre affirmerait « oui » là où AWS écrit
+    // « oui, sauf si vous les transférez ».
+    const html = readFileSync(join(dist, "p/aws-s3.html"), "utf8");
+    expect(html).toContain("never leave that Region");
+    expect(html).toContain("replication");
+  });
+
+  it("le passage de frontière du Glacier Scaleway est publié", () => {
+    // Une règle de cycle de vie sur un bucket néerlandais dépose la donnée en
+    // France. C'est exactement le genre de rupture que ce registre existe pour
+    // rendre visible, et elle vient du fournisseur lui-même.
+    const html = readFileSync(join(dist, "p/scaleway-object-storage.html"), "utf8");
+    expect(html).toContain("Paris and Amsterdam");
+    expect(html.toLowerCase()).toContain("lifecycle rule");
+  });
+});

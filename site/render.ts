@@ -1,4 +1,10 @@
-import { FACT_LABELS, type Confidence, type Fact, type MatrixFact } from "../schema.ts";
+import {
+  CUSTOMER_SELECTED,
+  FACT_LABELS,
+  type Confidence,
+  type Fact,
+  type MatrixFact,
+} from "../schema.ts";
 
 /**
  * Le rendu — des fonctions pures, qui reçoivent des données et rendent du texte.
@@ -53,6 +59,10 @@ function renderValue(value: unknown): string {
   // fournisseur a répondu, et sa réponse est qu'il ne garantit rien.
   if (value === null) return "no guarantee";
   if (typeof value === "boolean") return value ? "yes" : "no";
+  // Le fournisseur garantit que la donnée reste où le client l'a mise, sans
+  // nommer de région. Rendu en toutes lettres : le jeton brut du fichier n'est
+  // pas une phrase, et la matrice se lit, elle ne se décode pas.
+  if (value === CUSTOMER_SELECTED) return "stays in the region you choose";
   if (Array.isArray(value)) return escape(value.join(", "));
   if (typeof value === "string") return escape(value);
   if (typeof value === "number") return escape(String(value));

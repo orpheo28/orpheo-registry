@@ -1,0 +1,60 @@
+provider_id: google-cloud-storage
+legal_entity: Google LLC
+layer: storage
+jurisdiction: US
+models: []
+
+baa_available:
+  value: true
+  verified_at: 2026-08-13
+  source_url: https://cloud.google.com/security/compliance/hipaa
+  confidence: medium
+  additional_source_urls:
+    - https://cloud.google.com/terms/hipaa-baa
+  note: >
+    « Cloud Storage » is listed among the products covered by the Google Cloud
+    BAA, which « covers Google Cloud's entire infrastructure (all regions, all
+    zones, all network paths, all points of presence) ».
+    THE CONDITION IS A LIST, NOT A STATE: the same page instructs customers to
+    « Disable or otherwise ensure that you do not use Google Cloud Products that
+    are not explicitly covered by the BAA ... when working with PHI ». Coverage
+    of Cloud Storage says nothing about the product that reads the bucket.
+    Worth comparing with Microsoft on the same layer, where the in-scope list is
+    published at PLATFORM granularity — « Azure and Azure Government » — rather
+    than product by product. Two providers, two ways of drawing the boundary,
+    and only one of them lets a buyer check a specific service by name.
+    Compliance page, not the contract: medium confidence. The BAA itself is
+    recorded as an additional source, so it is monitored too.
+
+data_residency:
+  value: customer-selected
+  verified_at: 2026-08-13
+  source_url: https://docs.cloud.google.com/storage/docs/locations
+  confidence: medium
+  note: >
+    Exact wording: « Cloud Storage stores object data in the selected location in
+    accordance with the Service Specific Terms. »
+    WHAT « LOCATION » MEANS DEPENDS ON THE BUCKET TYPE, and that is the trap. A
+    region keeps data in one region, « redundant across multiple zones within the
+    region ». A dual-region replicates: « Objects stored in dual-region buckets
+    are replicated so that they are stored in each region that make up the
+    dual-region. » A multi-region — US, EU, ASIA — spreads data across several
+    data centres inside that geographic area, so the guarantee is continental,
+    not national. « EU » is not « Ireland », and a buyer who needs one country
+    cannot get it from a multi-region bucket.
+    Documentation, non-contractual, and it defers the actual commitment to the
+    Service Specific Terms, which were not read: medium confidence.
+
+# no_training_commitment — NOT APPLICABLE AT THIS LAYER, AND NOT RECORDED
+#   Same reasoning as AWS S3: object storage makes no training commitment
+#   because it makes no training claim. An empty cell is the honest answer.
+
+# zero_retention_option — NOT RECORDED
+#   No first-party source read frames storage retention as an option to enable.
+
+# default_retention — NOT RECORDED
+#   Objects persist until deleted by the customer or by a lifecycle rule. No
+#   provider-set duration to quote.
+
+# dpa_eu — NOT RECORDED
+#   The Cloud Data Processing Addendum exists; it was not read.

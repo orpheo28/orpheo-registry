@@ -1,0 +1,70 @@
+provider_id: azure-blob
+legal_entity: Microsoft Corporation
+layer: storage
+jurisdiction: US
+models: []
+
+baa_available:
+  value: true
+  verified_at: 2026-08-13
+  source_url: https://learn.microsoft.com/en-us/compliance/regulatory/offering-hipaa-hitech
+  confidence: medium
+  note: >
+    DISTINCTIVE, AND THE MOST USEFUL FACT ON THIS PAGE: the BAA « is available
+    through the Microsoft Online Services Data Protection Addendum BY DEFAULT to
+    all customers who are covered entities or business associates under HIPAA ».
+    No request, no sales qualification, no separate signature — the opposite of
+    AWS, where the agreement must be entered into first, and of Deepgram, where
+    it is provided « upon request ». Same layer, three different lead times.
+    COVERAGE IS DECLARED AT PLATFORM GRANULARITY: the in-scope list names « Azure
+    and Azure Government », not Blob Storage. Blob Storage is therefore covered
+    as part of Azure rather than by name — which is a weaker check than Google's
+    product-by-product list on the same layer, where a buyer can look up « Cloud
+    Storage » and find it.
+    Microsoft states plainly that the agreement is not compliance: « using
+    Microsoft services doesn't on its own achieve HIPAA compliance ».
+    Microsoft also refuses customer-drafted agreements: « Microsoft can't use a
+    customer's Business Associate Agreement », because the services are
+    standardized. A buyer who plans to impose their own template should know this
+    before the negotiation, not during it.
+    Documentation page rather than the agreement itself: medium confidence.
+
+data_residency:
+  value: customer-selected
+  verified_at: 2026-08-13
+  source_url: https://azure.microsoft.com/en-us/explore/global-infrastructure/data-residency/
+  confidence: medium
+  note: >
+    Exact wording: « Microsoft will not store or process customer data outside
+    the customer-specified Geo without your authorization. »
+    THE COMMITMENT SHIPS WITH ITS OWN EXCEPTION LIST, and it is published on the
+    same page: Azure Cloud Services backs up deployment packages to the United
+    States regardless of region; Azure Machine Learning stores asset names and
+    experiment parameters in the US; Azure Databricks stores identity
+    information in the US; « Global » Foundry Models deployments may process
+    prompts and completions anywhere; preview and beta services typically store
+    data in the US. Non-regional services — Entra ID, Azure CDN, Defender for
+    Cloud — are outside the commitment altogether.
+    Blob Storage is a regional service and appears in none of those exceptions.
+    But the chain does: an editor who stores in West Europe and calls a « Global »
+    model deployment has one link inside the Geo and one outside, and the same
+    page is what says so.
+    Documentation, non-contractual, and it is the Product Terms that bind:
+    medium confidence.
+
+# no_training_commitment — NOT APPLICABLE AT THIS LAYER, AND NOT RECORDED
+#   Same reasoning as the other two storage providers.
+
+# zero_retention_option — NOT RECORDED
+#   No first-party source read frames storage retention as an option.
+
+# default_retention — NOT RECORDED
+#   Blobs persist until deleted by the customer or by a lifecycle policy. No
+#   provider-set duration to quote.
+
+# dpa_eu — NOT RECORDED, THOUGH THE PAGE NAMES THE DOCUMENT
+#   The BAA fact above cites the « Microsoft Online Services Data Protection
+#   Addendum » — which is precisely the European processing agreement. Naming a
+#   document is not reading it: the DPA itself was not opened, and recording
+#   `dpa_eu` from a passing mention would be exactly the shortcut this registry
+#   refuses. It is the next thing to verify here, and it will likely be a `high`.

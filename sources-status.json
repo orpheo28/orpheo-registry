@@ -1,0 +1,149 @@
+[
+  {
+    "url": "https://aws.amazon.com/compliance/hipaa-eligible-services-reference/",
+    "state": "ok",
+    "checked_at": "2026-08-13"
+  },
+  {
+    "url": "https://azure.microsoft.com/en-us/explore/global-infrastructure/data-residency/",
+    "state": "ok",
+    "checked_at": "2026-08-13"
+  },
+  {
+    "url": "https://cloud.google.com/security/compliance/hipaa",
+    "state": "ok",
+    "checked_at": "2026-08-13"
+  },
+  {
+    "url": "https://cloud.google.com/terms/hipaa-baa",
+    "state": "ok",
+    "checked_at": "2026-08-13"
+  },
+  {
+    "url": "https://developers.deepgram.com/trust-security/data-privacy-compliance",
+    "state": "ok",
+    "checked_at": "2026-08-13"
+  },
+  {
+    "url": "https://developers.openai.com/api/docs/guides/your-data",
+    "state": "ok",
+    "checked_at": "2026-08-13"
+  },
+  {
+    "url": "https://docs.aws.amazon.com/AmazonS3/latest/userguide/UsingBucket.html",
+    "state": "ok",
+    "checked_at": "2026-08-13"
+  },
+  {
+    "url": "https://docs.cloud.google.com/gemini-enterprise-agent-platform/resources/zero-data-retention",
+    "state": "ok",
+    "checked_at": "2026-08-13"
+  },
+  {
+    "url": "https://docs.cloud.google.com/storage/docs/locations",
+    "state": "ok",
+    "checked_at": "2026-08-13"
+  },
+  {
+    "url": "https://help.openai.com/en/articles/8660679-how-can-i-get-a-business-associate-agreement-baa-with-openai",
+    "state": "bloquee",
+    "reason": "HTTP 403",
+    "checked_at": "2026-08-13"
+  },
+  {
+    "url": "https://learn.microsoft.com/en-us/azure/foundry/responsible-ai/openai/data-privacy",
+    "state": "ok",
+    "checked_at": "2026-08-13"
+  },
+  {
+    "url": "https://learn.microsoft.com/en-us/azure/foundry/responsible-ai/speech-service/speech-to-text/data-privacy-security",
+    "state": "ok",
+    "checked_at": "2026-08-13"
+  },
+  {
+    "url": "https://learn.microsoft.com/en-us/compliance/regulatory/offering-hipaa-hitech",
+    "state": "ok",
+    "checked_at": "2026-08-13"
+  },
+  {
+    "url": "https://legal.mistral.ai/terms/commercial-terms-of-service",
+    "state": "ok",
+    "checked_at": "2026-08-13"
+  },
+  {
+    "url": "https://legal.mistral.ai/terms/data-processing-addendum",
+    "state": "ok",
+    "checked_at": "2026-08-13"
+  },
+  {
+    "url": "https://openai.com/business-data/",
+    "state": "bloquee",
+    "reason": "HTTP 403",
+    "checked_at": "2026-08-13"
+  },
+  {
+    "url": "https://openai.com/enterprise-privacy/",
+    "state": "ok",
+    "checked_at": "2026-08-13"
+  },
+  {
+    "url": "https://platform.claude.com/docs/en/manage-claude/api-and-data-retention",
+    "state": "ok",
+    "checked_at": "2026-08-13"
+  },
+  {
+    "url": "https://privacy.claude.com/en/articles/7996866-how-long-do-you-store-my-organization-s-data",
+    "state": "ok",
+    "checked_at": "2026-08-13"
+  },
+  {
+    "url": "https://privacy.claude.com/en/articles/8114513-business-associate-agreements-baa-for-commercial-customers",
+    "state": "ok",
+    "checked_at": "2026-08-13"
+  },
+  {
+    "url": "https://privacy.claude.com/en/articles/8956058-i-have-a-zero-data-retention-agreement-with-anthropic-what-products-does-it-apply-to",
+    "state": "ok",
+    "checked_at": "2026-08-13"
+  },
+  {
+    "url": "https://www.assemblyai.com/legal/business-associate-agreement",
+    "state": "ok",
+    "checked_at": "2026-08-13"
+  },
+  {
+    "url": "https://www.assemblyai.com/legal/data-processing-addendum",
+    "state": "ok",
+    "checked_at": "2026-08-13"
+  },
+  {
+    "url": "https://www.assemblyai.com/security",
+    "state": "ok",
+    "checked_at": "2026-08-13"
+  },
+  {
+    "url": "https://www.ovhcloud.com/en/public-cloud/ai-endpoints/",
+    "state": "ok",
+    "checked_at": "2026-08-13"
+  },
+  {
+    "url": "https://www.scaleway.com/en/docs/generative-apis/reference-content/data-privacy/",
+    "state": "ok",
+    "checked_at": "2026-08-13"
+  },
+  {
+    "url": "https://www.scaleway.com/en/docs/object-storage/concepts/",
+    "state": "ok",
+    "checked_at": "2026-08-13"
+  },
+  {
+    "url": "https://www.scaleway.com/en/docs/object-storage/faq/",
+    "state": "ok",
+    "checked_at": "2026-08-13"
+  },
+  {
+    "url": "https://www.speechmatics.com/legal/privacy-policy",
+    "state": "ok",
+    "checked_at": "2026-08-13"
+  }
+]
