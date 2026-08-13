@@ -1,0 +1,51 @@
+provider_id: speechmatics
+legal_entity: Cantab Research Limited (Speechmatics)
+layer: transcription
+jurisdiction: GB
+models: [ursa]
+
+dpa_eu:
+  value: true
+  verified_at: 2026-08-13
+  source_url: https://www.speechmatics.com/legal/privacy-policy
+  confidence: medium
+  note: >
+    « We enter into data processing agreements with our customers which set out
+    our obligations under the GDPR », et, « where appropriate », les clauses
+    contractuelles types de la Commission européenne pour les transferts hors
+    EEE, Royaume-Uni ou Suisse. Speechmatics agit comme sous-traitant, le client
+    comme responsable de traitement.
+    Le DPA lui-même n'a pas été lu : c'est la politique de confidentialité qui
+    en atteste l'existence, d'où confidence medium.
+
+# baa_available — NON RENSEIGNÉ
+#   Société britannique ; aucun document de première partie lu ne mentionne un
+#   BAA au sens de HIPAA. Absence de preuve, pas preuve d'absence.
+
+# no_training_commitment — NON RENSEIGNÉ, ET UN PIÈGE À NE PAS INVERSER
+#   La clause 4.3 des conditions de service interdit AU CLIENT d'utiliser le
+#   logiciel pour « create, train, or improve a similar or competing product ».
+#   C'est une restriction imposée au client, PAS un engagement du fournisseur
+#   de ne pas entraîner sur les données du client. Lire la première comme la
+#   seconde inverserait le sens du contrat.
+
+# default_retention — NON RENSEIGNÉ, DEUX PIÈGES ÉCARTÉS
+#   (1) La politique dit conserver les données « only as required or permitted
+#   by local law and while it has a legitimate business purpose » : ce n'est pas
+#   une durée, et le publier comme telle serait inventer.
+#   (2) La clause 9.2 mentionne sept jours, mais APRÈS RÉSILIATION de
+#   l'abonnement — pas la rétention courante. Même piège que chez Mistral.
+
+# data_residency — NON RENSEIGNÉ, ET L'ABSENCE EST ELLE-MÊME INFORMATIVE
+#   La politique énonce l'inverse d'une garantie : « the data that we collect
+#   from you may be stored and processed in a location outside of the European
+#   Economic Area, United Kingdom or Switzerland. For example, some of our third
+#   party cloud providers use servers that are located in the USA. »
+#   Le schéma ne sait pas représenter « aucune garantie de résidence » : il
+#   attend une liste de régions, et une liste vide est refusée. Laisser le fait
+#   vide perd donc une information utile — c'est une limite du modèle, à
+#   corriger quand la couche stockage l'aura confirmée.
+#   CHAÎNE : la liste de sous-traitants publiée nomme Alphabet/Google pour le
+#   « stockage de documents et communications » et l'« IA générative ». Un
+#   éditeur qui croit n'utiliser qu'un transcripteur britannique a en réalité
+#   un fournisseur américain dans sa chaîne, ce que le document dit lui-même.

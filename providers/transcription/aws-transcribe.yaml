@@ -1,0 +1,40 @@
+provider_id: aws-transcribe
+legal_entity: Amazon Web Services, Inc.
+layer: transcription
+jurisdiction: US
+models: []
+
+baa_available:
+  value: true
+  verified_at: 2026-08-13
+  source_url: https://aws.amazon.com/compliance/hipaa-eligible-services-reference/
+  confidence: medium
+  note: >
+    Listé comme « AWS Transcribe [Includes Healthscribe] » — annotation
+    INCLUSIVE cette fois, là où Bedrock porte une exclusion de modèles sur la
+    même page. Les deux se lisent au même endroit et disent l'inverse : la
+    liste mérite d'être relue ligne à ligne plutôt que parcourue.
+    LE BAA EST UN PRÉALABLE, pas une conséquence de l'éligibilité : « you agree
+    not to use these HIPAA Eligible Services ... without first entering into an
+    AWS business associate agreement ».
+    L'éligibilité reste soumise au modèle de responsabilité partagée :
+    « Customers still must configure these services consistent with HIPAA
+    requirements ». Référence de conformité publiée par AWS, pas le contrat :
+    confidence medium.
+
+# no_training_commitment — NON RENSEIGNÉ
+#   Les AWS Service Terms comportent des clauses sur l'usage du contenu des
+#   services d'IA, non lues. Ne pas déduire d'une éligibilité HIPAA.
+
+# zero_retention_option — NON RENSEIGNÉ
+#   Aucune source de première partie lue.
+
+# default_retention — NON RENSEIGNÉ
+#   Aucune source de première partie lue.
+
+# data_residency — NON RENSEIGNÉ
+#   Les régions AWS sont documentées ailleurs ; aucune page de première partie
+#   lue n'établit la résidence des données de transcription.
+
+# dpa_eu — NON RENSEIGNÉ
+#   Aucune source de première partie lue.
