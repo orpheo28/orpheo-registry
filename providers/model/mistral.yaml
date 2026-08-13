@@ -10,6 +10,7 @@ no_training_commitment:
   verified_at: 2026-08-13
   source_url: https://legal.mistral.ai/terms/commercial-terms-of-service
   confidence: high
+  quote: "except (a) when you (i) opted-in to training on a Mistral AI Product set to opt-out by default or (ii) have not opted-out of training on a Mistral AI Product set to opt-in by default"
   note: >
     Section 4.2 of the Commercial Terms of Service — a contractual document.
     The commitment is real but carries FOUR exceptions, one of which reverses
@@ -27,6 +28,7 @@ zero_retention_option:
   verified_at: 2026-08-13
   source_url: https://legal.mistral.ai/terms/data-processing-addendum
   confidence: high
+  quote: "including abuse monitoring on our APIs (except, in this last case, when zero data retention has been activated)"
   note: >
     Established by the DPA, which describes automated moderation « including
     abuse monitoring on our APIs (except, in this last case, when zero data
@@ -45,6 +47,7 @@ dpa_eu:
   verified_at: 2026-08-13
   source_url: https://legal.mistral.ai/terms/data-processing-addendum
   confidence: high
+  quote: 'Regulation (EU) 2016/679 of the European Parliament and of the Council of 27 April 2016 applicable since 25 May 2018 (the "GDPR")'
   note: >
     Published, contractual DPA, built on the GDPR (Regulation EU 2016/679), on
     the standard contractual clauses of Implementing Decision 2021/914, and on
@@ -75,6 +78,7 @@ legal_entity:
   verified_at: 2026-08-13
   source_url: https://legal.mistral.ai/terms/commercial-terms-of-service
   confidence: high
+  quote: "Mistral AI, a French limited joint-stock corporation, incorporated in Paris, under number 952 418 325, having its registered offices at 15 rue des Halles, 75001 Paris, France"
   note: >
     « Mistral AI, a French limited joint-stock corporation, incorporated in
     Paris, under number 952 418 325, having its registered offices at 15 rue des

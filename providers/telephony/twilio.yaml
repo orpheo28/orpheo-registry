@@ -88,6 +88,7 @@ legal_entity:
   verified_at: 2026-08-13
   source_url: https://www.twilio.com/en-us/legal/tos
   confidence: high
+  quote: "Twilio Ireland Limited, a company registered in the Republic of Ireland, whose registered address is 70 Sir John Rogerson's Quay, Dublin 2, D02 R296, Ireland"
   note: >
     Five entities by customer location: « Twilio Inc., a Delaware corporation »
     for most of the world; « Twilio Ireland Limited, a company registered in the

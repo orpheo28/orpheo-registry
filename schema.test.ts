@@ -17,6 +17,9 @@ function fait(surcharge: Record<string, unknown> = {}): Record<string, unknown> 
     verified_at: "2026-07-14",
     source_url: "https://exemple.test/cgu",
     confidence: "high",
+    // Un `high` exige la phrase exacte : le gabarit la porte, sinon TOUS les
+    // tests de ce fichier échoueraient sur une règle qu'ils ne visent pas.
+    quote: "Provider undertakes not to use Customer Data for training.",
     ...surcharge,
   };
 }
@@ -251,5 +254,34 @@ describe("aucun fait n'échappe à la surveillance", () => {
     );
 
     expect([...champs].sort()).toEqual([...ALL_FACTS].sort());
+  });
+});
+
+describe("un high sans citation n'est pas rejouable", () => {
+  const schema = factSchema(z.boolean());
+
+  it("REFUSE un high sans phrase exacte", () => {
+    // Un `high` affirme qu'un document contractuel énonce le fait. Sans la
+    // phrase, un tiers ne peut ni le confirmer ni le contester : il doit rouvrir
+    // le document et se fier au jugement de qui l'a lu. C'est exactement ce que
+    // ce registre reproche aux comparatifs.
+    const sansCitation = { ...fait() };
+    delete sansCitation.quote;
+    expect(schema.safeParse(sansCitation).success).toBe(false);
+  });
+
+  it("le plafond sans citation est medium, et medium reste publiable", () => {
+    // On ne supprime pas ce qu'on sait moins bien : on l'affiche pour ce que
+    // c'est. Même logique qu'INV-11.
+    const sansCitation = { ...fait({ confidence: "medium" }) };
+    delete sansCitation.quote;
+    expect(schema.safeParse(sansCitation).success).toBe(true);
+    const bas = { ...fait({ confidence: "low" }) };
+    delete bas.quote;
+    expect(schema.safeParse(bas).success).toBe(true);
+  });
+
+  it("une citation vide ne vaut pas une citation", () => {
+    expect(schema.safeParse(fait({ quote: "" })).success).toBe(false);
   });
 });

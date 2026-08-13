@@ -113,65 +113,93 @@ const sourceUrlSchema = z.url().refine((v) => {
  * pour ne pas produire.
  */
 export function factSchema<T extends z.ZodType>(valueSchema: T) {
-  return z.object({
-    value: valueSchema,
-    verified_at: verifiedAtSchema,
-    /** Doit pointer le document qui PORTE le fait, pas la page d'accueil. */
-    source_url: sourceUrlSchema,
-    confidence: confidenceSchema,
-    /** Nuance sans laquelle le fait serait faux. Ex. « niveau Enterprise seul ». */
-    note: z.string().min(1).optional(),
-    /**
-     * Les autres documents qui QUALIFIENT le fait — typiquement celui qui
-     * établit un conflit ou une exception.
-     *
-     * Ce champ existe parce qu'une URL citée dans `note` échappait au
-     * contrôleur de fraîcheur : seule `source_url` était collectée. Or ce sont
-     * précisément ces sources-là — celles qui documentent qu'une option en
-     * annule une autre — dont la disparition coûte le plus cher, puisqu'elles
-     * portent ce qu'aucun comparatif ne dit. Une source qu'on ne surveille pas
-     * pourrit en silence, et le fait continue de s'afficher comme vérifié.
-     */
-    additional_source_urls: z.array(sourceUrlSchema).min(1).optional(),
-    /**
-     * LE JOUR OÙ UN HUMAIN A ROUVERT LA SOURCE ET RELU LE FAIT. Absent = jamais.
-     *
-     * `verified_at` dit quand le fait a été établi. Il ne dit pas PAR QUI, et la
-     * distinction n'est pas cosmétique : la quasi-totalité de ce registre a été
-     * rédigée en lisant des pages récupérées automatiquement. Ce mode de lecture
-     * a produit ici, en une seule journée, une source attachée à une FAQ repliée
-     * — vraie mais non re-vérifiable — et une mention réputée absente d'une page
-     * où elle figurait. Deux erreurs de sens opposé, aucune détectable par un
-     * contrôleur d'URL.
-     *
-     * Le contrôleur automatique vérifie qu'une source RÉPOND. Lui seul ne
-     * distingue pas un document intact d'un document réécrit, et il ne relit
-     * rien. Un registre qui afficherait ses faits relus et ses faits jamais
-     * relus de la même façon mentirait par uniformité — INV-11 dit que ce qui
-     * n'est pas vérifié s'affiche comme non vérifié, et « vérifié par une
-     * machine qui ne lit pas » n'est pas « vérifié ».
-     *
-     * Ce champ ne se remplit donc JAMAIS en même temps qu'on écrit le fait.
-     */
-    human_reviewed_at: verifiedAtSchema.optional(),
-    /**
-     * CE FAIT NE VAUT QUE POUR CE FOURNISSEUR-CI, ET LA CHAÎNE DÉCIDE DU RESTE.
-     *
-     * Une plateforme d'agrégation route vers un fournisseur en dessous d'elle.
-     * Sa politique de rétention est une vraie politique — mais la rétention que
-     * subit réellement une donnée est l'UNION de la sienne et de celle du
-     * fournisseur choisi en aval. Activer le zéro-rétention chez un routeur qui
-     * n'impose rien à ses fournisseurs ne garantit pas le zéro-rétention.
-     *
-     * Le schéma ne savait pas le dire : il ne connaît qu'un fait par couple
-     * (fournisseur, couche), et « oui » y signifiait « oui, de bout en bout ».
-     * Sur une couche plateforme, ce « oui » est faux — pas incomplet, faux. Le
-     * drapeau le rend disable, et le rendu le marque autrement qu'une réserve
-     * ordinaire : une condition se lève en configurant, une dépendance de chaîne
-     * ne se lève pas, elle se propage.
-     */
-    downstream_dependent: z.literal(true).optional(),
-  });
+  return z
+    .object({
+      value: valueSchema,
+      verified_at: verifiedAtSchema,
+      /** Doit pointer le document qui PORTE le fait, pas la page d'accueil. */
+      source_url: sourceUrlSchema,
+      confidence: confidenceSchema,
+      /** Nuance sans laquelle le fait serait faux. Ex. « niveau Enterprise seul ». */
+      note: z.string().min(1).optional(),
+      /**
+       * LA PHRASE EXACTE DU DOCUMENT — obligatoire pour un `high`.
+       *
+       * Un `high` affirme qu'un document CONTRACTUEL énonce le fait. C'est
+       * l'affirmation la plus forte du registre, et elle était la moins
+       * rejouable : six `high` sur seize reposaient sur une lecture dont aucune
+       * phrase n'avait été conservée. Un tiers ne pouvait ni les confirmer ni les
+       * contester — il fallait rouvrir le document et se fier au jugement de qui
+       * l'avait lu. C'est exactement ce que ce registre reproche aux comparatifs.
+       *
+       * Pire, deux de ces pages répondent aujourd'hui 403 à un robot : la lecture
+       * n'était plus rejouable du tout, et rien ne le disait.
+       *
+       * La citation rend le fait CONTESTABLE, ce qui est le seul sens utile de
+       * « vérifiable ». Elle se copie du document, jamais de mémoire, et un `high`
+       * sans elle est refusé par la validation.
+       */
+      quote: z.string().min(1).optional(),
+      /**
+       * Les autres documents qui QUALIFIENT le fait — typiquement celui qui
+       * établit un conflit ou une exception.
+       *
+       * Ce champ existe parce qu'une URL citée dans `note` échappait au
+       * contrôleur de fraîcheur : seule `source_url` était collectée. Or ce sont
+       * précisément ces sources-là — celles qui documentent qu'une option en
+       * annule une autre — dont la disparition coûte le plus cher, puisqu'elles
+       * portent ce qu'aucun comparatif ne dit. Une source qu'on ne surveille pas
+       * pourrit en silence, et le fait continue de s'afficher comme vérifié.
+       */
+      additional_source_urls: z.array(sourceUrlSchema).min(1).optional(),
+      /**
+       * LE JOUR OÙ UN HUMAIN A ROUVERT LA SOURCE ET RELU LE FAIT. Absent = jamais.
+       *
+       * `verified_at` dit quand le fait a été établi. Il ne dit pas PAR QUI, et la
+       * distinction n'est pas cosmétique : la quasi-totalité de ce registre a été
+       * rédigée en lisant des pages récupérées automatiquement. Ce mode de lecture
+       * a produit ici, en une seule journée, une source attachée à une FAQ repliée
+       * — vraie mais non re-vérifiable — et une mention réputée absente d'une page
+       * où elle figurait. Deux erreurs de sens opposé, aucune détectable par un
+       * contrôleur d'URL.
+       *
+       * Le contrôleur automatique vérifie qu'une source RÉPOND. Lui seul ne
+       * distingue pas un document intact d'un document réécrit, et il ne relit
+       * rien. Un registre qui afficherait ses faits relus et ses faits jamais
+       * relus de la même façon mentirait par uniformité — INV-11 dit que ce qui
+       * n'est pas vérifié s'affiche comme non vérifié, et « vérifié par une
+       * machine qui ne lit pas » n'est pas « vérifié ».
+       *
+       * Ce champ ne se remplit donc JAMAIS en même temps qu'on écrit le fait.
+       */
+      human_reviewed_at: verifiedAtSchema.optional(),
+      /**
+       * CE FAIT NE VAUT QUE POUR CE FOURNISSEUR-CI, ET LA CHAÎNE DÉCIDE DU RESTE.
+       *
+       * Une plateforme d'agrégation route vers un fournisseur en dessous d'elle.
+       * Sa politique de rétention est une vraie politique — mais la rétention que
+       * subit réellement une donnée est l'UNION de la sienne et de celle du
+       * fournisseur choisi en aval. Activer le zéro-rétention chez un routeur qui
+       * n'impose rien à ses fournisseurs ne garantit pas le zéro-rétention.
+       *
+       * Le schéma ne savait pas le dire : il ne connaît qu'un fait par couple
+       * (fournisseur, couche), et « oui » y signifiait « oui, de bout en bout ».
+       * Sur une couche plateforme, ce « oui » est faux — pas incomplet, faux. Le
+       * drapeau le rend disable, et le rendu le marque autrement qu'une réserve
+       * ordinaire : une condition se lève en configurant, une dépendance de chaîne
+       * ne se lève pas, elle se propage.
+       */
+      downstream_dependent: z.literal(true).optional(),
+    })
+    .refine((f) => f.confidence !== "high" || f.quote !== undefined, {
+      // LE PLAFOND SANS CITATION EST `medium`. Un fait reste publiable sans
+      // phrase exacte — il descend d'un cran, il ne disparaît pas. C'est la même
+      // logique qu'INV-11 : on n'efface pas ce qu'on sait moins bien, on l'affiche
+      // pour ce que c'est.
+      message:
+        "confidence: high exige `quote` — la phrase exacte du document. Sans citation, le plafond est medium.",
+      path: ["quote"],
+    });
 }
 
 /**
@@ -444,6 +472,8 @@ export interface Fact<T> {
   source_url: string;
   confidence: Confidence;
   note?: string;
+  /** La phrase exacte du document. Obligatoire pour un `high`. */
+  quote?: string;
   additional_source_urls?: string[];
   /** Le jour où un humain a rouvert la source et relu le fait. Absent = jamais. */
   human_reviewed_at?: string;

@@ -323,6 +323,7 @@ describe("la juridiction se dérive de l'entité, elle ne se stocke pas", () => 
         verified_at: "2026-08-13",
         source_url: "https://exemple.test/x",
         confidence: "high",
+        quote: "Verbatim sentence from the document.",
       },
     };
     expect(providerFileSchema.safeParse(fichier).success).toBe(true);
@@ -335,5 +336,31 @@ describe("la juridiction se dérive de l'entité, elle ne se stocke pas", () => 
     expect(
       providerFileSchema.safeParse({ ...fichier, baa_avaliable: fichier.dpa_eu }).success,
     ).toBe(false);
+  });
+});
+
+describe("un high montre sa preuve, pas seulement son niveau", () => {
+  it("la citation est publiée, distincte de la note", () => {
+    // La citation se retrouve mot pour mot dans le document ; la note est notre
+    // lecture. Les confondre laisserait croire que le fournisseur a écrit nos
+    // réserves.
+    const html = readFileSync(join(dist, "p/groq.html"), "utf8");
+    expect(html).toContain("fait__citation");
+    expect(html).toContain("Groq is not permitted to use Inputs or Outputs");
+  });
+
+  it("aucun fait publié en high n'est dépourvu de citation", async () => {
+    // La règle vit dans le schéma, mais c'est ici qu'on vérifie qu'elle tient
+    // sur le registre RÉEL, et pas seulement sur des fixtures.
+    const { loadRegistry } = await import("../scripts/load.ts");
+    const { ALL_FACTS } = await import("../schema.ts");
+    const { providers } = loadRegistry(join(racine, "providers"), racine);
+    for (const { data } of providers) {
+      for (const cle of ALL_FACTS) {
+        const f = data[cle];
+        if (f?.confidence !== "high") continue;
+        expect(f.quote, `${data.provider_id}.${cle}`).toBeTruthy();
+      }
+    }
   });
 });

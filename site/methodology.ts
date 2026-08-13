@@ -44,6 +44,10 @@ const SECTIONS: readonly Section[] = [
       "This rule comes from a real mistake. A fact had been attached to a page that did carry it — inside a collapsed question. The address responded, the fact was true, and yet the source proved nothing to anyone who opened it. It was replaced by the page that states it directly.",
       "The confidence level qualifies THE NATURE OF THE SOURCE, never our degree of conviction. « I think this is true » is not a confidence level: it is an opinion, and this registry does not publish opinions.",
       Object.entries(CONFIDENCE_LABELS).map(([cle, libelle]) => `${cle} — ${libelle}`),
+      "The top level carries an extra obligation: a fact marked high must record the exact sentence from the document, and the validator refuses it otherwise. Without a quote the ceiling is medium.",
+      "The reason is that high is the strongest claim this registry makes — that a contractual document states the fact — and it was the least replayable. A reader who could not see the sentence had to reopen the document and trust the judgement of whoever read it first. That is exactly what this registry holds against comparison tables.",
+      "This rule was written after finding six of sixteen high facts resting on a reading with no sentence kept. Five of those could not be repaired: two of the pages now refuse automated readers, so the sentence could no longer be recovered at all. Those facts were not deleted — they dropped to medium, keeping their date and their source. What you cannot prove, you rank lower; you do not hide it.",
+      "It also has a use nobody planned: recording the sentence caught a fact whose note claimed more than its source said. The quote and the claim did not match, and the claim was the one that was wrong.",
     ],
   },
   {

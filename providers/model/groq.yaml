@@ -10,6 +10,7 @@ no_training_commitment:
   verified_at: 2026-08-13
   source_url: https://console.groq.com/docs/legal/services-agreement
   confidence: high
+  quote: "For the avoidance of any doubt and to the extent permitted by applicable law, Groq is not permitted to use Inputs or Outputs for training or fine-tuning any AI Model Services or other models, unless explicitly granted permission or instructed by Customer."
   note: >
     CONTRACTUAL, not a product page — section 4.2 of the Groq Services
     Agreement: « For the avoidance of any doubt and to the extent permitted by
@@ -87,6 +88,7 @@ legal_entity:
   verified_at: 2026-08-13
   source_url: https://console.groq.com/docs/legal/services-agreement
   confidence: high
+  quote: '"Groq Contracting Party" means (a) Groq LLC for Customers domiciled outside the European Economic Area, Switzerland, or the Kingdom of Saudi Arabia; (b) Groq UK Limited for Customers domiciled in the European Economic Area or Switzerland; (c) Groq Limited for Customers domiciled in the Kingdom of Saudi Arabia; and (d) Groq Public Sector, LLC if designated on the Order Form.'
   note: >
     « "Groq Contracting Party" means (a) Groq LLC for Customers domiciled
     outside the European Economic Area, Switzerland, or the Kingdom of Saudi

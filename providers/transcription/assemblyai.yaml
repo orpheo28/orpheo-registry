@@ -10,6 +10,7 @@ baa_available:
   verified_at: 2026-08-13
   source_url: https://www.assemblyai.com/legal/business-associate-agreement
   confidence: high
+  quote: "only upon mutual execution"
   note: >
     The BAA is PUBLISHED in full and dated 23 April 2026 — one of the few
     providers indexed whose agreement can be read before it is requested, which
@@ -24,6 +25,7 @@ dpa_eu:
   verified_at: 2026-08-13
   source_url: https://www.assemblyai.com/legal/data-processing-addendum
   confidence: high
+  quote: "to the extent the Parties have an effective BAA in place"
   note: >
     DPA published and dated 22 January 2026, built on the GDPR, the UK GDPR,
     Swiss law, and the standard contractual clauses of Decision 2021/914 for
@@ -67,6 +69,7 @@ legal_entity:
   verified_at: 2026-08-13
   source_url: https://www.assemblyai.com/legal/business-associate-agreement
   confidence: high
+  quote: 'the Customer identified in the Agreement ("Covered Entity") and AssemblyAI Inc. ("Business Associate")'
   note: >
     Named in the Business Associate Agreement itself: « the Customer identified
     in the Agreement ("Covered Entity") and AssemblyAI Inc. ("Business

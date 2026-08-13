@@ -10,11 +10,13 @@ baa_available:
   verified_at: 2026-07-14
   source_url: https://exemple.test/cgu
   confidence: high
+  quote: "The provider states this verbatim in the recorded document."
 no_training_commitment:
   value: true
   verified_at: 2026-07-14
   source_url: https://exemple.test/cgu
   confidence: high
+  quote: "The provider states this verbatim in the recorded document."
   note: sur l'offre entreprise uniquement
 zero_retention_option:
   value: false
@@ -26,11 +28,13 @@ data_residency:
   verified_at: 2026-07-14
   source_url: https://exemple.test/regions
   confidence: high
+  quote: "The provider states this verbatim in the recorded document."
 dpa_eu:
   value: true
   verified_at: 2026-07-14
   source_url: https://exemple.test/dpa
   confidence: high
+  quote: "The provider states this verbatim in the recorded document."
 default_retention:
   value: 30 jours
   verified_at: 2026-07-14

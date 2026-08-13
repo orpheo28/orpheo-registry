@@ -11,6 +11,7 @@ baa_available:
   human_reviewed_at: 2026-08-13
   source_url: https://privacy.claude.com/en/articles/8114513-business-associate-agreements-baa-for-commercial-customers
   confidence: high
+  quote: 'For Claude Enterprise features to be covered under a Business Associate Agreement (BAA), the Primary Owner of the organization must activate HIPAA compliance in the HIPAA-ready Claude Enterprise organization settings under "Data and privacy" and accept Anthropic''s BAA.'
   note: >
     First-party API and Enterprise plans only. The Primary Owner must enable
     HIPAA compliance and accept the BAA — a standard Enterprise plan is not
@@ -28,6 +29,7 @@ default_retention:
   human_reviewed_at: 2026-08-13
   source_url: https://privacy.claude.com/en/articles/7996866-how-long-do-you-store-my-organization-s-data
   confidence: high
+  quote: "For Anthropic API users, we automatically delete inputs and outputs on our backend within 30 days of receipt or generation, except:"
   note: >
     Inputs and outputs are deleted automatically within 30 days. Exceptions:
     services with longer, customer-controlled retention (Files API), a contrary
@@ -39,16 +41,22 @@ zero_retention_option:
   human_reviewed_at: 2026-08-13
   source_url: https://privacy.claude.com/en/articles/8956058-i-have-a-zero-data-retention-agreement-with-anthropic-what-products-does-it-apply-to
   confidence: high
+  quote: "the only products to which zero data retention applies are eligible Anthropic APIs, Anthropic products that use your Commercial organization API key (including Claude Code accessed via the API), and Claude Code for Enterprise plans."
   additional_source_urls:
     - https://platform.claude.com/docs/en/manage-claude/api-and-data-retention
   note: >
     Subject to Anthropic's approval. Applies to eligible APIs and to products
     using the commercial organisation key. Safety classifier outputs are still
     retained.
-    DOCUMENTED CONFLICT: Covered Models require 30-day retention and are not
-    available with zero data retention enabled. Turning on ZDR therefore removes
-    access to that class of models — an editor cannot have both, and no comparison
-    table says so.
+    DOCUMENTED CONFLICT, stated by the ADDITIONAL source rather than by the page
+    above — the distinction matters, because an editor sent to the first document
+    will not find it there: « Claude Fable 5 and Claude Mythos 5 are designated
+    Covered Models ... and require 30-day data retention; ZDR is therefore not
+    available for either model. »
+    The models are NAMED, which makes the conflict actionable rather than
+    theoretical: turning ZDR on removes access to those two specifically, and the
+    API answers a 400 rather than degrading quietly. An editor cannot have both,
+    and no comparison table says so.
 
 # no_training_commitment — NOT RECORDED
 #   The commitment appears in the Commercial Terms, whose canonical URL has not
@@ -71,6 +79,7 @@ legal_entity:
   verified_at: 2026-08-13
   source_url: https://www.anthropic.com/legal/commercial-terms
   confidence: high
+  quote: '"Anthropic" means Anthropic Ireland, Limited if Customer resides in the European Economic Area ("EEA"), Switzerland or UK, and Anthropic, PBC if Customer resides anywhere else.'
   note: >
     « "Anthropic" means Anthropic Ireland, Limited if Customer resides in the
     European Economic Area ("EEA"), Switzerland or UK, and Anthropic, PBC if

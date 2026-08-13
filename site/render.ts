@@ -209,6 +209,16 @@ export function factBlock(
     );
   }
 
+  // LA CITATION EST LA PREUVE, la note est le commentaire. Elles se distinguent
+  // à l'œil parce qu'elles n'engagent pas la même chose : l'une se retrouve mot
+  // pour mot dans le document, l'autre est notre lecture. Les mélanger dans un
+  // même paragraphe laisserait croire que le fournisseur a écrit nos réserves.
+  const citation =
+    fait.quote === undefined
+      ? ""
+      : `<blockquote class="fait__citation"><p>${escape(fait.quote)}</p>
+<cite>Verbatim, from the document recorded as the source.</cite></blockquote>`;
+
   const note =
     fait.note === undefined ? "" : `<p class="fait__note">${escape(fait.note)}</p>`;
   const relu =
@@ -238,6 +248,7 @@ below.</p>`
     `<h3>${escape(libelle)}</h3>` +
     `<p class="fait__valeur">${renderValue(fait.value)} ${chip(state, fait.verified_at)}</p>` +
     chaine +
+    citation +
     note +
     relu +
     `<p class="fait__meta">` +

@@ -1,3 +1,19 @@
+# CINQ FAITS SONT REDESCENDUS DE high À medium le 2026-08-13.
+#
+# Ils avaient été établis en lisant les pages citées, mais aucune phrase exacte
+# n'avait été conservée : un tiers ne pouvait donc ni les confirmer ni les
+# contester sans rouvrir le document et refaire la lecture de confiance. Un
+# `high` non rejouable affirme plus qu'il ne prouve.
+#
+# Et les deux pages concernées — openai.com/enterprise-privacy et
+# openai.com/business-data — répondent aujourd'hui 403 à un lecteur
+# automatique. La citation n'a donc pas pu être récupérée après coup. C'est
+# précisément la raison pour laquelle elle doit être relevée AU MOMENT de la
+# lecture : une source qui se ferme emporte avec elle tout ce qu'on n'a pas
+# recopié.
+#
+# Les faits sont conservés, datés et sourcés — seul le niveau descend. Pour les
+# remonter, il faut rouvrir les pages à la main et y relever la phrase.
 provider_id: openai
 service_name: "OpenAI API"
 entity: openai
@@ -10,7 +26,7 @@ baa_available:
   verified_at: 2026-08-13
   human_reviewed_at: 2026-08-13
   source_url: https://help.openai.com/en/articles/8660679-how-can-i-get-a-business-associate-agreement-baa-with-openai
-  confidence: high
+  confidence: medium
   note: >
     BAA signable for the API Platform and for ChatGPT for Healthcare. An
     enterprise agreement is NOT required to sign a BAA on the API — unlike
@@ -28,7 +44,7 @@ no_training_commitment:
   value: true
   verified_at: 2026-08-13
   source_url: https://openai.com/enterprise-privacy/
-  confidence: high
+  confidence: medium
   note: >
     Data submitted through the API, ChatGPT Enterprise and ChatGPT Team is not
     used to train the models — stated in direct text on the page. Consumer tiers
@@ -38,7 +54,7 @@ default_retention:
   value: "30 days"
   verified_at: 2026-08-13
   source_url: https://openai.com/enterprise-privacy/
-  confidence: high
+  confidence: medium
   note: >
     Retention of up to 30 days to provide the service and detect abuse, except
     for the endpoints and features excluded in the platform documentation.
@@ -49,6 +65,7 @@ zero_retention_option:
   verified_at: 2026-08-13
   source_url: https://developers.openai.com/api/docs/guides/your-data
   confidence: high
+  quote: "Eligible customers may have their customer content excluded from these abuse monitoring logs, subject to the limitations below, by getting approved for the Zero Data Retention or Modified Abuse Monitoring controls."
   note: >
     ZDR on eligible endpoints, subject to approval and to a qualifying use case.
     Controls are configurable at the organization and project level.
@@ -60,7 +77,7 @@ data_residency:
   value: [us, eu, uk, jp, ca, kr, sg, au, in, ae]
   verified_at: 2026-08-13
   source_url: https://openai.com/business-data/
-  confidence: high
+  confidence: medium
   note: >
     Residency AT REST in these regions for eligible customers. In addition,
     in-region GPU inference is available in the US and in Europe; API customers
@@ -71,4 +88,4 @@ dpa_eu:
   value: true
   verified_at: 2026-08-13
   source_url: https://openai.com/business-data/
-  confidence: high
+  confidence: medium

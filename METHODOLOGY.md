@@ -41,6 +41,14 @@ The confidence level qualifies THE NATURE OF THE SOURCE, never our degree of con
 - medium — public, non-contractual documentation
 - low — a support answer, not published
 
+The top level carries an extra obligation: a fact marked high must record the exact sentence from the document, and the validator refuses it otherwise. Without a quote the ceiling is medium.
+
+The reason is that high is the strongest claim this registry makes — that a contractual document states the fact — and it was the least replayable. A reader who could not see the sentence had to reopen the document and trust the judgement of whoever read it first. That is exactly what this registry holds against comparison tables.
+
+This rule was written after finding six of sixteen high facts resting on a reading with no sentence kept. Five of those could not be repaired: two of the pages now refuse automated readers, so the sentence could no longer be recovered at all. Those facts were not deleted — they dropped to medium, keeping their date and their source. What you cannot prove, you rank lower; you do not hide it.
+
+It also has a use nobody planned: recording the sentence caught a fact whose note claimed more than its source said. The quote and the claim did not match, and the claim was the one that was wrong.
+
 ## Three states, and the difference matters
 
 A fact can carry a value, be recorded as verifiably absent, or be missing. Collapsing the last two would make the matrix lie.
