@@ -1,0 +1,70 @@
+provider_id: mistral
+legal_entity: Mistral AI SAS
+layer: model
+jurisdiction: FR
+models: [mistral-large, mistral-small, codestral]
+
+no_training_commitment:
+  value: true
+  verified_at: 2026-08-13
+  source_url: https://legal.mistral.ai/terms/commercial-terms-of-service
+  confidence: high
+  note: >
+    Section 4.2 des Commercial Terms of Service — document contractuel.
+    L'engagement est réel mais porte QUATRE exceptions, dont une qui inverse la
+    charge : « except (a) when you (i) opted-in to training on a Mistral AI
+    Product set to opt-out by default or (ii) HAVE NOT OPTED-OUT of training on
+    a Mistral AI Product SET TO OPT-IN BY DEFAULT ».
+    Autrement dit, certains produits entraînent PAR DÉFAUT et il faut agir pour
+    s'y soustraire. Les trois autres exceptions : les retours d'expérience
+    (Feedback), ce que prévoit un bon de commande, et les modèles Labs ou
+    Preview.
+    La licence concédée pour l'exploitation du service exclut par ailleurs
+    explicitement l'entraînement (section 4.1).
+
+zero_retention_option:
+  value: true
+  verified_at: 2026-08-13
+  source_url: https://legal.mistral.ai/terms/data-processing-addendum
+  confidence: high
+  note: >
+    Établi par le DPA, qui décrit la modération automatisée « including abuse
+    monitoring on our APIs (except, in this last case, when zero data retention
+    has been activated) » : activer le ZDR soustrait donc les appels à la
+    surveillance d'abus.
+    CONFLIT DOCUMENTÉ, section 4.3 des Commercial Terms : « the opt-out
+    preferences you selected for other Mistral AI Products (including through
+    zero data retention) DOES NOT APPLY to Labs or Preview Models », et les
+    données issues de ces modèles peuvent servir à l'entraînement. Un éditeur
+    qui a activé le ZDR et essaie un modèle « labs » n'est plus couvert.
+    La source n'établit ni le périmètre exact des API éligibles, ni s'il faut
+    une approbation : ces deux points restent inconnus.
+
+dpa_eu:
+  value: true
+  verified_at: 2026-08-13
+  source_url: https://legal.mistral.ai/terms/data-processing-addendum
+  confidence: high
+  note: >
+    DPA publié et contractuel, adossé au RGPD (Règlement UE 2016/679), aux
+    clauses contractuelles types de la décision d'exécution 2021/914, et aux
+    décisions d'adéquation de la Commission européenne. Les transferts hors EEE
+    sont encadrés par ces mêmes clauses.
+
+# baa_available — NON RENSEIGNÉ
+#   Le BAA est un instrument du droit fédéral américain (HIPAA). Aucun document
+#   de première partie lu ne mentionne que Mistral en propose un. ABSENCE DE
+#   PREUVE, PAS PREUVE D'ABSENCE : ne pas écrire `false`, qui affirmerait avoir
+#   vérifié qu'il n'y en a pas.
+
+# default_retention — NON RENSEIGNÉ
+#   PIÈGE ÉCARTÉ, à ne pas retomber dedans : le DPA mentionne bien un délai de
+#   trente jours, mais il porte sur la suppression APRÈS RÉSILIATION — « the
+#   Personal Data will no longer be accessible upon the expiry of a thirty (30)
+#   days period following the termination of the Customer's access ». Ce n'est
+#   pas la rétention courante des prompts, et les confondre publierait un fait
+#   faux avec une vraie source.
+
+# data_residency — NON RENSEIGNÉ
+#   Le DPA encadre les TRANSFERTS, il ne garantit pas une région de traitement.
+#   Aucune source de première partie lue n'établit la résidence.
