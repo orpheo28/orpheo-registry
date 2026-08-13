@@ -1,7 +1,7 @@
 provider_id: telnyx
 service_name: "Telnyx"
 entity: telnyx
-legal_entity: Telnyx LLC
+entity_name: "Telnyx"
 layer: telephony
 jurisdiction: US
 models: []

@@ -1,7 +1,7 @@
 provider_id: google-speech
 service_name: "Google Cloud Speech-to-Text"
 entity: google
-legal_entity: Google LLC
+entity_name: "Google"
 layer: transcription
 jurisdiction: US
 models: [chirp]

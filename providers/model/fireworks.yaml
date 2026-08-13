@@ -1,8 +1,7 @@
 provider_id: fireworks
 service_name: "Fireworks AI"
 entity: fireworks
-# Entité signataire non établie sur un document de première partie lu ce jour.
-legal_entity: Fireworks AI
+entity_name: "Fireworks AI"
 layer: model
 jurisdiction: US
 models: [llama, qwen, deepseek, kimi]

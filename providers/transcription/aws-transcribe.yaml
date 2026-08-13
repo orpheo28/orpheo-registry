@@ -1,7 +1,7 @@
 provider_id: aws-transcribe
 service_name: "Amazon Transcribe"
 entity: aws
-legal_entity: Amazon Web Services, Inc.
+entity_name: "Amazon Web Services"
 layer: transcription
 jurisdiction: US
 models: []

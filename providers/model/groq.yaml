@@ -1,7 +1,7 @@
 provider_id: groq
 service_name: "GroqCloud"
 entity: groq
-legal_entity: Groq, Inc.
+entity_name: "Groq"
 layer: model
 jurisdiction: US
 models: [llama, qwen, kimi, gpt-oss]
@@ -73,3 +73,22 @@ default_retention:
 # dpa_eu — NOT RECORDED
 #   A Data Processing Addendum for GroqCloud exists and is referenced by the
 #   privacy policy. It was not read.
+
+legal_entity:
+  value: "Groq LLC — or Groq UK Limited for EEA and Swiss customers"
+  verified_at: 2026-08-13
+  source_url: https://console.groq.com/docs/legal/services-agreement
+  confidence: high
+  note: >
+    « "Groq Contracting Party" means (a) Groq LLC for Customers domiciled
+    outside the European Economic Area, Switzerland, or the Kingdom of Saudi
+    Arabia; (b) Groq UK Limited for Customers domiciled in the European Economic
+    Area or Switzerland; (c) Groq Limited for Customers domiciled in the Kingdom
+    of Saudi Arabia; and (d) Groq Public Sector, LLC if designated on the Order
+    Form. »
+    WORTH READING TWICE FOR A EUROPEAN BUYER: a customer in the EEA contracts
+    with a UNITED KINGDOM entity — outside the EEA, and therefore a third
+    country for transfer purposes. The contracting party is European-facing
+    without being European.
+    This field previously read « Groq, Inc. », which is not among the four
+    entities the agreement names. It was written from memory and it was wrong.

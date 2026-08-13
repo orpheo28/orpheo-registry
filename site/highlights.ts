@@ -1,5 +1,5 @@
 import { escape } from "./render.ts";
-import type { ProviderFile } from "../schema.ts";
+import { ALL_FACTS, type ProviderFile } from "../schema.ts";
 
 /**
  * Ce que le registre a TROUVÉ — sur la page d'accueil, pas enterré.
@@ -135,19 +135,10 @@ documents its retention, it disappears on its own.</p>
  * personne ait à penser à corriger une phrase.
  */
 export function reviewCoverage(providers: readonly { data: ProviderFile }[]): string {
-  const CLES = [
-    "baa_available",
-    "no_training_commitment",
-    "zero_retention_option",
-    "data_residency",
-    "dpa_eu",
-    "default_retention",
-  ] as const;
-
   let total = 0;
   let relus = 0;
   for (const { data } of providers) {
-    for (const cle of CLES) {
+    for (const cle of ALL_FACTS) {
       const fait = data[cle];
       if (fait === undefined) continue;
       total += 1;
@@ -157,12 +148,18 @@ export function reviewCoverage(providers: readonly { data: ProviderFile }[]): st
   if (total === 0) return "";
 
   return `<section class="relecture-bilan">
-<h2>How much of this has a human re-read</h2>
-<p><strong>${String(relus)} of ${String(total)} published facts</strong> have been reopened and
-re-read by a human. The rest were established by reading a page fetched automatically,
-and no one has been back to them.</p>
-<p>They are not marked wrong — most of them are right. They are marked
-<em>unconfirmed</em>, cell by cell, because the automated weekly check confirms that an
+<h2>Two different claims, and they are not the same number</h2>
+<p><strong>All ${String(total)} published facts</strong> were established from a first-party
+document — the provider's own terms, addendum, privacy centre or technical
+documentation — and every one of them carries the date it was established and the
+address of the page that states it. None of them comes from a third party, a summary or
+an inference.</p>
+<p><strong>${String(relus)} of those ${String(total)}</strong> have additionally been reopened
+and re-read by a second pair of eyes. That is a different guarantee, and a smaller one:
+the rest were read once, when they were written, and no one has been back.</p>
+<p>The difference is not sourcing, it is re-reading. Facts read once are marked
+<em>unconfirmed</em>, cell by cell. Unconfirmed is not wrong: most of them are right. It
+means no second reading has taken place, because the automated weekly check confirms that an
 address still answers and cannot read what it returns. That method has already produced
 errors in both directions here: a source attached to a page that only revealed the fact
 behind a collapsed question, and a mention judged absent from a page where it was

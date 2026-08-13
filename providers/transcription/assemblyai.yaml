@@ -1,7 +1,7 @@
 provider_id: assemblyai
 service_name: "AssemblyAI"
 entity: assemblyai
-legal_entity: AssemblyAI Inc.
+entity_name: "AssemblyAI"
 layer: transcription
 jurisdiction: US
 models: [universal, slam]
@@ -59,3 +59,14 @@ data_residency:
 
 # default_retention — NOT RECORDED
 #   No first-party source read.
+
+legal_entity:
+  value: "AssemblyAI Inc."
+  verified_at: 2026-08-13
+  source_url: https://www.assemblyai.com/legal/business-associate-agreement
+  confidence: high
+  note: >
+    Named in the Business Associate Agreement itself: « the Customer identified
+    in the Agreement ("Covered Entity") and AssemblyAI Inc. ("Business
+    Associate") ». The entity that would sign is named in the document it would
+    sign, which is the strongest form this fact takes anywhere in the registry.

@@ -1,7 +1,7 @@
 provider_id: twilio
 service_name: "Twilio"
 entity: twilio
-legal_entity: Twilio Inc.
+entity_name: "Twilio"
 layer: telephony
 jurisdiction: US
 models: []
@@ -68,3 +68,19 @@ data_residency:
 
 # dpa_eu — NOT RECORDED
 #   No first-party source read.
+
+legal_entity:
+  value: "Twilio Inc. — or Twilio Ireland Limited for EEA, UK and Swiss customers"
+  verified_at: 2026-08-13
+  source_url: https://www.twilio.com/en-us/legal/tos
+  confidence: high
+  note: >
+    Five entities by customer location: « Twilio Inc., a Delaware corporation »
+    for most of the world; « Twilio Ireland Limited, a company registered in the
+    Republic of Ireland » for the EEA, UK, Switzerland, Andorra, Vatican City,
+    Monaco, Turkey, Albania and Nigeria; plus CISA Telecomunicaciones, S.A. de
+    C.V. in Mexico, Teravoz Telecom Telecomunicações Ltda. in Brazil, and Twilio
+    Japan G.K. in Japan.
+    The BAA recorded above is signed with whichever of these applies — so the
+    counterparty of a healthcare editor is determined by their own address, not
+    by the product they bought.

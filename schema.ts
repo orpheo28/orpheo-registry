@@ -193,6 +193,24 @@ export const MATRIX_FACTS = [
 export type MatrixFact = (typeof MATRIX_FACTS)[number];
 
 /**
+ * TOUS les faits d'un fichier — la matrice, plus ceux qui n'y tiennent pas.
+ *
+ * Cette liste existe parce que son absence a produit un bug silencieux : la
+ * liste des faits était réénumérée à la main dans quatre fichiers — le refus du
+ * fichier vide, le contrôleur de sources, le bilan de relecture et le rendu des
+ * pages. En ajoutant `legal_entity`, le contrôleur ne l'a pas vu, et ses sources
+ * sont restées NON SURVEILLÉES sans que rien ne le signale : elles pouvaient
+ * pourrir pendant que la page continuait de les afficher comme vérifiées.
+ *
+ * C'est exactement le défaut qu'`additional_source_urls` avait déjà corrigé une
+ * fois. Une énumération dupliquée finit toujours par diverger ; celle-ci est
+ * désormais unique, et un test échoue si un fait du schéma en manque.
+ */
+export const ALL_FACTS = [...MATRIX_FACTS, "default_retention", "legal_entity"] as const;
+
+export type AnyFact = (typeof ALL_FACTS)[number];
+
+/**
  * L'ordre d'affichage, par marché — une DONNÉE, pas une mise en page.
  *
  * PRD §1bis : un seul registre, un seul moteur, deux ordres d'affichage. Le
@@ -276,8 +294,8 @@ export const providerFileSchema = z
      * l'autre : `google-vertex` n'est pas un nom, c'est une clé.
      */
     service_name: z.string().min(1),
-    /** L'entité qui SIGNE. C'est elle qui engage, pas la marque commerciale. */
-    legal_entity: z.string().min(1),
+    /** Le nom usuel de la société, pour le titre de page. Un libellé, pas un fait. */
+    entity_name: z.string().min(1),
     layer: layerSchema,
     /** Juridiction de rattachement de l'entité légale. Code ISO ou « US », « EU ». */
     jurisdiction: z.string().min(1),
@@ -340,23 +358,35 @@ export const providerFileSchema = z
     /** Texte libre : « 30 jours », « aucune », « indéterminée ». Pas un nombre : les
      *  politiques réelles ne sont presque jamais exprimables en un entier. */
     default_retention: factSchema(z.string().min(1)).optional(),
+    /**
+     * L'ENTITÉ QUI SIGNE — un FAIT, avec sa source, comme les autres.
+     *
+     * Il était traité en métadonnée, ce qui était une erreur : il s'affiche, il
+     * porte la juridiction, et il nomme la partie qui signerait le BAA. Un champ
+     * dont dépendent trois affirmations publiques ne peut pas être le seul à
+     * n'avoir ni date ni source.
+     *
+     * La vérification a immédiatement démenti trois valeurs écrites de mémoire,
+     * et la nature de l'erreur est instructive : l'entité DÉPEND SOUVENT DU
+     * DOMICILE DU CLIENT. Anthropic contracte via Anthropic Ireland, Limited
+     * dans l'EEE, la Suisse et le Royaume-Uni, et via Anthropic, PBC ailleurs.
+     * Groq nomme quatre entités selon le domicile — et « Groq, Inc. », la valeur
+     * qui figurait ici, n'en fait pas partie. Twilio en nomme cinq.
+     *
+     * Une valeur unique était donc fausse pour une partie des lecteurs, en
+     * silence, sur le champ qui décide de la juridiction applicable.
+     *
+     * La source est presque toujours un document contractuel — les conditions
+     * nomment la partie contractante —, d'où des `high`. Là où aucun document lu
+     * ne la nomme, le fait reste vide comme n'importe quel autre.
+     */
+    legal_entity: factSchema(z.string().min(1)).optional(),
   })
-  .refine(
-    (f) =>
-      [
-        f.baa_available,
-        f.no_training_commitment,
-        f.zero_retention_option,
-        f.data_residency,
-        f.dpa_eu,
-        f.default_retention,
-      ].some((fait) => fait !== undefined),
-    {
-      // Un fichier sans aucun fait n'est pas un trou honnête : c'est une entrée
-      // vide qui gonflerait la matrice sans rien apprendre à personne.
-      error: "aucun fait renseigné — un fournisseur sans fait n'a rien à publier",
-    },
-  );
+  .refine((f) => ALL_FACTS.some((cle) => f[cle] !== undefined), {
+    // Un fichier sans aucun fait n'est pas un trou honnête : c'est une entrée
+    // vide qui gonflerait la matrice sans rien apprendre à personne.
+    error: "aucun fait renseigné — un fournisseur sans fait n'a rien à publier",
+  });
 
 export type ProviderFile = z.infer<typeof providerFileSchema>;
 /** La forme d'un fait, pour un consommateur qui n'infère pas depuis Zod. */

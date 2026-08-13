@@ -1,7 +1,7 @@
 provider_id: azure-openai
 service_name: "Azure OpenAI Service"
 entity: microsoft
-legal_entity: Microsoft Corporation
+entity_name: "Microsoft"
 layer: model
 jurisdiction: US
 models: [gpt-5.2, gpt-5.2-mini, o4]

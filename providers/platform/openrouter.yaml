@@ -1,8 +1,7 @@
 provider_id: openrouter
 service_name: "OpenRouter"
 entity: openrouter
-# Entité signataire non établie sur un document de première partie lu ce jour.
-legal_entity: OpenRouter
+entity_name: "OpenRouter"
 layer: platform
 jurisdiction: US
 models: []

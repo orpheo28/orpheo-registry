@@ -162,6 +162,11 @@
     "checked_at": "2026-08-13"
   },
   {
+    "url": "https://www.anthropic.com/legal/commercial-terms",
+    "state": "ok",
+    "checked_at": "2026-08-13"
+  },
+  {
     "url": "https://www.assemblyai.com/legal/business-associate-agreement",
     "state": "ok",
     "checked_at": "2026-08-13"
@@ -213,6 +218,11 @@
   },
   {
     "url": "https://www.twilio.com/en-us/hipaa",
+    "state": "ok",
+    "checked_at": "2026-08-13"
+  },
+  {
+    "url": "https://www.twilio.com/en-us/legal/tos",
     "state": "ok",
     "checked_at": "2026-08-13"
   }

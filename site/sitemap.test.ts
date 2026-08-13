@@ -256,3 +256,28 @@ describe("ce qu'aucun humain n'a relu s'affiche comme tel", () => {
     expect(reviewCoverage([])).toBe("");
   });
 });
+
+describe("l'entité qui signe est un fait, pas une étiquette", () => {
+  it("elle s'affiche avec sa source et sa date", () => {
+    const html = readFileSync(join(dist, "p/anthropic.html"), "utf8");
+    expect(html).toContain("Signing entity");
+    expect(html).toContain("Anthropic Ireland, Limited");
+    expect(html).toContain("legal/commercial-terms");
+  });
+
+  it("une entité qui varie selon le domicile du client le DIT", () => {
+    // Une valeur unique serait fausse pour une partie des lecteurs, en silence,
+    // sur le champ dont dépend la juridiction applicable.
+    const html = readFileSync(join(dist, "p/groq.html"), "utf8");
+    expect(html).toContain("Groq UK Limited");
+    expect(html).toContain("European Economic Area");
+  });
+
+  it("là où aucun document lu ne la nomme, elle reste non renseignée", () => {
+    // Deepgram : la page lue ne nomme aucune entité. Le champ se comporte comme
+    // n'importe quel autre fait — il reste vide plutôt que d'être deviné.
+    const html = readFileSync(join(dist, "p/deepgram.html"), "utf8");
+    expect(html).toContain("Signing entity");
+    expect(html).toContain("not recorded");
+  });
+});

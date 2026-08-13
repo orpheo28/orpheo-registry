@@ -205,7 +205,7 @@ mkdirSync(join(dist, "p"), { recursive: true });
 for (const [id, fichiers] of parEntite) {
   const premier = fichiers[0];
   if (premier === undefined) continue;
-  const nom = premier.data.legal_entity;
+  const nom = premier.data.entity_name;
   writeFileSync(
     join(dist, "p", `${id}.html`),
     page(
@@ -230,11 +230,15 @@ ${fichiers
   .map(
     ({ data }) => `<section class="couche-detail">
 <h2>${escape(data.service_name)} — ${escape(data.layer)} layer</h2>
-${[...FACT_ORDER.us, "default_retention" as const]
+${[...FACT_ORDER.us, "default_retention" as const, "legal_entity" as const]
   .map((f) =>
     factBlock(
       `${data.provider_id}-${f}`,
-      f === "default_retention" ? "Default retention" : factLabel(f),
+      f === "default_retention"
+        ? "Default retention"
+        : f === "legal_entity"
+          ? "Signing entity"
+          : factLabel(f),
       data[f],
       stateOf(data[f]),
     ),

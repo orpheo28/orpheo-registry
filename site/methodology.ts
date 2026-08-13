@@ -69,8 +69,14 @@ const SECTIONS: readonly Section[] = [
     titre: "On an aggregation layer, « yes » means « yes on my side »",
     blocs: [
       "A router or a gateway sits above the provider that actually sees your prompt. Its policy is a real policy — and it is not the one your data experiences. What you actually get is the combination of its policy and that of the provider selected underneath.",
-      "One indexed router states that it does not train on inputs or outputs, and on the same page states that it does not control what the models it routes to do with them, and that some of them may train. Both sentences are true. Only the first fits in a column.",
-      "Facts like these are marked chain-dependent, which is not the same as conditional. A condition is lifted by configuring something. A chain dependency is not lifted at all — it propagates. Turning zero retention on at the routing layer does not turn it on at the layer below, and nothing at the routing layer will tell you when it is off down there.",
+      "So the registry marks two kinds of reservation, and they are not interchangeable:",
+      [
+        "Conditional — the fact holds, and something can undo it. A setting you enable, a plan you are not on, a mode you did not configure. It is within your reach: you can read the condition and satisfy it.",
+        "Chain-dependent — the fact holds for this provider and stops there. Nothing you do at this layer extends it downward, because this provider does not govern the layer below.",
+      ],
+      "The difference is what you can do about it. A condition is lifted by configuring something. A chain dependency is not lifted at all — it propagates. Reading the second as the first is how a buyer concludes they are covered when only the top of their stack is.",
+      "OpenRouter is the case that forced this distinction, and it states both halves itself. On its privacy page: « OpenRouter does not use your Inputs or Outputs for model training. » On the same page: « We do not control, and are not responsible for, LLMs' handling of your Inputs or Outputs, including for use in their model training », and « Some Model Providers may use your Inputs and Outputs for model training or improvement. » Both sentences are true. Only the first fits in a column.",
+      "Its documentation closes the loop: « OpenRouter does not have routing rules that change based on data retention policies of providers. » Provider policies are displayed, and excluding the ones that do not suit you is your job, not the router's. So enabling zero retention at the routing layer does not enable it below, and nothing at the routing layer will tell you when it is off down there. The effective guarantee is the union of both policies, never the better of the two.",
       "This is also why the registry indexes layers separately rather than scoring a stack. A chain is only as covered as its least covered link, and no single row can carry that.",
     ],
   },

@@ -1,8 +1,7 @@
 provider_id: together
 service_name: "Together AI Inference"
 entity: together
-# Entité signataire non établie sur un document de première partie lu ce jour.
-legal_entity: Together AI
+entity_name: "Together AI"
 layer: model
 jurisdiction: US
 models: [llama, qwen, deepseek, mixtral]

@@ -1,7 +1,7 @@
 provider_id: mistral
 service_name: "Mistral La Plateforme"
 entity: mistral
-legal_entity: Mistral AI SAS
+entity_name: "Mistral AI"
 layer: model
 jurisdiction: FR
 models: [mistral-large, mistral-small, codestral]
@@ -67,3 +67,15 @@ dpa_eu:
 # data_residency — NOT RECORDED
 #   The DPA governs TRANSFERS; it does not guarantee a processing region. No
 #   first-party source read establishes residency.
+
+legal_entity:
+  value: "Mistral AI"
+  verified_at: 2026-08-13
+  source_url: https://legal.mistral.ai/terms/commercial-terms-of-service
+  confidence: high
+  note: >
+    « Mistral AI, a French limited joint-stock corporation, incorporated in
+    Paris, under number 952 418 325, having its registered offices at 15 rue des
+    Halles, 75001 Paris, France ».
+    One entity, one jurisdiction, no variation by customer domicile — which is
+    not the norm among the providers indexed here.

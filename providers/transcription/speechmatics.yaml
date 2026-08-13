@@ -1,7 +1,7 @@
 provider_id: speechmatics
 service_name: "Speechmatics"
 entity: speechmatics
-legal_entity: Cantab Research Limited (Speechmatics)
+entity_name: "Speechmatics"
 layer: transcription
 jurisdiction: GB
 models: [ursa]

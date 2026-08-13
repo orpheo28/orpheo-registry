@@ -1,7 +1,7 @@
 provider_id: aws-s3
 service_name: "Amazon S3"
 entity: aws
-legal_entity: Amazon Web Services, Inc.
+entity_name: "Amazon Web Services"
 layer: storage
 jurisdiction: US
 models: []

@@ -2,7 +2,7 @@ import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
 import { writeFileSync } from "node:fs";
 import { loadRegistry } from "./load.ts";
-import { MATRIX_FACTS } from "../schema.ts";
+import { ALL_FACTS } from "../schema.ts";
 
 /**
  * Le contrôle des sources — INV-11 appliqué au registre.
@@ -136,7 +136,7 @@ export function collectSources(racine: string): string[] {
   const { providers } = loadRegistry(join(racine, "providers"), racine);
   const urls = new Set<string>();
   for (const { data } of providers) {
-    for (const cle of [...MATRIX_FACTS, "default_retention"] as const) {
+    for (const cle of ALL_FACTS) {
       // Un fait absent n'a pas de source à contrôler — et n'en aura pas tant
       // qu'un document de première partie ne l'établira pas.
       const fait = data[cle];

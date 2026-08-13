@@ -1,8 +1,7 @@
 provider_id: cohere
 service_name: "Cohere Platform"
 entity: cohere
-# Entité signataire non établie sur un document de première partie lu ce jour.
-legal_entity: Cohere
+entity_name: "Cohere"
 layer: model
 jurisdiction: CA
 models: [command, embed, rerank]

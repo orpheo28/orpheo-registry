@@ -1,10 +1,7 @@
 provider_id: deepseek
 service_name: "DeepSeek API"
 entity: deepseek
-# L'entité signataire exacte n'a pas été établie sur un document de première
-# partie : la politique de confidentialité ne la nomme pas dans le texte lu, et
-# les conditions de la plateforme ouverte répondent 403 à un robot.
-legal_entity: DeepSeek
+entity_name: "DeepSeek"
 layer: model
 jurisdiction: CN
 models: [deepseek-chat, deepseek-reasoner]

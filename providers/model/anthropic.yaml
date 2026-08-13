@@ -1,7 +1,7 @@
 provider_id: anthropic
 service_name: "Claude API"
 entity: anthropic
-legal_entity: Anthropic PBC
+entity_name: "Anthropic"
 layer: model
 jurisdiction: US
 models: [claude-opus-5, claude-sonnet-5, claude-haiku-4-5]
@@ -60,3 +60,17 @@ zero_retention_option:
 
 # dpa_eu — NOT RECORDED
 #   No first-party source found.
+
+legal_entity:
+  value: "Anthropic, PBC — or Anthropic Ireland, Limited for EEA, Swiss and UK customers"
+  verified_at: 2026-08-13
+  source_url: https://www.anthropic.com/legal/commercial-terms
+  confidence: high
+  note: >
+    « "Anthropic" means Anthropic Ireland, Limited if Customer resides in the
+    European Economic Area ("EEA"), Switzerland or UK, and Anthropic, PBC if
+    Customer resides anywhere else. »
+    THE SIGNING ENTITY DEPENDS ON WHERE THE CUSTOMER IS, so the governing
+    jurisdiction does too. A European editor does not contract with a US company
+    here, and a US editor does not contract with an Irish one. Any single value
+    in this field would be wrong for one of them.

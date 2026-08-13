@@ -1,7 +1,7 @@
 provider_id: scaleway
 service_name: "Scaleway Generative APIs"
 entity: scaleway
-legal_entity: Scaleway SAS
+entity_name: "Scaleway"
 layer: model
 jurisdiction: FR
 models: [llama, mistral, qwen]

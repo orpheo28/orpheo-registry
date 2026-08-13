@@ -1,8 +1,7 @@
 provider_id: baseten
 service_name: "Baseten"
 entity: baseten
-# Entité signataire non établie sur un document de première partie lu ce jour.
-legal_entity: Baseten
+entity_name: "Baseten"
 layer: model
 jurisdiction: US
 models: [llama, deepseek, qwen, whisper]

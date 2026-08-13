@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import {
+  ALL_FACTS,
   FACT_LABELS,
   FACT_ORDER,
   MATRIX_FACTS,
@@ -96,7 +97,7 @@ describe("le fichier provider", () => {
     provider_id: "exemple",
     service_name: "Exemple API",
     entity: "exemple",
-    legal_entity: "Exemple SAS",
+    entity_name: "Exemple",
     layer: "model",
     jurisdiction: "EU",
     models: [],
@@ -190,7 +191,7 @@ describe("un trou reste un trou", () => {
     provider_id: "exemple",
     service_name: "Exemple API",
     entity: "exemple",
-    legal_entity: "Exemple SAS",
+    entity_name: "Exemple",
     layer: "model",
     jurisdiction: "US",
     models: [],
@@ -224,5 +225,34 @@ describe("un trou reste un trou", () => {
       expect(absent.data.dpa_eu).toBeUndefined();
       expect(faux.data.baa_available?.value).toBe(false);
     }
+  });
+});
+
+describe("aucun fait n'échappe à la surveillance", () => {
+  /**
+   * `ALL_FACTS` pilote le contrôleur de sources, le bilan de relecture et le
+   * rendu. Un fait ajouté au schéma mais oublié dans cette liste garde des
+   * sources NON SURVEILLÉES : elles peuvent pourrir pendant que la page
+   * continue de les afficher comme vérifiées. C'est arrivé une fois, en
+   * ajoutant `legal_entity`, sans qu'aucun test n'échoue.
+   *
+   * Ce test compare la liste au schéma lui-même, et non à une seconde liste
+   * écrite à la main — une liste vérifiée par une autre liste ne vérifie rien.
+   */
+  it("tout champ de fait du schéma figure dans ALL_FACTS", () => {
+    const NON_FACTUELS = new Set([
+      "provider_id",
+      "service_name",
+      "entity",
+      "entity_name",
+      "layer",
+      "jurisdiction",
+      "models",
+    ]);
+    const champs = Object.keys(providerFileSchema.def.shape).filter(
+      (c) => !NON_FACTUELS.has(c),
+    );
+
+    expect([...champs].sort()).toEqual([...ALL_FACTS].sort());
   });
 });

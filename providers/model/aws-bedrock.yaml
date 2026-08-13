@@ -1,7 +1,7 @@
 provider_id: aws-bedrock
 service_name: "Amazon Bedrock"
 entity: aws
-legal_entity: Amazon Web Services, Inc.
+entity_name: "Amazon Web Services"
 layer: model
 jurisdiction: US
 models: [anthropic.claude, amazon.nova, meta.llama, mistral]

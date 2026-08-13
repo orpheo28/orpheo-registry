@@ -1,7 +1,7 @@
 provider_id: azure-speech
 service_name: "Azure AI Speech"
 entity: microsoft
-legal_entity: Microsoft Corporation
+entity_name: "Microsoft"
 layer: transcription
 jurisdiction: US
 models: []
