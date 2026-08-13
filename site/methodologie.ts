@@ -56,6 +56,20 @@ const SECTIONS: readonly Section[] = [
     ],
   },
   {
+    titre: "Deux contrôles, parce qu'ils attrapent des erreurs différentes",
+    blocs: [
+      "Chaque source est contrôlée automatiquement chaque semaine, et relue par un humain à la revue mensuelle. Ce n'est pas une redondance : les deux ne voient pas les mêmes défauts, et aucun des deux ne suffit.",
+      "La machine vérifie qu'une source RÉPOND ENCORE, et qu'elle n'a pas déménagé. Elle ne sait pas lire : une page peut répondre parfaitement et ne plus rien prouver.",
+      "L'humain vérifie qu'elle DIT ENCORE le fait. Il lit le document, en contexte, ce qu'aucun contrôle d'adresse ne fera jamais.",
+      "Deux cas réels, survenus le même jour, montrent pourquoi il faut les deux :",
+      [
+        "Un fait exact rattaché à une page qui le portait — mais derrière une question repliée. L'adresse répondait, le fait était vrai : le contrôle automatique l'aurait validée indéfiniment. Seule une relecture humaine a vu que la source ne prouvait rien à qui l'ouvrait. C'est de là que vient la règle du texte principal, plus haut.",
+        "À l'inverse, une relecture humaine a conclu qu'une mention n'était pas sur la page — une exclusion de modèles, annotée entre crochets au milieu d'une liste alphabétique de plusieurs centaines de services. Elle y était. Retirer ce fait aurait supprimé une exclusion exacte, c'est-à-dire précisément l'information qui protège le lecteur.",
+      ],
+      "Le second cas donne la règle d'arbitrage : quand un contrôle et une relecture se contredisent, ni la mémoire de l'un ni l'impression de l'autre ne tranchent. On retourne au document, on le récupère à nouveau, et on cherche la chaîne exacte. C'est le document qui décide, jamais celui qui l'a lu.",
+    ],
+  },
+  {
     titre: "Ce que nous ne vérifions pas",
     blocs: [
       "Nous lisons ce que le fournisseur publie. Nous ne vérifions pas qu'il l'applique : cela demanderait un audit, que nous ne faisons pas et ne prétendons pas faire.",
