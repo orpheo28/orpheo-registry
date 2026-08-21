@@ -131,9 +131,17 @@ export async function checkSource(
   }
 }
 
-/** Toutes les sources du registre, dédoublonnées — plusieurs faits en partagent une. */
-export function collectSources(racine: string): string[] {
-  const { providers } = loadRegistry(join(racine, "providers"), racine);
+/**
+ * Toutes les sources du registre, dédoublonnées — plusieurs faits en partagent une.
+ *
+ * Un fichier qui échoue la validation du schéma n'apparaît PAS dans
+ * `providers` (voir load.ts) : ses sources ne seraient donc jamais
+ * contrôlées, en silence — le compte déclaré serait juste plus petit que la
+ * réalité, sans qu'aucune erreur ne le dise. `problems` remonte cet écart à
+ * l'appelant plutôt que de le passer sous silence.
+ */
+export function collectSources(racine: string): { urls: string[]; problems: number } {
+  const { providers, problems } = loadRegistry(join(racine, "providers"), racine);
   const urls = new Set<string>();
   for (const { data } of providers) {
     for (const cle of [...MATRIX_FACTS, "default_retention"] as const) {
@@ -148,7 +156,7 @@ export function collectSources(racine: string): string[] {
       for (const autre of fait.additional_source_urls ?? []) urls.add(autre);
     }
   }
-  return [...urls].sort();
+  return { urls: [...urls].sort(), problems: problems.length };
 }
 
 async function main(): Promise<void> {
@@ -165,7 +173,20 @@ async function main(): Promise<void> {
       return;
     }
   } else {
-    urls = collectSources(racine);
+    const collecte = collectSources(racine);
+    // Un fichier qui n'a pas chargé n'est pas « zéro source » : c'est un
+    // registre partiel. Continuer contrôlerait moins que ce qui est déclaré,
+    // en le rapportant comme si c'était tout — exactement le mensonge lent
+    // que ce contrôle existe pour empêcher.
+    if (collecte.problems > 0) {
+      console.error(
+        `${String(collecte.problems)} problème(s) empêchent de charger tout le registre :` +
+          " lancez `pnpm registry:check` pour le détail.\n" +
+          "Le contrôle hebdomadaire refuse de tourner sur un registre partiellement chargé.",
+      );
+      process.exit(1);
+    }
+    urls = collecte.urls;
     if (urls.length === 0) {
       console.log("Registre vide : aucune source à contrôler.");
       return;
@@ -175,6 +196,19 @@ async function main(): Promise<void> {
   const statuts: SourceStatus[] = [];
   for (const url of urls) {
     statuts.push(await checkSource(url, maintenant));
+  }
+
+  // Le nombre CONTRÔLÉ doit correspondre exactement au nombre DÉCLARÉ : c'est
+  // la seule garantie que ce rapport porte sur tout le registre, pas sur un
+  // sous-ensemble qu'un futur refactor aurait, sans le vouloir, filtré ou
+  // dédoublonné une seconde fois.
+  if (statuts.length !== urls.length) {
+    console.error(
+      `Incohérence interne : ${String(statuts.length)} source(s) contrôlée(s) pour` +
+        ` ${String(urls.length)} déclarée(s) dans les YAML. Le job s'arrête plutôt que` +
+        " de publier un compte qui ne correspond pas au registre.",
+    );
+    process.exit(1);
   }
 
   // Une source bloquée n'est pas fautive : elle est indécidable par une machine.
