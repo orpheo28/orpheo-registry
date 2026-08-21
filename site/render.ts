@@ -38,7 +38,7 @@ export type FactState = "verifie" | "non_verifie";
  */
 export function chip(state: FactState, verifiedAt: string): string {
   const marqueur = state === "verifie" ? "◆" : "◦";
-  const libelle = state === "verifie" ? "vérifié" : "non vérifié";
+  const libelle = state === "verifie" ? "verified" : "unverified";
   return (
     `<span class="chip chip--${state}">` +
     `<span class="chip__mark" aria-hidden="true">${marqueur}</span>` +
@@ -51,14 +51,14 @@ export function chip(state: FactState, verifiedAt: string): string {
 function renderValue(value: unknown): string {
   // `null` = VÉRIFIÉ COMME ABSENT. À distinguer d'un fait manquant : ici le
   // fournisseur a répondu, et sa réponse est qu'il ne garantit rien.
-  if (value === null) return "aucune garantie";
-  if (typeof value === "boolean") return value ? "oui" : "non";
+  if (value === null) return "no guarantee";
+  if (typeof value === "boolean") return value ? "yes" : "no";
   if (Array.isArray(value)) return escape(value.join(", "));
   if (typeof value === "string") return escape(value);
   if (typeof value === "number") return escape(String(value));
   // Aucune conversion implicite : un objet rendu par défaut donnerait
   // « [object Object] » sur une page publique, ce qui serait pire qu'une erreur.
-  return "[valeur non représentable]";
+  return "[unrepresentable value]";
 }
 
 /**
@@ -78,8 +78,8 @@ export function cell(fait: Fact<unknown> | undefined, state: FactState): string 
   if (fait === undefined) {
     return (
       `<td class="cell cell--absent">` +
-      `<span class="cell__value">non renseigné</span>` +
-      `<span class="cell__absence">aucune source de première partie</span>` +
+      `<span class="cell__value">not documented</span>` +
+      `<span class="cell__absence">no first-party source</span>` +
       `</td>`
     );
   }
@@ -92,7 +92,7 @@ export function cell(fait: Fact<unknown> | undefined, state: FactState): string 
   const reserve =
     fait.note === undefined
       ? ""
-      : `<span class="cell__reserve" title="ce fait est assorti d'une condition">sous condition</span>`;
+      : `<span class="cell__reserve" title="this fact carries a condition">conditional</span>`;
 
   return (
     `<td class="cell">` +
@@ -100,7 +100,7 @@ export function cell(fait: Fact<unknown> | undefined, state: FactState): string 
     chip(state, fait.verified_at) +
     reserve +
     `<a class="cell__source" href="${escape(fait.source_url)}" rel="nofollow noopener" ` +
-    `title="confiance : ${escape(fait.confidence)}">source</a>` +
+    `title="confidence: ${escape(fait.confidence)}">source</a>` +
     `</td>`
   );
 }
@@ -123,9 +123,9 @@ export function factBlock(
     return (
       `<section class="fait fait--absent" id="${escape(cle)}">` +
       `<h3>${escape(libelle)}</h3>` +
-      `<p class="fait__valeur">non renseigné</p>` +
-      `<p class="fait__absence">Aucune source de première partie ne l'établit. ` +
-      `Ce n'est pas une réponse négative : c'est une inconnue.</p>` +
+      `<p class="fait__valeur">not documented</p>` +
+      `<p class="fait__absence">No first-party source establishes this. ` +
+      `This isn't a negative answer — it's an unknown.</p>` +
       `</section>`
     );
   }
@@ -135,7 +135,7 @@ export function factBlock(
   const autres = (fait.additional_source_urls ?? [])
     .map(
       (u) =>
-        ` <a class="fait__source" href="${escape(u)}" rel="nofollow noopener">source complémentaire</a>`,
+        ` <a class="fait__source" href="${escape(u)}" rel="nofollow noopener">additional source</a>`,
     )
     .join("");
 
@@ -147,7 +147,7 @@ export function factBlock(
     `<p class="fait__meta">` +
     `<a class="fait__source" href="${escape(fait.source_url)}" rel="nofollow noopener">source</a>` +
     autres +
-    ` — confiance : ${escape(fait.confidence)}</p>` +
+    ` — confidence: ${escape(fait.confidence)}</p>` +
     `</section>`
   );
 }
@@ -158,9 +158,9 @@ export function factLabel(fait: MatrixFact): string {
 
 /** Le libellé lisible d'un niveau de confiance, tel que la méthodologie le définit. */
 export const CONFIDENCE_LABELS: Readonly<Record<Confidence, string>> = {
-  high: "document contractuel du fournisseur",
-  medium: "documentation publique non contractuelle",
-  low: "réponse de support, non publiée",
+  high: "contractual document from the provider",
+  medium: "public, non-contractual documentation",
+  low: "support response, unpublished",
 };
 
 export interface PageOptions {
@@ -184,7 +184,7 @@ export interface PageOptions {
 export function page(o: PageOptions, productName: string): string {
   const canonical = `${o.siteUrl}${o.path}`;
   return `<!doctype html>
-<html lang="fr">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -200,9 +200,9 @@ ${o.structuredData === undefined ? "" : `<script type="application/ld+json">${o.
 </head>
 <body>
 <header class="entete">
-  <a class="entete__nom" href="/">${escape(productName)} — registre</a>
+  <a class="entete__nom" href="/">${escape(productName)} — registry</a>
   <nav class="entete__nav">
-    <a href="/methodologie">méthodologie</a>
+    <a href="/methodologie">methodology</a>
     <a href="/changelog">changelog</a>
   </nav>
 </header>
@@ -210,10 +210,10 @@ ${o.structuredData === undefined ? "" : `<script type="application/ld+json">${o.
 ${o.body}
 </main>
 <footer class="pied">
-  <p>Chaque fait porte sa date de vérification et l'adresse du document qui le
-  porte. Un fait dont la source ne répond plus est affiché comme non vérifié,
-  jamais retiré en silence.</p>
-  <p>Registre public et gratuit. Aucune position n'y est achetable.</p>
+  <p>Every fact carries its verification date and the address of the document
+  that supports it. A fact whose source no longer responds is shown as
+  unverified, never silently removed.</p>
+  <p>Public, free registry. No placement here is for sale.</p>
 </footer>
 </body>
 </html>

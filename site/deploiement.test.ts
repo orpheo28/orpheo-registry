@@ -2,7 +2,7 @@ import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
 import { describe, expect, it } from "vitest";
-import { cell, chip, formatDate } from "./render.ts";
+import { cell, chip, formatDate, page } from "./render.ts";
 
 const racine = join(dirname(fileURLToPath(import.meta.url)), "..");
 
@@ -66,18 +66,18 @@ describe("aucun fait ne s'affiche sans sa date", () => {
 
   it("une cellule porte la valeur, la date ET le lien vers la source", () => {
     const html = cell(fait, "verifie");
-    expect(html).toContain("oui");
+    expect(html).toContain("yes");
     expect(html).toContain("14.07.26");
     expect(html).toContain("https://exemple.test/cgu");
   });
 
-  it("un fait dont la source est morte s'affiche NON VÉRIFIÉ, pas retiré", () => {
+  it("un fait dont la source est morte s'affiche UNVERIFIED, pas retiré", () => {
     // INV-11 et INV-12 : le niveau peut descendre, et la descente se voit. Le
     // fait garde sa dernière date connue — c'est elle qui informe le lecteur.
     const html = cell(fait, "non_verifie");
-    expect(html).toContain("non vérifié");
+    expect(html).toContain("unverified");
     expect(html).toContain("14.07.26");
-    expect(html).toContain("oui");
+    expect(html).toContain("yes");
   });
 
   it("formate la date comme le système de design l'impose", () => {
@@ -86,14 +86,30 @@ describe("aucun fait ne s'affiche sans sa date", () => {
 });
 
 describe("un fait absent s'affiche comme absent", () => {
-  it("ne rend ni « non », ni une case vide, ni une puce", () => {
-    // Une case vide se lit comme un oubli de mise en page ; « non » affirmerait
+  it("ne rend ni « no », ni une case vide, ni une puce", () => {
+    // Une case vide se lit comme un oubli de mise en page ; « no » affirmerait
     // qu'on a vérifié que le fournisseur ne l'offre pas. Et aucune puce : la
     // puce porte une date, il n'y en a pas (DESIGN_SYSTEM §3).
     const html = cell(undefined, "verifie");
-    expect(html).toContain("non renseigné");
-    expect(html).toContain("aucune source de première partie");
+    expect(html).toContain("not documented");
+    expect(html).toContain("no first-party source");
     expect(html).not.toContain('class="chip');
-    expect(html).not.toMatch(/>non</);
+    expect(html).not.toMatch(/>no</);
+  });
+});
+
+describe("la bascule en anglais — 2026-08-21, décision du fondateur", () => {
+  it('le document rendu porte lang="en", jamais lang="fr"', () => {
+    // PLAN.md du dépôt principal affirmait « le site est en anglais US et non
+    // bilingue » alors que ce gabarit rendait `<html lang="fr">` — la troisième
+    // affirmation fausse de la note de clôture de P1. Ce test tombe si
+    // l'attribut change à nouveau sans qu'on le décide, plutôt que de compter
+    // sur une relecture pour le remarquer.
+    const html = page(
+      { title: "t", description: "d", path: "/", siteUrl: "https://x.test", body: "" },
+      "Test",
+    );
+    expect(html).toContain('<html lang="en">');
+    expect(html).not.toContain('<html lang="fr">');
   });
 });
