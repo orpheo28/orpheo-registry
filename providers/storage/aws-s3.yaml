@@ -55,6 +55,7 @@ dpa_eu:
 
 data_residency:
   value: [fr, de, ie, it, es, se, ch, uk]
+  holds_by_default: false
   verified_at: 2026-08-21
   source_url: https://aws.amazon.com/compliance/eu-data-protection/
   confidence: medium
@@ -63,6 +64,9 @@ data_residency:
     any one or more of our European Regions, including EU Regions in
     France, Germany, Ireland, Italy, Spain, and Sweden," and separately
     names Switzerland and the UK as storage options.
+    HOLDS_BY_DEFAULT IS FALSE: "you can choose" is the source's own frame
+    — this residency follows from an affirmative selection, not from
+    default behavior of the service.
     THE LIST IS NOT DECLARED EXHAUSTIVE BY THE SOURCE ITSELF: the word
     "including" is AWS's, not caution added here. AWS operates regions
     outside these eight countries (Asia-Pacific, North and South America,

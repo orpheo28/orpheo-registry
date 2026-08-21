@@ -50,7 +50,8 @@ dpa_eu:
 
 data_residency:
   value: [us, eu-dublin]
-  verified_at: 2026-08-13
+  holds_by_default: false
+  verified_at: 2026-08-21
   source_url: https://www.assemblyai.com/security
   confidence: medium
   note: >
@@ -59,6 +60,11 @@ data_residency:
     United States or the European Union."
     The choice is self-service from the customer dashboard, with no
     negotiation required — which isn't the case everywhere.
+    HOLDS_BY_DEFAULT IS FALSE: self-service is not the same as automatic.
+    "Customers can... choose" still names a configuration step, even one
+    with no sales conversation attached — that's what distinguishes this
+    from a fourth occurrence of the enterprise-gated pattern, not from the
+    action-required question this field asks.
     Security page, non-contractual: confidence medium.
 
 # no_training_commitment — NOT DOCUMENTED

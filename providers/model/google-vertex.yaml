@@ -6,7 +6,8 @@ models: [gemini-3-pro, gemini-3-flash]
 
 no_training_commitment:
   value: true
-  verified_at: 2026-08-13
+  holds_by_default: true
+  verified_at: 2026-08-21
   source_url: https://docs.cloud.google.com/gemini-enterprise-agent-platform/resources/zero-data-retention
   confidence: medium
   note: >
@@ -14,7 +15,10 @@ no_training_commitment:
     AI/ML models without your prior permission or instruction. This applies
     to all managed models, including GA and pre-GA models."
     NUANCE: conditional, as with Microsoft — "without your prior permission
-    or instruction."
+    or instruction" — but, as with Microsoft, the conditional runs the
+    OTHER way: it's Google who'd need the customer's permission to train,
+    not the reverse. Nothing for the customer to configure, hence
+    HOLDS_BY_DEFAULT IS TRUE.
     For the contractual clause, this page points to the "Training
     Restriction" section of the Service Specific Terms. That document
     hasn't been read: confidence therefore stays medium, and a reviewer who
@@ -22,7 +26,8 @@ no_training_commitment:
 
 zero_retention_option:
   value: true
-  verified_at: 2026-08-13
+  holds_by_default: false
+  verified_at: 2026-08-21
   source_url: https://docs.cloud.google.com/gemini-enterprise-agent-platform/resources/zero-data-retention
   confidence: medium
   note: >

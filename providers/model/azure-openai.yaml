@@ -6,7 +6,8 @@ models: [gpt-5.2, gpt-5.2-mini, o4]
 
 no_training_commitment:
   value: true
-  verified_at: 2026-08-13
+  holds_by_default: true
+  verified_at: 2026-08-21
   source_url: https://learn.microsoft.com/en-us/azure/foundry/responsible-ai/openai/data-privacy
   confidence: medium
   note: >
@@ -20,10 +21,15 @@ no_training_commitment:
     Microsoft states that processing is governed by the Products and
     Services Data Protection Addendum, which is the contractual document;
     this page is documentation, hence confidence medium.
+    HOLDS_BY_DEFAULT IS TRUE HERE because the conditional runs the OTHER
+    way: it's Microsoft who'd need the customer's permission to train, not
+    the customer who needs to act to be covered. Nothing to configure to
+    get this commitment — it's what happens from ordinary use.
 
 zero_retention_option:
   value: true
-  verified_at: 2026-08-13
+  holds_by_default: false
+  verified_at: 2026-08-21
   source_url: https://learn.microsoft.com/en-us/azure/foundry/responsible-ai/openai/data-privacy
   confidence: medium
   note: >
@@ -37,7 +43,8 @@ zero_retention_option:
 
 data_residency:
   value: [customer-specified Azure geography]
-  verified_at: 2026-08-13
+  holds_by_default: false
+  verified_at: 2026-08-21
   source_url: https://learn.microsoft.com/en-us/azure/foundry/responsible-ai/openai/data-privacy
   confidence: medium
   note: >
@@ -49,6 +56,9 @@ data_residency:
     designated geography in both cases — it's PROCESSING that leaves it. A
     buyer who thinks they've chosen their region by picking a Global
     deployment is wrong.
+    HOLDS_BY_DEFAULT IS FALSE because "customer-specified" is the source's
+    own word — the guarantee follows from an affirmative selection made at
+    deployment, not from merely using the service.
 
 # baa_available — NOT DOCUMENTED
 #   Microsoft offers a HIPAA BAA through its Product Terms, but the page read

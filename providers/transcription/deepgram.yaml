@@ -19,10 +19,17 @@ baa_available:
 
 data_residency:
   value: [eu, au-sydney]
-  verified_at: 2026-08-13
+  holds_by_default: false
+  verified_at: 2026-08-21
   source_url: https://developers.deepgram.com/trust-security/data-privacy-compliance
   confidence: medium
   note: >
+    HOLDS_BY_DEFAULT IS FALSE: a customer gets this residency only by
+    connecting to the regional endpoint, not by using Deepgram's default
+    endpoint. That's an affirmative configuration choice, made at the
+    connection level rather than through a sales process — closer to
+    AssemblyAI's self-service dashboard than to an enterprise-gated
+    mechanism, but still an action.
     Dedicated regional endpoints: `api.eu.deepgram.com` for processing
     within the European Union, `api.au.deepgram.com` for Australia — the
     latter "runs exclusively on Australian infrastructure (AWS

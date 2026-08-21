@@ -11,17 +11,20 @@ baa_available:
   confidence: high
 no_training_commitment:
   value: true
+  holds_by_default: true
   verified_at: 2026-07-14
   source_url: https://exemple.test/cgu
   confidence: high
   note: sur l'offre entreprise uniquement
 zero_retention_option:
   value: false
+  holds_by_default: false
   verified_at: 2026-07-14
   source_url: https://exemple.test/cgu
   confidence: medium
 data_residency:
   value: [eu-west]
+  holds_by_default: true
   verified_at: 2026-07-14
   source_url: https://exemple.test/regions
   confidence: high

@@ -24,7 +24,8 @@ baa_available:
 
 no_training_commitment:
   value: true
-  verified_at: 2026-08-13
+  holds_by_default: true
+  verified_at: 2026-08-21
   source_url: https://openai.com/enterprise-privacy/
   confidence: high
   note: >
@@ -32,6 +33,9 @@ no_training_commitment:
     isn't used to train the models — stated directly in the page's main
     text. Consumer tiers (Free, Plus) have a different default and aren't
     covered by this.
+    HOLDS_BY_DEFAULT IS TRUE: for the covered tiers, the commitment is
+    unconditional in the page's own text — no opt-out, no approval, no
+    configuration named anywhere in this passage.
 
 default_retention:
   value: "30 days"
@@ -45,7 +49,8 @@ default_retention:
 
 zero_retention_option:
   value: true
-  verified_at: 2026-08-13
+  holds_by_default: false
+  verified_at: 2026-08-21
   source_url: https://developers.openai.com/api/docs/guides/your-data
   confidence: high
   note: >
@@ -57,7 +62,8 @@ zero_retention_option:
 
 data_residency:
   value: [us, eu, uk, jp, ca, kr, sg, au, in, ae]
-  verified_at: 2026-08-13
+  holds_by_default: null
+  verified_at: 2026-08-21
   source_url: https://openai.com/business-data/
   confidence: high
   note: >
@@ -65,6 +71,12 @@ data_residency:
     in-region GPU inference is available in the US and Europe; API
     customers can explicitly select US or Europe for processing (GPU and
     non-GPU inference) on supported endpoints.
+    HOLDS_BY_DEFAULT IS NULL: the AT-REST list applies "for eligible
+    customers" — an eligibility gate, not clearly a self-service default —
+    while the region SELECTION for processing is explicitly something the
+    customer does ("can explicitly select"). The page doesn't say what an
+    ordinary customer gets with no eligibility check and no selection, so
+    recording true or false here would fill a gap the source leaves open.
 
 dpa_eu:
   value: true
