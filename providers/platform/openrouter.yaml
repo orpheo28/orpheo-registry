@@ -1,0 +1,96 @@
+provider_id: openrouter
+legal_entity: OpenRouter, Inc.
+layer: platform
+jurisdiction: US
+models: []
+
+no_training_commitment:
+  value: true
+  verified_at: 2026-08-21
+  source_url: https://openrouter.ai/privacy
+  confidence: medium
+  additional_source_urls:
+    - https://openrouter.ai/docs/guides/privacy/provider-logging
+  note: >
+    Privacy Policy (last updated July 6, 2026), main text: "OpenRouter does
+    not use your Inputs or Outputs for model training."
+    CHAIN BREAK, DOCUMENTED BY THE PROVIDER ITSELF — and it is THE central
+    fact for a routing layer: "Some Model Providers may use your Inputs and
+    Outputs for model training or improvement." OpenRouter is a gateway,
+    not the endpoint; its own commitment says nothing about the model
+    provider it routes a given request to. A buyer who reads "OpenRouter
+    doesn't train on my data" and stops there has an unverified link
+    further down the same chain — exactly the Deepgram Voice Agent pattern
+    documented elsewhere in this registry, one layer up.
+    SELF-SERVICE CONTROL EXISTS FOR THIS: the provider-logging guide states
+    "If you opt out of training in your account settings, OpenRouter will
+    not route to providers that train" — an account-wide setting, plus a
+    per-request option to "restrict individual requests to only use
+    providers with a certain data policy." This is an opt-out, not a
+    default: it has to be set.
+    Privacy policy, not a contractual document: confidence medium.
+
+dpa_eu:
+  value: true
+  verified_at: 2026-08-21
+  source_url: https://openrouter.ai/terms
+  confidence: high
+  note: >
+    Terms of Service, section 10.2, main text: "If you are part of and
+    represent an organization in entering into these Terms or use the
+    Service for commercial, for-profit purposes, please read the OpenRouter
+    Data Processing Agreement ('DPA') relating to our processing of your
+    Personal Data... The DPA is incorporated by reference into, and made a
+    part of, these Terms." Automatic incorporation for commercial use, not
+    a separate opt-in signature — the same pattern as AWS's Service Terms
+    and Twilio's DPA, both documented elsewhere in this registry.
+    CONTROLLER-ROLE QUESTION ASKED, NOT ANSWERED HERE: consistent with
+    every other dpa_eu entry in this registry (see METHODOLOGY.md,
+    "Comparability across the matrix"), the DPA itself was checked for a
+    controller-role clause. It wasn't read: the full document lives behind
+    OpenRouter's Trust Portal (trust.openrouter.ai) rather than as a public
+    page, and that portal access wasn't attempted this session. Recorded
+    as unresolved rather than assumed either way.
+    Terms of Service, a contractual document: confidence high.
+
+data_residency:
+  value: null
+  verified_at: 2026-08-21
+  source_url: https://openrouter.ai/privacy
+  confidence: medium
+  additional_source_urls:
+    - https://openrouter.ai/docs/guides/privacy/provider-logging
+  note: >
+    VERIFIED AS ABSENT for the general case — the provider states the
+    opposite of a guarantee. Privacy Policy, main text: "When you access
+    our Site or Service, your personal data may be transferred to our
+    servers in the US, or to other countries outside the European Economic
+    Area."
+    A NARROWER MECHANISM EXISTS, BUT IT'S GATED, NOT A DEFAULT: the
+    provider-logging guide states in-region EU or US processing is
+    available where "your prompts and completions are processed within the
+    selected region and do not leave it" — but "is only enabled for
+    enterprise customers by request." Not published as this entry's value:
+    a request-gated, enterprise-only mechanism isn't the same fact as a
+    guaranteed residency, and recording it as such would overstate what a
+    self-serve buyer actually gets.
+
+# baa_available — NOT DOCUMENTED
+#   No first-party page read — including OpenRouter's own Trust Center
+#   (trust.openrouter.ai), which lists SOC 2 Type 2 but doesn't mention
+#   HIPAA or a BAA anywhere in its main text — states that OpenRouter
+#   offers or doesn't offer a BAA. Several third-party comparison articles
+#   claim OpenRouter has none, but that isn't a first-party source, and
+#   this registry doesn't republish what a competitor or a blog says about
+#   a provider. Absence of evidence, not evidence of absence.
+
+# zero_retention_option — NOT DOCUMENTED
+#   OpenRouter's enterprise marketing describes routing "exclusively to
+#   providers with zero data retention policies" — that describes the
+#   retention policy of the MODEL PROVIDERS being routed to, not a
+#   guarantee that OpenRouter itself retains nothing. No first-party
+#   source read states a zero-retention option for OpenRouter's own logs.
+
+# default_retention — NOT DOCUMENTED
+#   No first-party source read states a default retention period for
+#   OpenRouter's own logs of prompts or completions.
