@@ -85,6 +85,47 @@ describe("aucun fait ne s'affiche sans sa date", () => {
   });
 });
 
+describe("holds_by_default pilote le badge « conditional », pas la présence d'une note", () => {
+  // 2026-08-21 : « réservé sur demande » et « défaut inversé » comptés
+  // ensemble à cinq occurrences (Twilio, OpenRouter, ElevenLabs ; Mistral,
+  // ElevenLabs) ont montré que la matrice affichait « conditional » sur la
+  // seule présence d'une note — un signal grossier qui ne distinguait pas
+  // « le client doit agir » de « voici juste une précision de portée ».
+  const base = {
+    value: true,
+    verified_at: "2026-07-14",
+    source_url: "https://exemple.test/cgu",
+    confidence: "high" as const,
+    note: "une précision quelconque, sans rapport avec une action à faire",
+  };
+
+  it("n'affiche PAS conditional quand holds_by_default est true, même avec une note", () => {
+    const html = cell({ ...base, holds_by_default: true }, "verifie");
+    expect(html).not.toContain("conditional");
+  });
+
+  it("affiche conditional quand holds_by_default est false", () => {
+    const html = cell({ ...base, holds_by_default: false }, "verifie");
+    expect(html).toContain("conditional");
+  });
+
+  it("affiche « not stated », pas conditional, quand holds_by_default est null", () => {
+    // null EST une réponse — la source ne dit rien sur ce point précis — et
+    // la confondre avec « ça tient tout seul » ou avec « il faut agir »
+    // serait deviner à sa place.
+    const html = cell({ ...base, holds_by_default: null }, "verifie");
+    expect(html).toContain("not stated");
+    expect(html).not.toContain("conditional");
+  });
+
+  it("retombe sur l'ancien signal (présence d'une note) pour un fait qui ne porte pas l'axe", () => {
+    // baa_available et dpa_eu ne portent jamais holds_by_default
+    // (CONTINGENT_FACTS, schema.ts) : ce repli reste nécessaire pour eux.
+    const html = cell(base, "verifie");
+    expect(html).toContain("conditional");
+  });
+});
+
 describe("un fait absent s'affiche comme absent", () => {
   it("ne rend ni « no », ni une case vide, ni une puce", () => {
     // Une case vide se lit comme un oubli de mise en page ; « no » affirmerait

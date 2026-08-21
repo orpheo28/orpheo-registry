@@ -38,7 +38,8 @@ dpa_eu:
 
 data_residency:
   value: null
-  verified_at: 2026-08-13
+  holds_by_default: true
+  verified_at: 2026-08-21
   source_url: https://www.speechmatics.com/legal/privacy-policy
   confidence: medium
   note: >
@@ -53,3 +54,7 @@ data_residency:
     "document and communication storage" and "generative AI." A buyer who
     thinks they're only using a UK provider actually has a US actor in
     their chain, which the document states itself.
+    HOLDS_BY_DEFAULT IS TRUE FOR THE RECORDED VALUE (null): unlike
+    OpenRouter, no narrower opt-in mechanism is documented anywhere in this
+    page — the absence of a guarantee is simply the unconditional state, as
+    far as this source goes.

@@ -6,7 +6,8 @@ models: [llama, qwen, deepseek]
 
 no_training_commitment:
   value: true
-  verified_at: 2026-08-13
+  holds_by_default: true
+  verified_at: 2026-08-21
   source_url: https://www.ovhcloud.com/en/public-cloud/ai-endpoints/
   confidence: medium
   note: >
@@ -19,6 +20,8 @@ no_training_commitment:
     precision, and this source doesn't give it.
     It's also a product page, not a contractual document: the AI Endpoints
     specific terms haven't been read, hence confidence medium.
+    HOLDS_BY_DEFAULT IS TRUE: the statement is flat and unconditional —
+    "never," no opt-out, no configuration, no plan tier named.
 
 # baa_available — NOT DOCUMENTED
 #   No first-party document read mentions a BAA. The product page mentions

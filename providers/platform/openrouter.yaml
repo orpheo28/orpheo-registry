@@ -6,6 +6,7 @@ models: []
 
 no_training_commitment:
   value: true
+  holds_by_default: true
   verified_at: 2026-08-21
   source_url: https://openrouter.ai/privacy
   confidence: medium
@@ -28,6 +29,10 @@ no_training_commitment:
     per-request option to "restrict individual requests to only use
     providers with a certain data policy." This is an opt-out, not a
     default: it has to be set.
+    HOLDS_BY_DEFAULT IS TRUE FOR THIS FACT SPECIFICALLY, THOUGH — the
+    opt-out above governs a DIFFERENT thing (which downstream model
+    providers you get routed to), not OpenRouter's own commitment recorded
+    here, which the privacy policy states flatly and without condition.
     Privacy policy, not a contractual document: confidence medium.
 
 dpa_eu:
@@ -55,6 +60,7 @@ dpa_eu:
 
 data_residency:
   value: null
+  holds_by_default: true
   verified_at: 2026-08-21
   source_url: https://openrouter.ai/privacy
   confidence: medium
@@ -74,6 +80,11 @@ data_residency:
     a request-gated, enterprise-only mechanism isn't the same fact as a
     guaranteed residency, and recording it as such would overstate what a
     self-serve buyer actually gets.
+    HOLDS_BY_DEFAULT IS TRUE FOR THE RECORDED VALUE (null): no action is
+    needed to be in the no-guarantee state described here — that's simply
+    what ordinary use gets you. Action is needed only to reach something
+    OTHER than this recorded value, which is a different, ungranted fact,
+    not a contradiction of this one.
 
 # baa_available — NOT DOCUMENTED
 #   No first-party page read — including OpenRouter's own Trust Center

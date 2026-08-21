@@ -6,7 +6,8 @@ models: [mistral-large, mistral-small, codestral]
 
 no_training_commitment:
   value: true
-  verified_at: 2026-08-13
+  holds_by_default: null
+  verified_at: 2026-08-21
   source_url: https://legal.mistral.ai/terms/commercial-terms-of-service
   confidence: high
   note: >
@@ -20,10 +21,18 @@ no_training_commitment:
     purchase order provides, and Labs or Preview models.
     The license granted to run the service also explicitly excludes
     training (section 4.1).
+    HOLDS_BY_DEFAULT IS NULL, NOT A GUESS EITHER WAY: the clause itself
+    splits by product between opt-out-by-default (commitment holds without
+    action) and opt-in-by-default (action required) — the source names
+    both categories without stating which one is most of the surface.
+    Answering true or false here would mean inferring a majority the
+    document doesn't state, which is exactly the interpretation this field
+    exists to refuse.
 
 zero_retention_option:
   value: true
-  verified_at: 2026-08-13
+  holds_by_default: null
+  verified_at: 2026-08-21
   source_url: https://legal.mistral.ai/terms/data-processing-addendum
   confidence: high
   note: >
@@ -37,7 +46,9 @@ zero_retention_option:
     and data from those models can be used for training. A buyer who has
     enabled ZDR and tries a "labs" model is no longer covered.
     The source establishes neither the exact scope of eligible APIs nor
-    whether approval is required: both remain unknown.
+    whether approval is required: both remain unknown — hence
+    HOLDS_BY_DEFAULT IS NULL, stated by the source's own silence on this
+    point, not assumed.
 
 dpa_eu:
   value: true

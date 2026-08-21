@@ -6,7 +6,8 @@ models: [llama, mistral, qwen]
 
 zero_retention_option:
   value: true
-  verified_at: 2026-08-13
+  holds_by_default: true
+  verified_at: 2026-08-21
   source_url: https://www.scaleway.com/en/docs/generative-apis/reference-content/data-privacy/
   confidence: medium
   note: >
@@ -35,7 +36,8 @@ default_retention:
 
 data_residency:
   value: [paris-fr]
-  verified_at: 2026-08-13
+  holds_by_default: true
+  verified_at: 2026-08-21
   source_url: https://www.scaleway.com/en/docs/generative-apis/reference-content/data-privacy/
   confidence: medium
   note: >
@@ -43,6 +45,9 @@ data_residency:
     region: Paris, France." Scaleway states it hosts the models on its own
     infrastructure in Europe, "without interaction with third-party
     services."
+    HOLDS_BY_DEFAULT IS TRUE: unlike Azure, AWS, or OpenAI, nothing in this
+    page frames Paris as a customer-selected region among several — it
+    reads as simply where Scaleway runs, with no selection step named.
 
 # baa_available — NOT DOCUMENTED
 #   No first-party document read mentions a BAA. Absence of evidence, not

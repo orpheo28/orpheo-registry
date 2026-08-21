@@ -1,8 +1,10 @@
 import { describe, expect, it } from "vitest";
 import {
+  CONTINGENT_FACTS,
   FACT_LABELS,
   FACT_ORDER,
   MATRIX_FACTS,
+  contingentFactSchema,
   factSchema,
   layerSchema,
   providerFileSchema,
@@ -91,6 +93,45 @@ describe("un fait — INV-4", () => {
   });
 });
 
+describe("holds_by_default — une seule question, requise sur les faits concernés", () => {
+  const schema = contingentFactSchema(z.boolean());
+
+  it("REFUSE un fait contingent sans holds_by_default", () => {
+    // Un champ facultatif ici reproduirait exactement l'écart que la
+    // relecture des dpa_eu (2026-08-21) venait de corriger : quelques
+    // entrées répondraient, les autres resteraient silencieuses, et le
+    // silence se lirait comme « non concerné » plutôt que comme « personne
+    // n'a encore posé la question à ce fournisseur ».
+    expect(schema.safeParse(fait()).success).toBe(false);
+  });
+
+  it("accepte true — le fait tient par la simple utilisation du service", () => {
+    expect(schema.safeParse(fait({ holds_by_default: true })).success).toBe(true);
+  });
+
+  it("accepte false — le fait n'existe que si le client agit", () => {
+    expect(schema.safeParse(fait({ holds_by_default: false })).success).toBe(true);
+  });
+
+  it("accepte null — la source ne dit rien sur ce point précis, et c'est une réponse", () => {
+    expect(schema.safeParse(fait({ holds_by_default: null })).success).toBe(true);
+  });
+
+  it("refuse toute autre valeur", () => {
+    expect(schema.safeParse(fait({ holds_by_default: "sur demande" })).success).toBe(
+      false,
+    );
+  });
+
+  it("les trois faits contingents sont exactement no_training_commitment, zero_retention_option, data_residency", () => {
+    // baa_available et dpa_eu en sont exclus : l'un et l'autre exigent
+    // TOUJOURS une action contractuelle — la question n'a pas d'objet.
+    expect([...CONTINGENT_FACTS].sort()).toEqual(
+      ["data_residency", "no_training_commitment", "zero_retention_option"].sort(),
+    );
+  });
+});
+
 describe("le fichier provider", () => {
   const base = {
     provider_id: "exemple",
@@ -99,9 +140,9 @@ describe("le fichier provider", () => {
     jurisdiction: "EU",
     models: [],
     baa_available: fait(),
-    no_training_commitment: fait(),
-    zero_retention_option: fait(),
-    data_residency: fait({ value: ["eu-west"] }),
+    no_training_commitment: fait({ holds_by_default: true }),
+    zero_retention_option: fait({ holds_by_default: false }),
+    data_residency: fait({ value: ["eu-west"], holds_by_default: null }),
     dpa_eu: fait(),
     default_retention: fait({ value: "30 jours" }),
   };

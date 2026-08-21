@@ -28,6 +28,7 @@ baa_available:
 
 no_training_commitment:
   value: true
+  holds_by_default: true
   verified_at: 2026-08-21
   source_url: https://www.twilio.com/en-us/legal/ai-terms/predictive-generative-ai-features
   confidence: high
@@ -51,9 +52,13 @@ no_training_commitment:
     This fact applies to Twilio's own AI/ML Features addendum; it says
     nothing about the underlying telephony/messaging service itself, which
     has no model to train on.
+    HOLDS_BY_DEFAULT IS TRUE: as with Azure and Google, the conditional
+    clause requires TWILIO to get the customer's agreement to deviate —
+    not the customer to act to be covered.
 
 data_residency:
   value: [ie]
+  holds_by_default: false
   verified_at: 2026-08-21
   source_url: https://www.twilio.com/docs/global-infrastructure/sms-eu-data-residency
   confidence: medium
