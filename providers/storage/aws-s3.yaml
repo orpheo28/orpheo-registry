@@ -1,0 +1,76 @@
+provider_id: aws-s3
+legal_entity: Amazon Web Services, Inc.
+layer: storage
+jurisdiction: US
+models: []
+
+baa_available:
+  value: true
+  verified_at: 2026-08-21
+  source_url: https://aws.amazon.com/compliance/hipaa-eligible-services-reference/
+  confidence: medium
+  additional_source_urls:
+    - https://aws.amazon.com/compliance/hipaa-compliance/
+  note: >
+    Amazon S3 figure nommément dans la liste des services éligibles HIPAA :
+    « Amazon Simple Storage Service (S3) ». La même page porte la condition
+    d'usage : « you agree not to use these HIPAA Eligible Services for any
+    purpose or in any manner involving Protected Health Information without
+    first entering into an AWS business associate agreement » — l'éligibilité
+    ne couvre rien tant que l'accord n'est pas signé.
+    LE MÉCANISME EST EN LIBRE-SERVICE, PAS UNE VENTE ASSISTÉE : la page HIPAA
+    Compliance précise « To review, accept, and manage the status of the BAA
+    for your account, sign in to AWS Artifact in the AWS Management Console »
+    — aucune indication d'un palier de compte réservé.
+    Cette page est une référence de conformité publiée par AWS, pas le contrat
+    lui-même : d'où confidence medium — même lecture que sur aws-bedrock.yaml,
+    pour la même page.
+
+dpa_eu:
+  value: true
+  verified_at: 2026-08-21
+  source_url: https://aws.amazon.com/service-terms/
+  confidence: high
+  note: >
+    Section 1.14.1 des AWS Service Terms, en texte principal : « These
+    Service Terms incorporate the AWS Data Processing Addendum ("DPA"), when
+    you use AWS Services to process Customer Data ». S3 traite des données
+    client par construction — c'est un service de stockage — donc le DPA
+    s'applique. Document contractuel, d'où confidence high.
+
+data_residency:
+  value: [fr, de, ie, it, es, se, ch, uk]
+  verified_at: 2026-08-21
+  source_url: https://aws.amazon.com/compliance/eu-data-protection/
+  confidence: medium
+  note: >
+    Texte principal de la page : « You can choose to store your customer
+    data in any one or more of our European Regions, including EU Regions in
+    France, Germany, Ireland, Italy, Spain, and Sweden », et cite par
+    ailleurs la Suisse et le Royaume-Uni comme options de stockage.
+    LA LISTE N'EST PAS DÉCLARÉE EXHAUSTIVE PAR LA SOURCE ELLE-MÊME : le mot
+    « including » est d'AWS, pas une prudence ajoutée ici. AWS opère des
+    régions hors de ces huit pays (Asie-Pacifique, Amérique du Nord et du
+    Sud, Moyen-Orient, Afrique) ; cette valeur ne couvre QUE ce que cette
+    page nomme en texte principal, pas la liste complète des régions AWS —
+    aucune page de première partie listant cette liste complète, en texte
+    principal et avec la précision d'un pays par région, n'a été lue.
+    Page de documentation publique non contractuelle, d'où confidence medium.
+
+# no_training_commitment — NON RENSEIGNÉ
+#   S3 est un service de stockage, pas un modèle : la notion même
+#   d'engagement de non-entraînement n'a pas d'objet documenté à ce niveau.
+#   Aucune source de première partie lue qui l'énonce pour ce service.
+
+# zero_retention_option — NON RENSEIGNÉ
+#   Le rôle de S3 est de retenir ce qu'on y dépose jusqu'à suppression par le
+#   client : une « option de rétention nulle » n'est pas un concept qui
+#   s'applique tel quel à un service de stockage. Aucune source de première
+#   partie lue qui l'énonce dans ces termes pour S3.
+
+# default_retention — NON RENSEIGNÉ
+#   Pour la même raison : la rétention par défaut d'un objet S3 est celle
+#   que le client choisit (durée indéfinie sauf suppression, ou politique de
+#   cycle de vie qu'il configure lui-même) — ce n'est pas un délai fixé par
+#   AWS comme chez un fournisseur qui traite puis efface. Aucune source de
+#   première partie lue qui énonce un délai par défaut pour S3.
