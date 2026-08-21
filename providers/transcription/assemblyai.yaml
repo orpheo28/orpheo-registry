@@ -10,13 +10,13 @@ baa_available:
   source_url: https://www.assemblyai.com/legal/business-associate-agreement
   confidence: high
   note: >
-    Le BAA est PUBLIÉ, en toutes lettres, et daté du 23 avril 2026 — un des
-    rares fournisseurs indexés dont l'accord se lit avant d'être demandé, ce qui
-    permet à un éditeur d'en évaluer les termes sans passer par les ventes.
-    Réserves du document lui-même : c'est un modèle, il ne s'applique
-    « only upon mutual execution », et sa signature passe par l'équipe
-    commerciale. Un accord publié n'est pas un accord signé.
-    Il couvre HIPAA et le HITECH Act.
+    The BAA is PUBLISHED, in full, dated April 23, 2026 — one of the few
+    indexed providers whose agreement can be read before it's requested,
+    letting a buyer evaluate its terms without going through sales.
+    Caveats from the document itself: it's a template, it only applies
+    "only upon mutual execution," and signing it goes through the sales
+    team. A published agreement isn't a signed one.
+    It covers HIPAA and the HITECH Act.
 
 dpa_eu:
   value: true
@@ -24,14 +24,14 @@ dpa_eu:
   source_url: https://www.assemblyai.com/legal/data-processing-addendum
   confidence: high
   note: >
-    DPA publié et daté du 22 janvier 2026, adossé au RGPD, au RGPD britannique,
-    à la loi suisse, et aux clauses contractuelles types de la décision 2021/914
-    pour les transferts hors EEE.
-    ARTICULATION UTILE, et rare : le DPA exclut de sa définition des données à
-    caractère personnel les données de santé protégées « to the extent the
-    Parties have an effective BAA in place ». Les deux accords se partagent donc
-    le territoire au lieu de se recouvrir — ce qui veut dire qu'un éditeur santé
-    a besoin des DEUX, et que signer l'un ne couvre pas ce que l'autre régit.
+    Published DPA dated January 22, 2026, grounded in GDPR, UK GDPR, Swiss
+    law, and the standard contractual clauses of decision 2021/914 for
+    transfers outside the EEA.
+    USEFUL AND RARE DISTINCTION: the DPA excludes protected health
+    information from its definition of personal data "to the extent the
+    Parties have an effective BAA in place." The two agreements split the
+    territory rather than overlapping — which means a healthcare buyer
+    needs BOTH, and signing one doesn't cover what the other governs.
 
 data_residency:
   value: [us, eu-dublin]
@@ -39,21 +39,21 @@ data_residency:
   source_url: https://www.assemblyai.com/security
   confidence: medium
   note: >
-    « AssemblyAI processes data in our European data processing center in
+    "AssemblyAI processes data in our European data processing center in
     Dublin, Ireland. Customers can store and process their data within the
-    United States or the European Union. »
-    Le choix est en libre-service depuis le tableau de bord client, sans passer
-    par une négociation — ce qui n'est pas le cas partout.
-    Page de sécurité, non contractuelle : confidence medium.
+    United States or the European Union."
+    The choice is self-service from the customer dashboard, with no
+    negotiation required — which isn't the case everywhere.
+    Security page, non-contractual: confidence medium.
 
-# no_training_commitment — NON RENSEIGNÉ
-#   La page de sécurité dit rester « transparent on our data management
-#   procedures, particularly related to ... training procedures ». Annoncer de
-#   la transparence n'est pas prendre un engagement, et ce registre publie des
-#   engagements, pas des intentions.
+# no_training_commitment — NOT DOCUMENTED
+#   The security page says it stays "transparent on our data management
+#   procedures, particularly related to ... training procedures." Announcing
+#   transparency isn't making a commitment, and this registry publishes
+#   commitments, not intentions.
 
-# zero_retention_option — NON RENSEIGNÉ
-#   Aucune source de première partie lue.
+# zero_retention_option — NOT DOCUMENTED
+#   No first-party source read.
 
-# default_retention — NON RENSEIGNÉ
-#   Aucune source de première partie lue.
+# default_retention — NOT DOCUMENTED
+#   No first-party source read.

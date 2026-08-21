@@ -5,44 +5,46 @@ jurisdiction: US
 models: []
 
 default_retention:
-  value: "aucune en temps réel ; stockage Microsoft possible en traitement par lots"
+  value: "none in real time; Microsoft storage possible in batch processing"
   verified_at: 2026-08-13
   source_url: https://learn.microsoft.com/en-us/azure/foundry/responsible-ai/speech-service/speech-to-text/data-privacy-security
   confidence: medium
   note: >
-    DEUX RÉGIMES DANS LE MÊME SERVICE, et c'est le fait qui compte.
-    En TEMPS RÉEL : « Microsoft does not retain or store the data provided by
-    customers » ; « audio input is processed only on the Azure's server memory,
-    and no data is stored at rest ». Rien à configurer, rien à demander.
-    En TRAITEMENT PAR LOTS : le client désigne son propre stockage, mais la
-    transcription produite « may be stored either in customer's own storage OR
-    MICROSOFT STORAGE IF NO STORAGE IS SPECIFIED ». Autrement dit, ne rien
-    spécifier fait atterrir la sortie chez Microsoft — un défaut qui mord, et
-    qui ne ressemble en rien au régime temps réel du même service.
-    La suppression se pilote alors par une API dédiée ou par le paramètre
-    `timeToLive`.
-    À NOTER AUSSI : la séparation des locuteurs (diarisation, désactivée par
-    défaut) extrait des caractéristiques vocales uniques, temporairement
-    retenues puis « discarded ». Microsoft précise qu'elle ne permet ni
-    l'enrôlement ni le suivi d'un locuteur entre fichiers.
-    Documentation, non contractuelle : confidence medium.
+    TWO REGIMES IN THE SAME SERVICE, and that's the fact that matters.
+    In REAL TIME: "Microsoft does not retain or store the data provided by
+    customers"; "audio input is processed only on the Azure's server
+    memory, and no data is stored at rest." Nothing to configure, nothing
+    to request.
+    In BATCH PROCESSING: the customer designates their own storage, but the
+    resulting transcription "may be stored either in customer's own
+    storage OR MICROSOFT STORAGE IF NO STORAGE IS SPECIFIED." In other
+    words, specifying nothing lands the output at Microsoft — a default
+    that bites, and that looks nothing like the real-time regime of the
+    same service.
+    Deletion is then driven by a dedicated API or the `timeToLive`
+    parameter.
+    ALSO WORTH NOTING: speaker separation (diarization, off by default)
+    extracts unique voice characteristics, temporarily retained then
+    "discarded." Microsoft states it doesn't enable enrollment or tracking
+    a speaker across files.
+    Documentation, non-contractual: confidence medium.
 
-# baa_available — NON RENSEIGNÉ
-#   Aucune source de première partie lue n'établit la couverture d'Azure AI
-#   Speech par un BAA. Ne pas déduire d'une couverture Azure générale : la
-#   couverture est une liste de produits, pas un état du fournisseur — c'est ce
-#   que la page HIPAA de Google énonce explicitement pour son propre catalogue.
+# baa_available — NOT DOCUMENTED
+#   No first-party source read establishes BAA coverage for Azure AI
+#   Speech. Don't infer it from general Azure coverage: coverage is a list
+#   of products, not a state of the provider — that's exactly what
+#   Google's HIPAA page states explicitly for its own catalog.
 
-# no_training_commitment — NON RENSEIGNÉ
-#   La page décrit le stockage, pas l'usage pour l'entraînement.
+# no_training_commitment — NOT DOCUMENTED
+#   The page describes storage, not use for training.
 
-# zero_retention_option — NON RENSEIGNÉ
-#   Il n'y a pas d'OPTION de rétention nulle à activer : l'absence de rétention
-#   est une propriété du mode temps réel, pas un réglage. Consigner l'un pour
-#   l'autre laisserait croire qu'un interrupteur protège le mode par lots.
+# zero_retention_option — NOT DOCUMENTED
+#   There's no zero-retention OPTION to enable: the absence of retention is
+#   a property of real-time mode, not a setting. Recording one for the
+#   other would suggest a switch protects batch mode too.
 
-# data_residency — NON RENSEIGNÉ
-#   Aucune source de première partie lue pour ce service en particulier.
+# data_residency — NOT DOCUMENTED
+#   No first-party source read for this specific service.
 
-# dpa_eu — NON RENSEIGNÉ
-#   Aucune source de première partie lue.
+# dpa_eu — NOT DOCUMENTED
+#   No first-party source read.
