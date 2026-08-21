@@ -27,6 +27,22 @@ vocale, téléphonie, stockage, plateforme).
 Un fait dont la source a disparu ou redirige ailleurs redescend à non vérifié :
 les URL pourrissent, et un registre qui ne le reconnaît pas ment lentement.
 
+### Le hook `pre-push` — à activer, il ne l'est pas tout seul
+
+```bash
+git config core.hooksPath .githooks
+```
+
+**Une ligne par clone, et sans elle le hook ne s'exécute jamais.** Git ignore
+les hooks versionnés par défaut : `.git/hooks/` n'est pas suivi, et
+`core.hooksPath` est une configuration LOCALE. Le fichier est dans le dépôt,
+le branchement ne l'est pas.
+
+Ce qu'il lance avant chaque poussée : `typecheck`, `lint`, `format:check` —
+voir `.githooks/pre-push` pour pourquoi ces trois-là, et pourquoi pas les
+tests ni le build. Pour outrepasser en connaissance de cause :
+`git push --no-verify`.
+
 ## Indépendance
 
 Aucun placement payant, aucune position achetable. Ce registre est publié
