@@ -10,17 +10,17 @@ baa_available:
   source_url: https://help.openai.com/en/articles/8660679-how-can-i-get-a-business-associate-agreement-baa-with-openai
   confidence: high
   note: >
-    BAA signable pour l'API Platform et ChatGPT for Healthcare. Un accord
-    entreprise n'est PAS requis pour signer un BAA sur l'API — contrairement
-    à ChatGPT Enterprise/Edu, réservé aux comptes gérés par les ventes.
-    ChatGPT Business n'est pas éligible.
-    La recherche web en accès internet direct n'est PAS éligible HIPAA et
-    n'est pas couverte par le BAA ; en mode cache seul elle l'est, mais
-    uniquement avec une clé d'un projet ZDR dans une organisation ZDR.
-    SOURCE CHANGÉE le 2026-08-13 : le fait figurait bien sur
-    openai.com/enterprise-privacy, mais derrière une FAQ repliée — donc non
-    re-vérifiable par un tiers sans interaction. La source enregistrée est
-    désormais celle qui l'énonce en texte principal.
+    Signable BAA for the API Platform and ChatGPT for Healthcare. An
+    enterprise agreement is NOT required to sign an API BAA — unlike ChatGPT
+    Enterprise/Edu, reserved for sales-managed accounts. ChatGPT Business
+    isn't eligible.
+    Web search with direct internet access is NOT HIPAA-eligible and isn't
+    covered by the BAA; in cache-only mode it is, but only with a key from
+    a ZDR project in a ZDR organization.
+    SOURCE CHANGED on 2026-08-13: the fact did appear on
+    openai.com/enterprise-privacy, but behind a collapsed FAQ — so not
+    re-verifiable by a third party without interacting with the page. The
+    source now on record is the one that states it in the main text.
 
 no_training_commitment:
   value: true
@@ -28,20 +28,20 @@ no_training_commitment:
   source_url: https://openai.com/enterprise-privacy/
   confidence: high
   note: >
-    Les données soumises via l'API, ChatGPT Enterprise et ChatGPT Team ne
-    servent pas à entraîner les modèles — énoncé en texte direct sur la page.
-    Les tiers consommateurs (Free, Plus) ont un défaut différent et ne sont
-    pas concernés.
+    Data submitted through the API, ChatGPT Enterprise, and ChatGPT Team
+    isn't used to train the models — stated directly in the page's main
+    text. Consumer tiers (Free, Plus) have a different default and aren't
+    covered by this.
 
 default_retention:
-  value: "30 jours"
+  value: "30 days"
   verified_at: 2026-08-13
   source_url: https://openai.com/enterprise-privacy/
   confidence: high
   note: >
-    Rétention jusqu'à 30 jours pour fourniture du service et détection d'abus,
-    sauf endpoints et fonctionnalités exclus listés dans la documentation
-    plateforme. Suppression après 30 jours sauf obligation légale.
+    Retention of up to 30 days for service delivery and abuse detection,
+    except for excluded endpoints and features listed in the platform
+    documentation. Deleted after 30 days unless legally required otherwise.
 
 zero_retention_option:
   value: true
@@ -49,11 +49,11 @@ zero_retention_option:
   source_url: https://developers.openai.com/api/docs/guides/your-data
   confidence: high
   note: >
-    ZDR sur endpoints éligibles, soumis à approbation et à un cas d'usage
-    qualifiant. Contrôles configurables au niveau organisation et projet.
-    RÉSERVE PUBLIÉE : OpenAI se réserve le droit de rendre un modèle
-    inéligible au ZDR pour un client donné en cas d'investigation de risque
-    sévère, avec notification écrite préalable.
+    ZDR on eligible endpoints, subject to approval and a qualifying use
+    case. Configurable at the organization and project level.
+    PUBLISHED RESERVATION: OpenAI reserves the right to make a model
+    ineligible for ZDR for a given customer in case of a severe-risk
+    investigation, with prior written notice.
 
 data_residency:
   value: [us, eu, uk, jp, ca, kr, sg, au, in, ae]
@@ -61,10 +61,10 @@ data_residency:
   source_url: https://openai.com/business-data/
   confidence: high
   note: >
-    Résidence AU REPOS dans ces régions pour les clients éligibles. En plus,
-    inférence GPU en région disponible aux US et en Europe ; les clients API
-    peuvent sélectionner explicitement US ou Europe pour le traitement
-    (inférence GPU et hors GPU) sur les endpoints supportés.
+    Residency AT REST in these regions for eligible customers. In addition,
+    in-region GPU inference is available in the US and Europe; API
+    customers can explicitly select US or Europe for processing (GPU and
+    non-GPU inference) on supported endpoints.
 
 dpa_eu:
   value: true

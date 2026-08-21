@@ -10,44 +10,43 @@ baa_available:
   source_url: https://aws.amazon.com/compliance/hipaa-eligible-services-reference/
   confidence: medium
   note: >
-    CE QUE CETTE PAGE ATTESTE, ET CE QU'ELLE N'ATTESTE PAS. Elle établit
-    l'éligibilité du SERVICE Bedrock, pas celle du MODÈLE appelé à travers lui.
-    Un lecteur conclura spontanément l'inverse, et c'est faux : ce qu'un
-    éditeur de modèle s'engage à faire des données — entraînement, rétention —
-    relève d'un autre régime, chez un autre acteur, et n'est pas dans cette
-    page. C'est exactement pourquoi les autres faits de ce fichier restent
-    vides : on ne déduit pas un engagement de non-entraînement d'une
-    éligibilité HIPAA.
-    UNE EXCLUSION AU NIVEAU DU MODÈLE Y FIGURE TOUT DE MÊME : la ligne exacte
-    est « Amazon Bedrock [excluding Fable and Mythos models] », annotation
-    entre crochets dans la liste alphabétique des services. Un éditeur qui
-    appelle l'un de ces deux modèles depuis Bedrock sort de la couverture sans
-    changer de fournisseur ni de console.
-    LE BAA EST UN PRÉALABLE, PAS UNE CONSÉQUENCE. La note de bas de page est
-    explicite : « you agree not to use these HIPAA Eligible Services for any
-    purpose or in any manner involving Protected Health Information without
-    first entering into an AWS business associate agreement ». L'éligibilité
-    ne couvre rien tant que l'accord n'est pas signé.
-    L'éligibilité reste en outre soumise au modèle de responsabilité partagée :
-    « Customers still must configure these services consistent with HIPAA
-    requirements ». Cette page est une référence de conformité publiée par AWS,
-    pas le contrat lui-même : d'où confidence medium.
+    WHAT THIS PAGE ESTABLISHES, AND WHAT IT DOESN'T. It establishes the
+    eligibility of the Bedrock SERVICE, not that of the MODEL called through
+    it. A reader will spontaneously conclude the opposite, and that's wrong:
+    what a model publisher commits to doing with data — training, retention
+    — falls under a different regime, at a different actor, and isn't on
+    this page. That's exactly why the other facts in this file stay empty:
+    a no-training commitment isn't inferred from a HIPAA eligibility.
+    A MODEL-LEVEL EXCLUSION IS ON IT ANYWAY: the exact line is "Amazon
+    Bedrock [excluding Fable and Mythos models]," a bracketed annotation in
+    the alphabetical list of services. A buyer who calls either of those two
+    models through Bedrock falls out of coverage without changing provider
+    or console.
+    THE BAA IS A PREREQUISITE, NOT A CONSEQUENCE. The footnote is explicit:
+    "you agree not to use these HIPAA Eligible Services for any purpose or
+    in any manner involving Protected Health Information without first
+    entering into an AWS business associate agreement." Eligibility covers
+    nothing until the agreement is signed.
+    Eligibility also remains subject to the shared-responsibility model:
+    "Customers still must configure these services consistent with HIPAA
+    requirements." This page is a compliance reference published by AWS,
+    not the contract itself: hence confidence medium.
 
-# no_training_commitment — NON RENSEIGNÉ
-#   L'engagement dépend du fournisseur du modèle appelé À TRAVERS Bedrock, et
-#   les AWS Service Terms n'ont pas été lus à la clause qui l'établit. Ne pas
-#   déduire de l'éligibilité HIPAA un engagement de non-entraînement : ce sont
-#   deux régimes différents.
+# no_training_commitment — NOT DOCUMENTED
+#   The commitment depends on the publisher of the model called THROUGH
+#   Bedrock, and the AWS Service Terms haven't been read down to the clause
+#   that establishes it. Don't infer a no-training commitment from HIPAA
+#   eligibility: those are two different regimes.
 
-# zero_retention_option — NON RENSEIGNÉ
-#   Aucune source de première partie lue.
+# zero_retention_option — NOT DOCUMENTED
+#   No first-party source read.
 
-# default_retention — NON RENSEIGNÉ
-#   Aucune source de première partie lue.
+# default_retention — NOT DOCUMENTED
+#   No first-party source read.
 
-# data_residency — NON RENSEIGNÉ
-#   Les régions AWS sont documentées, mais aucune page de première partie n'a
-#   été lue qui établisse la résidence des données d'inférence Bedrock.
+# data_residency — NOT DOCUMENTED
+#   AWS regions are documented, but no first-party page has been read that
+#   establishes the residency of Bedrock inference data.
 
-# dpa_eu — NON RENSEIGNÉ
-#   Aucune source de première partie lue.
+# dpa_eu — NOT DOCUMENTED
+#   No first-party source read.

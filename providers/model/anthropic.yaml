@@ -10,21 +10,20 @@ baa_available:
   source_url: https://privacy.claude.com/en/articles/8114513-business-associate-agreements-baa-for-commercial-customers
   confidence: high
   note: >
-    API première partie et plans Enterprise uniquement. Le Primary Owner doit
-    activer la conformité HIPAA et accepter le BAA ; un plan Enterprise standard
-    n'est pas couvert sans cette action. Exclus : Workbench, Console, Free, Pro,
-    Max, Team, et les fonctionnalités en beta. Toutes les fonctions de l'API ne
-    sont pas couvertes.
+    First-party API and Enterprise plans only. The Primary Owner must enable
+    HIPAA compliance and accept the BAA; a standard Enterprise plan isn't
+    covered without that action. Excluded: Workbench, Console, Free, Pro,
+    Max, Team, and beta features. Not every API function is covered.
 
 default_retention:
-  value: "30 jours"
+  value: "30 days"
   verified_at: 2026-08-13
   source_url: https://privacy.claude.com/en/articles/7996866-how-long-do-you-store-my-organization-s-data
   confidence: high
   note: >
-    Suppression automatique des entrées et sorties sous 30 jours. Exceptions :
-    services à rétention plus longue sous contrôle du client (Files API),
-    accord contraire, ou application de la Usage Policy.
+    Inputs and outputs are automatically deleted within 30 days. Exceptions:
+    services with longer, customer-controlled retention (Files API), a
+    contrary agreement, or enforcement of the Usage Policy.
 
 zero_retention_option:
   value: true
@@ -32,21 +31,21 @@ zero_retention_option:
   source_url: https://privacy.claude.com/en/articles/8956058-i-have-a-zero-data-retention-agreement-with-anthropic-what-products-does-it-apply-to
   confidence: high
   note: >
-    Soumis à approbation d'Anthropic. S'applique aux API éligibles et aux
-    produits utilisant la clé d'organisation commerciale. Les résultats des
-    classifieurs de sécurité restent conservés.
-    CONFLIT DOCUMENTÉ : les Covered Models exigent 30 jours de rétention et
-    ne sont pas disponibles avec ZDR activé. La source de ce conflit est
-    enregistrée dans additional_source_urls, donc surveillée comme les autres.
+    Subject to Anthropic's approval. Applies to eligible APIs and to products
+    using the commercial organization's key. Safety classifier outputs are
+    still retained.
+    DOCUMENTED CONFLICT: Covered Models require 30 days of retention and
+    aren't available with ZDR enabled. The source of this conflict is
+    recorded in additional_source_urls, so it's monitored like any other.
   additional_source_urls:
     - https://platform.claude.com/docs/en/manage-claude/api-and-data-retention
 
-# no_training_commitment — NON RENSEIGNÉ
-#   L'engagement figure dans les Commercial Terms, dont l'URL canonique n'a
-#   pas été vérifiée. À compléter depuis anthropic.com/legal.
+# no_training_commitment — NOT DOCUMENTED
+#   The commitment appears in the Commercial Terms, whose canonical URL
+#   hasn't been verified. To complete from anthropic.com/legal.
 
-# data_residency — NON RENSEIGNÉ
-#   Aucune source de première partie trouvée.
+# data_residency — NOT DOCUMENTED
+#   No first-party source found.
 
-# dpa_eu — NON RENSEIGNÉ
-#   Aucune source de première partie trouvée.
+# dpa_eu — NOT DOCUMENTED
+#   No first-party source found.

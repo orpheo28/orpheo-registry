@@ -10,27 +10,28 @@ zero_retention_option:
   source_url: https://www.scaleway.com/en/docs/generative-apis/reference-content/data-privacy/
   confidence: medium
   note: >
-    PARTICULARITÉ : la rétention nulle est le DÉFAUT, pas une option à demander
-    ni à faire approuver — « By default we apply a Zero Data Retention Policy ».
-    C'est le seul fournisseur indexé à ce jour dans ce cas.
-    Le contenu des prompts n'est pas collecté : la télémétrie porte sur les
-    métadonnées de requête, le décompte de jetons et les paramètres,
-    « excluding the actual content of the prompts ».
-    EXCEPTION DOCUMENTÉE : en cas d'usage nuisant au service — l'exemple donné
-    est une erreur HTTP 500 — le contenu complet des requêtes de ce client peut
-    être stocké temporairement, jusqu'à deux semaines, pour investigation.
-    Cette page est une politique de confidentialité de service ; le document
-    contractuel est le PDF « Specific Conditions AI Services », non lu.
+    NOTABLE: zero retention is the DEFAULT here, not an option to request or
+    get approved — "By default we apply a Zero Data Retention Policy." It's
+    the only provider indexed so far in that position.
+    Prompt content isn't collected: telemetry covers request metadata,
+    token counts, and parameters, "excluding the actual content of the
+    prompts."
+    DOCUMENTED EXCEPTION: in case of usage harmful to the service — the
+    example given is an HTTP 500 error — the full content of that
+    customer's requests may be stored temporarily, for up to two weeks, for
+    investigation.
+    This page is a service privacy policy; the contractual document is the
+    "Specific Conditions AI Services" PDF, not read.
 
 default_retention:
-  value: "aucune par défaut"
+  value: "none by default"
   verified_at: 2026-08-13
   source_url: https://www.scaleway.com/en/docs/generative-apis/reference-content/data-privacy/
   confidence: medium
   note: >
-    Corollaire de la politique de rétention nulle par défaut : le contenu des
-    prompts n'est pas conservé. Sauf l'exception d'investigation décrite
-    ci-dessus, bornée à deux semaines.
+    Corollary of the zero-retention-by-default policy: prompt content isn't
+    kept. Except for the investigation exception described above, capped at
+    two weeks.
 
 data_residency:
   value: [paris-fr]
@@ -38,23 +39,23 @@ data_residency:
   source_url: https://www.scaleway.com/en/docs/generative-apis/reference-content/data-privacy/
   confidence: medium
   note: >
-    Formulation exacte : « Your personal data may be stored in the following
-    region: Paris, France. » Scaleway indique héberger les modèles sur sa
-    propre infrastructure en Europe, « without interaction with third-party
-    services ».
+    Exact wording: "Your personal data may be stored in the following
+    region: Paris, France." Scaleway states it hosts the models on its own
+    infrastructure in Europe, "without interaction with third-party
+    services."
 
-# baa_available — NON RENSEIGNÉ
-#   Aucun document de première partie lu ne mentionne un BAA. Absence de preuve,
-#   pas preuve d'absence.
+# baa_available — NOT DOCUMENTED
+#   No first-party document read mentions a BAA. Absence of evidence, not
+#   evidence of absence.
 
-# no_training_commitment — NON RENSEIGNÉ
-#   La page lue décrit la collecte, pas un engagement de non-entraînement. Ne
-#   pas déduire l'un de l'autre : ne pas collecter le contenu des prompts et
-#   s'engager contractuellement à ne pas entraîner dessus sont deux faits
-#   distincts, et c'est le second que la matrice affiche.
+# no_training_commitment — NOT DOCUMENTED
+#   The page read describes collection, not a no-training commitment. Don't
+#   infer one from the other: not collecting prompt content and making a
+#   contractual commitment not to train on it are two distinct facts, and
+#   it's the second one the matrix displays.
 
-# dpa_eu — NON RENSEIGNÉ
-#   La page affirme une conformité au RGPD. Ce registre ne publie pas de
-#   déclaration de conformité (INV-4), et une conformité affirmée n'est pas la
-#   mise à disposition d'un accord de sous-traitance signable. Le DPA de
-#   Scaleway existe probablement dans ses contrats ; il n'a pas été lu.
+# dpa_eu — NOT DOCUMENTED
+#   The page asserts GDPR compliance. This registry doesn't publish
+#   compliance claims (INV-4), and an asserted compliance isn't the same as
+#   making a signable data processing agreement available. Scaleway's DPA
+#   probably exists in its contracts; it hasn't been read.
