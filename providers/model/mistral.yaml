@@ -41,7 +41,7 @@ zero_retention_option:
 
 dpa_eu:
   value: true
-  verified_at: 2026-08-13
+  verified_at: 2026-08-21
   source_url: https://legal.mistral.ai/terms/data-processing-addendum
   confidence: high
   note: >
@@ -49,6 +49,19 @@ dpa_eu:
     the standard contractual clauses of implementing decision 2021/914, and
     the European Commission's adequacy decisions. Transfers outside the EEA
     are governed by these same clauses.
+    MISTRAL RESERVES A CONTROLLER ROLE FOR ITSELF, EXPLICITLY — a nuance
+    only re-checked across every dpa_eu entry after Twilio's DPA surfaced
+    the same question (see METHODOLOGY.md, "Comparability across the
+    matrix"). Section 2.3: "Mistral AI is authorized to process the
+    Personal Data as Controller for the purposes of:" (1) "Training its
+    artificial intelligence models in accordance with its Privacy Policy,
+    unless Customer is or has opted-out of training"; (2) "Automated
+    moderation, including abuse monitoring on our APIs..."; (3) "Processing
+    usage and operational data...to produce aggregated or anonymized data
+    or statistics...for Mistral AI's business purposes, including
+    conducting research, developing or improving Mistral AI Products." The
+    first purpose ties directly back to no_training_commitment above: the
+    DPA's own controller clause is where that opt-out mechanism is rooted.
 
 # baa_available — NOT DOCUMENTED
 #   A BAA is a US federal-law instrument (HIPAA). No first-party document

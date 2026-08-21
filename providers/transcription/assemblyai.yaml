@@ -20,7 +20,7 @@ baa_available:
 
 dpa_eu:
   value: true
-  verified_at: 2026-08-13
+  verified_at: 2026-08-21
   source_url: https://www.assemblyai.com/legal/data-processing-addendum
   confidence: high
   note: >
@@ -32,6 +32,21 @@ dpa_eu:
     Parties have an effective BAA in place." The two agreements split the
     territory rather than overlapping — which means a healthcare buyer
     needs BOTH, and signing one doesn't cover what the other governs.
+    ASSEMBLYAI ALSO RESERVES A CONTROLLER ROLE FOR ITSELF, EXPLICITLY — a
+    nuance only re-checked across every dpa_eu entry after Twilio's DPA
+    surfaced the same question (see METHODOLOGY.md, "Comparability across
+    the matrix"). Section 13: "AssemblyAI is an independent controller, not
+    a joint controller with Customer. AssemblyAI will process AssemblyAI
+    Account Data and Usage Data as a controller (i) to manage the
+    relationship with Customer; (ii) to carry out AssemblyAI's core
+    business operations, such as accounting, audits, tax preparation and
+    filing and compliance purposes; (iii) to monitor, investigate, prevent
+    and detect fraud, security incidents and other misuse of the Services,
+    and to prevent harm to Customer; (iv) for identity verification
+    purposes; (v) to comply with legal or regulatory obligations...; and
+    (vi) as otherwise permitted under Privacy Laws." Narrower than
+    Mistral's controller purposes — no model-training clause here — but the
+    same structural fact: "processor" isn't the whole story.
 
 data_residency:
   value: [us, eu-dublin]

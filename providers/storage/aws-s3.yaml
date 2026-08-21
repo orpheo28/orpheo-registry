@@ -37,6 +37,21 @@ dpa_eu:
     when you use AWS Services to process Customer Data." S3 processes
     customer data by construction — it's a storage service — so the DPA
     applies. Contractual document, hence confidence high.
+    CONTROLLER-ROLE QUESTION RE-CHECKED, AND THE ANSWER HERE IS "NOT IN
+    THIS SECTION" — after Twilio's DPA surfaced it, then re-asked across
+    every dpa_eu entry (see METHODOLOGY.md, "Comparability across the
+    matrix"). Section 1.14 itself is a pure incorporation-by-reference
+    clause and names no controller purpose for AWS. Elsewhere in the same
+    Service Terms, though, AWS does reserve service-improvement uses that
+    read as controller-like: section 1.20, "We may use information about
+    how you use and interact with the Services to improve those Services,"
+    and section 8.1, on CloudWatch Metric Data, "may be used by AWS to
+    develop and improve the Services." Neither clause uses the word
+    "Controller," and neither is inside the DPA-incorporation section
+    itself — so this isn't recorded as equivalent to Mistral's or
+    AssemblyAI's explicit "as Controller" language, but it isn't silence
+    either. Worth a second look at the DPA document itself (not yet read),
+    which may state this more precisely than the general Service Terms do.
 
 data_residency:
   value: [fr, de, ie, it, es, se, ch, uk]
