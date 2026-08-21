@@ -137,6 +137,40 @@ export function factSchema<T extends z.ZodType>(valueSchema: T) {
 }
 
 /**
+ * `holds_by_default` — un seul axe pour deux questions qui n'en étaient
+ * qu'une, vue de deux côtés.
+ *
+ * Constaté en relisant dpa_eu chez cinq fournisseurs (2026-08-21, voir
+ * METHODOLOGY.md « Comparability across the matrix ») puis en ouvrant
+ * telephony, platform et tts : « réservé sur demande » (Twilio, OpenRouter,
+ * ElevenLabs) et « défaut inversé » (Mistral, ElevenLabs) sont la MÊME
+ * question posée par un acheteur — ce fait tient-il tout seul, ou seulement
+ * si je fais quelque chose ? — comptés séparément à 3 et 2 occurrences,
+ * ensemble à cinq. Un champ, pas deux.
+ *
+ * REQUIS sur les faits concernés, jamais facultatif — c'est le point.
+ * Un champ facultatif aurait reproduit exactement l'écart que la relecture
+ * des dpa_eu venait de corriger : quelques entrées l'auraient porté, les
+ * autres seraient restées silencieuses, et le silence se serait lu comme
+ * « non concerné » plutôt que comme « personne n'a encore répondu à cette
+ * question pour ce fournisseur ». `null` EST la troisième réponse légitime
+ * — la source ne dit rien sur ce point précis — et elle s'écrit comme les
+ * deux autres, pas en omettant le champ.
+ *
+ * Aucun jugement à porter pour le remplir : la source encadre le fait par
+ * un opt-out, une approbation, un palier de compte, une prise de contact
+ * commerciale → `false`. La source ne pose aucune condition, le fait
+ * s'applique par la simple utilisation du service → `true`. La source ne
+ * dit rien sur ce point → `null`. Si la réponse demande d'interpréter le
+ * document plutôt que de le citer, c'est `null`, pas une supposition.
+ */
+export function contingentFactSchema<T extends z.ZodType>(valueSchema: T) {
+  return factSchema(valueSchema).extend({
+    holds_by_default: z.boolean().nullable(),
+  });
+}
+
+/**
  * Les cinq faits de la matrice, dans l'ordre imposé par PRD §1bis.
  *
  * INV-5 interdit un nom de norme dans un identifiant. `baa_available` et
@@ -153,6 +187,24 @@ export const MATRIX_FACTS = [
 ] as const;
 
 export type MatrixFact = (typeof MATRIX_FACTS)[number];
+
+/**
+ * Les faits pour lesquels `holds_by_default` est requis.
+ *
+ * `baa_available` et `dpa_eu` en sont exclus délibérément : l'un et l'autre
+ * exigent TOUJOURS une action contractuelle (signer un accord) — la
+ * question « tient-il par défaut ? » n'a pas d'objet pour un fait dont
+ * l'existence même EST l'action. `default_retention` en est exclu aussi :
+ * ce n'est pas un booléen, et « par défaut » y est déjà dans le nom du
+ * champ.
+ */
+export const CONTINGENT_FACTS = [
+  "no_training_commitment",
+  "zero_retention_option",
+  "data_residency",
+] as const;
+
+export type ContingentFact = (typeof CONTINGENT_FACTS)[number];
 
 /**
  * L'ordre d'affichage, par marché — une DONNÉE, pas une mise en page.
@@ -220,8 +272,8 @@ export const providerFileSchema = z
     // Un trou reste donc un trou, et la page l'affiche comme tel — c'est INV-11
     // appliqué à l'absence : ce qui n'est pas vérifié se voit.
     baa_available: factSchema(z.boolean()).optional(),
-    no_training_commitment: factSchema(z.boolean()).optional(),
-    zero_retention_option: factSchema(z.boolean()).optional(),
+    no_training_commitment: contingentFactSchema(z.boolean()).optional(),
+    zero_retention_option: contingentFactSchema(z.boolean()).optional(),
     /**
      * `null` — VÉRIFIÉ COMME ABSENT — est une valeur, pas un trou.
      *
@@ -240,7 +292,9 @@ export const providerFileSchema = z
      * Pour un fait booléen, `false` joue déjà ce rôle : il n'y a donc que les
      * valeurs composées qui ont besoin de `null`.
      */
-    data_residency: factSchema(z.array(z.string().min(1)).min(1).nullable()).optional(),
+    data_residency: contingentFactSchema(
+      z.array(z.string().min(1)).min(1).nullable(),
+    ).optional(),
     dpa_eu: factSchema(z.boolean()).optional(),
     /** Texte libre : « 30 jours », « aucune », « indéterminée ». Pas un nombre : les
      *  politiques réelles ne sont presque jamais exprimables en un entier. */
@@ -264,7 +318,14 @@ export const providerFileSchema = z
   );
 
 export type ProviderFile = z.infer<typeof providerFileSchema>;
-/** La forme d'un fait, pour un consommateur qui n'infère pas depuis Zod. */
+/**
+ * La forme d'un fait, pour un consommateur qui n'infère pas depuis Zod.
+ *
+ * `holds_by_default` est optionnel ICI seulement parce que cette interface
+ * sert tous les faits, y compris `baa_available` et `dpa_eu` qui ne le
+ * portent jamais. Le schéma, lui, l'exige sur les CONTINGENT_FACTS — c'est
+ * providerFileSchema qui fait foi, pas cette interface d'affichage.
+ */
 export interface Fact<T> {
   value: T;
   verified_at: string;
@@ -272,4 +333,5 @@ export interface Fact<T> {
   confidence: Confidence;
   note?: string;
   additional_source_urls?: string[];
+  holds_by_default?: boolean | null;
 }
