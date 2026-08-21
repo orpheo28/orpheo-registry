@@ -62,6 +62,46 @@ function renderValue(value: unknown): string {
 }
 
 /**
+ * La puce de réserve — ce que la matrice peut dire sans afficher la
+ * condition elle-même (DESIGN_SYSTEM §8 : un tableau dense y perdrait sa
+ * lisibilité).
+ *
+ * Avant le 2026-08-21, ce badge se déclenchait sur la seule PRÉSENCE d'une
+ * note — un signal grossier : une note peut exister pour expliquer une
+ * portée (« SMS uniquement ») sans que le fait exige quoi que ce soit du
+ * client, et inversement. `holds_by_default`, quand le fait le porte, donne
+ * un signal exact : le client doit-il agir pour que la valeur affichée
+ * s'applique à lui ?
+ *
+ *   holds_by_default === false → « conditional » : il y a une action à
+ *     faire — opt-out, approbation, palier de compte — pour que la valeur
+ *     tienne. C'est exactement le cas que ce badge existe pour signaler.
+ *   holds_by_default === null  → « not stated » : la source elle-même ne
+ *     dit pas si une action est requise. Ni « oui » ni « non » ne seraient
+ *     vrais ; le taire reviendrait à choisir l'un des deux au hasard.
+ *   holds_by_default === true  → rien. La valeur s'applique par la simple
+ *     utilisation du service, même si une note existe pour une autre
+ *     raison (portée, exception, rupture de chaîne).
+ *   Le champ absent (baa_available, dpa_eu, default_retention — jamais
+ *     contingents, voir schema.ts) → repli sur l'ancien signal, la
+ *     présence d'une note, faute de mieux pour ces faits-là.
+ */
+function reserveBadge(fait: Fact<unknown>): string {
+  if (fait.holds_by_default === false) {
+    return `<span class="cell__reserve" title="this only applies if the customer acts">conditional</span>`;
+  }
+  if (fait.holds_by_default === null) {
+    return `<span class="cell__reserve" title="the source doesn't say whether this applies automatically or requires action">not stated</span>`;
+  }
+  if (fait.holds_by_default === true) {
+    return "";
+  }
+  return fait.note === undefined
+    ? ""
+    : `<span class="cell__reserve" title="this fact carries a condition">conditional</span>`;
+}
+
+/**
  * Une cellule de la matrice : la valeur, sa puce datée, et le lien vers la
  * source. Les trois, toujours — c'est ce qui distingue un fait d'une
  * affirmation, et c'est ce que DESIGN_SYSTEM.md §8 interdit de séparer.
@@ -84,15 +124,7 @@ export function cell(fait: Fact<unknown> | undefined, state: FactState): string 
     );
   }
 
-  // Un fait qui porte une note est un fait SOUS CONDITION. La matrice ne peut
-  // pas afficher la condition — un tableau dense y perdrait sa lisibilité — mais
-  // elle doit dire qu'elle existe, sinon elle affirme « oui » là où le
-  // fournisseur écrit « oui, sauf si ». C'est la différence entre un
-  // comparatif et ce registre.
-  const reserve =
-    fait.note === undefined
-      ? ""
-      : `<span class="cell__reserve" title="this fact carries a condition">conditional</span>`;
+  const reserve = reserveBadge(fait);
 
   return (
     `<td class="cell">` +
@@ -132,6 +164,18 @@ export function factBlock(
 
   const note =
     fait.note === undefined ? "" : `<p class="fait__note">${escape(fait.note)}</p>`;
+  // Sur cette page, contrairement à la matrice, la place ne manque pas : la
+  // réponse elle-même s'écrit, pas seulement un badge qui dit qu'elle existe.
+  const contingence =
+    fait.holds_by_default === undefined
+      ? ""
+      : `<p class="fait__contingence">Requires customer action: ${
+          fait.holds_by_default === true
+            ? "no — applies from ordinary use"
+            : fait.holds_by_default === false
+              ? "yes — see note above"
+              : "not stated by the source"
+        }</p>`;
   const autres = (fait.additional_source_urls ?? [])
     .map(
       (u) =>
@@ -144,6 +188,7 @@ export function factBlock(
     `<h3>${escape(libelle)}</h3>` +
     `<p class="fait__valeur">${renderValue(fait.value)} ${chip(state, fait.verified_at)}</p>` +
     note +
+    contingence +
     `<p class="fait__meta">` +
     `<a class="fait__source" href="${escape(fait.source_url)}" rel="nofollow noopener">source</a>` +
     autres +
