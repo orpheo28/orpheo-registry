@@ -68,6 +68,26 @@ data_residency:
 
 dpa_eu:
   value: true
-  verified_at: 2026-08-13
-  source_url: https://openai.com/business-data/
+  verified_at: 2026-08-21
+  source_url: https://cdn.openai.com/pdf/openai-data-processing-addendum.pdf
   confidence: high
+  note: >
+    SOURCE CHANGED on 2026-08-21: the fact was previously sourced from
+    openai.com/business-data/, which mentions a DPA exists but isn't the
+    document itself. Re-pointed to the actual DPA (v.010126), read directly
+    — openai.com/policies/data-processing-addendum/ returns HTTP 403 to a
+    robot (issue #6), but this PDF, served from a different subdomain,
+    doesn't.
+    OPENAI'S DPA IS EXPLICITLY PROCESSOR-ONLY — checked after Twilio's DPA
+    surfaced the controller-role question, then re-asked across every
+    dpa_eu entry (see METHODOLOGY.md, "Comparability across the matrix").
+    Section 1.1: "OpenAI acts as a Data Processor on the Customer's
+    behalf." Section 1.2: "OpenAI will only Process Customer Data for the
+    purposes of delivering the Services to Customer pursuant to the
+    Agreement and this DPA." No clause anywhere in the document reserves a
+    controller role for OpenAI's own purposes — unlike Mistral (model
+    training, analytics) or AssemblyAI (billing, fraud prevention,
+    compliance), both of which name themselves "Controller" for specific
+    activities in their own DPAs. This is a genuine difference between
+    providers, not an artifact of one being searched harder than another:
+    all three DPAs were read for exactly this question.

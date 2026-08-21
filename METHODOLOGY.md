@@ -39,6 +39,16 @@ This rule comes from a real mistake: a fact had been tied to a page that did car
 - medium — public, non-contractual documentation
 - low — support response, unpublished
 
+## Comparability across the matrix
+
+A fact without a date and a source doesn't publish — that's what keeps any single cell honest. But a registry is read as a comparison, and accuracy per cell doesn't guarantee that the comparison itself is fair.
+
+Found on 2026-08-21: Twilio's Data Processing Addendum states, in its own text, that Twilio reserves a controller role for itself on certain purposes — separate from its role as processor of customer data. None of the other five entries carrying a dpa_eu fact had been read for that same question. Every one of those facts was individually true. The matrix still would have shown Twilio as the only provider with that condition, and the other five as if the question had been asked and answered no — when the honest answer was that it simply hadn't been asked yet.
+
+That's the failure mode this section names: research depth that varies row to row produces a false ranking, even when every individual claim is accurate. A condition uncovered at one provider isn't a footnote scoped to that provider — it's a question to re-ask at every other entry carrying the same fact, because its absence elsewhere might mean "no," or might just mean "not yet checked," and a reader can't tell those apart from the page.
+
+All five other dpa_eu entries were re-read for this specific question after Twilio's was found. Two — Mistral and AssemblyAI — reserve an explicit controller role in their own DPAs, for different purposes each. OpenAI's DPA explicitly limits itself to processor only, with no controller clause anywhere in the document — a real difference, confirmed by reading, not an artifact of uneven search. AWS's DPA-incorporation clause is silent on the question, though other sections of the same Service Terms describe controller-like uses; that one is flagged as worth a closer read of the DPA document itself. Speechmatics already answered this question before it was named: its entry states plainly that Speechmatics is processor only, the customer controller.
+
 ## How often
 
 Monthly review per provider, and immediately on a major announcement. Between reviews, an automated weekly check confirms that every source still responds.
