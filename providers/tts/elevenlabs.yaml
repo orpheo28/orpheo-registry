@@ -1,0 +1,112 @@
+provider_id: elevenlabs
+legal_entity: Eleven Labs Inc.
+layer: tts
+jurisdiction: US
+models: [eleven-v3]
+
+no_training_commitment:
+  value: false
+  verified_at: 2026-08-21
+  source_url: https://elevenlabs.io/terms-of-use
+  confidence: high
+  note: >
+    VERIFIED AS FALSE, NOT ABSENT — the terms establish the opposite of a
+    no-training commitment as the default, and say so in their own main
+    text. Section 4(d): ElevenLabs may use Content "to improve the
+    Services, and to develop new services and products" — a training
+    grant, not an exclusion. This applies to Content submitted through the
+    core API (Text-to-Speech included), and the terms make no distinction
+    between Free and Paid tiers: both are subject to the same clause.
+    OPT-OUT EXISTS, BUT IT'S AN ESCAPE HATCH FROM THE DEFAULT, NOT THE
+    DEFAULT ITSELF: Section 4(i), "you may opt out of our use of your
+    Content for training at any time by navigating to the 'Data use' menu
+    in the 'Terms and Privacy' section." Once exercised, "Your Content
+    will no longer be used to improve our Services (including the Models)"
+    going forward — but prior use isn't undone.
+    A SEPARATE, NARROWER COMMITMENT EXISTS FOR A DIFFERENT PRODUCT: search
+    results describe agreements with third-party LLM providers barring
+    them from training on data that flows through ElevenLabs Agents
+    (the conversational product, which chains a third-party LLM to
+    ElevenLabs' own STT/TTS). That commitment governs what happens
+    downstream of Agents, not what ElevenLabs itself does with content
+    submitted to the TTS API — the fact this entry actually needs, and the
+    one the main Terms answer directly, in the opposite direction.
+    This is the second entry in this registry where the honest reading of
+    the default runs opposite to what a reader skimming for "yes/no" would
+    assume — the first being Mistral's opt-out-by-default products
+    (model/mistral.yaml). Recorded as `false` rather than `true`-with-a-
+    heavy-caveat, because here there is no split by product or plan: the
+    default is uniform, and it is training.
+
+baa_available:
+  value: true
+  verified_at: 2026-08-21
+  source_url: https://elevenlabs.io/docs/eleven-agents/legal/hipaa
+  confidence: medium
+  note: >
+    SCOPED TO A DIFFERENT PRODUCT THAN THIS ENTRY: "Execution of a BAA, as
+    may be required by HIPAA, is only available for Enterprise tier
+    subscriptions" — but the page documenting this is titled and scoped to
+    ElevenLabs Agents (the conversational voice-agent product), not the
+    core Text-to-Speech API this entry describes. No first-party page read
+    confirms the TTS API itself is HIPAA-eligible or covered by the same
+    BAA. Recorded here because Agents is built on top of the same
+    underlying speech engine and a buyer evaluating this provider will
+    encounter this page — but the coverage boundary matters: don't read
+    this cell as "TTS API is BAA-covered," only as "ElevenLabs offers a
+    BAA, for a specific product." Sales-managed, Enterprise tier only, no
+    self-service path documented.
+
+zero_retention_option:
+  value: true
+  verified_at: 2026-08-21
+  source_url: https://elevenlabs.io/docs/eleven-api/resources/zero-retention-mode
+  confidence: medium
+  note: >
+    CONFIRMED TO COVER TTS SPECIFICALLY, WHICH IS RARE ENOUGH TO NAME: "Text
+    to Speech: All endpoints beginning with '/v1/text-to-speech/' and the
+    TTS websocket connection" are eligible when `enable_logging=false`.
+    ENTERPRISE-GATED, NOT SELF-SERVICE, AND NOT GUARANTEED ON REQUEST:
+    "available to select enterprise customers," and access "may be
+    restricted if ElevenLabs determines a customer's use case to be high
+    risk." This is the THIRD entry in this registry with this exact shape
+    — a retention or residency control that exists, is real, and is still
+    gated behind an enterprise plan and provider discretion rather than a
+    setting any customer can flip (see also: Twilio SMS EU residency,
+    telephony/twilio.yaml; OpenRouter in-region routing,
+    platform/openrouter.yaml). A `zero_retention_option: true` reached only
+    through a sales conversation reads, in this matrix, identically to one
+    any customer can enable from a dashboard — worth a distinct expression
+    if a fourth case appears.
+    CAVEATS: API-only — "UI traffic is never ZRM-covered" — and support is
+    explicitly degraded once enabled: "we will not be able to diagnose
+    issues with TTS/STS generations."
+
+# dpa_eu — NOT DOCUMENTED, THOUGH A DPA EXISTS
+#   https://elevenlabs.io/dpa (dated April 8, 2026) is real, contractual,
+#   and incorporated by reference into the customer agreement — it would
+#   ordinarily be published here as `true`, high confidence. It's held back
+#   this session for a narrower reason: Section 13.1 permits ElevenLabs
+#   personnel to access customer data OUTSIDE the customer's designated
+#   data-residency location for "Support Services" and "Moderation Team"
+#   functions. That's a real carve-out on a fact this registry would
+#   otherwise publish as a clean `true`, and it deserves its own
+#   verification pass — reading section 13.1 in full, not a fetched
+#   summary of it — before going in the matrix. Controller-role question
+#   (METHODOLOGY.md, "Comparability across the matrix") was checked in the
+#   same read: Section 2.2 splits roles cleanly, customer as controller,
+#   ElevenLabs as processor — no independent controller purpose reserved,
+#   same shape as Speechmatics and OpenAI.
+
+# data_residency — NOT DOCUMENTED
+#   Additional storage locations exist in the EU, India, and Singapore
+#   beyond the default US location — but "Data residency is an exclusive
+#   feature available to ElevenLabs' Enterprise customers," and no
+#   first-party page read confirms this applies to the Text-to-Speech API
+#   specifically rather than the platform generally. Two open questions,
+#   not one: does it cover TTS, and what happens by default without
+#   Enterprise access. Neither is answered by what's been read so far.
+
+# default_retention — NOT DOCUMENTED
+#   No first-party source read states a default retention period for TTS
+#   audio, text input, or generated output outside of Zero Retention Mode.
