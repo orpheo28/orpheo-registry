@@ -1,0 +1,100 @@
+provider_id: twilio
+legal_entity: Twilio Inc.
+layer: telephony
+jurisdiction: US
+models: []
+
+baa_available:
+  value: true
+  verified_at: 2026-08-21
+  source_url: https://www.twilio.com/en-us/hipaa
+  confidence: medium
+  additional_source_urls:
+    - https://www.twilio.com/docs/iam/twilio-editions/hippa
+  note: >
+    NOT SELF-SERVICE, AND GATED BY ACCOUNT TIER: "Customers wishing to sign
+    a BAA with Twilio must have our Security Edition or Enterprise
+    Edition," and "Please contact your Twilio Account Representative or
+    Contact Sales to learn more." There is no self-service path — unlike
+    AssemblyAI's published template or AWS's self-service AWS Artifact flow
+    documented elsewhere in this registry.
+    COVERAGE IS A LIST, NOT A STATE: "Customers may use all other products
+    and services that are not on this list, but there must be no potential
+    for PHI being exchanged" — the HIPAA-eligible product list itself lives
+    on a separate page, not read here, so which specific Twilio products
+    (Voice, SMS, Studio, etc.) are actually covered remains unverified at
+    the per-product level.
+    Compliance page, not the contract itself: confidence medium.
+
+no_training_commitment:
+  value: true
+  verified_at: 2026-08-21
+  source_url: https://www.twilio.com/en-us/legal/ai-terms/predictive-generative-ai-features
+  confidence: high
+  note: >
+    Predictive and Generative AI/ML Features Addendum, dated May 4, 2026 —
+    a contractual document. Exact wording: "AI/ML Content will not be used
+    to improve, train, and fine-tune Twilio's other AI/ML Features and any
+    related models not used by Customer, without Customer's acceptance of
+    or agreement to supplemental terms granting Twilio the right to do so."
+    For third parties: "no Input will be disclosed to a Third-Party
+    Technology provider for the purpose of training or fine-tuning its
+    underlying base model, without Customer's acceptance of or agreement
+    to supplemental terms."
+    TWO CARVE-OUTS THAT MATTER: content may still be used (1) "to detect,
+    investigate, and prevent security incidents, network exploits and
+    abuse, spam, and violations," and (2) "to improve, train, or fine-tune
+    the AI/ML Features solely for Customer's benefit in connection with
+    Customer's use of such AI/ML Features" — i.e. Twilio can fine-tune a
+    model ON a customer's own data FOR that same customer, which is a
+    narrower and different thing than training a shared base model on it.
+    This fact applies to Twilio's own AI/ML Features addendum; it says
+    nothing about the underlying telephony/messaging service itself, which
+    has no model to train on.
+
+data_residency:
+  value: [ie]
+  verified_at: 2026-08-21
+  source_url: https://www.twilio.com/docs/global-infrastructure/sms-eu-data-residency
+  confidence: medium
+  note: >
+    NARROW ON PURPOSE — SMS ONLY, AND OPT-IN, NOT A DEFAULT. Exact wording:
+    "SMS messages are processed and stored exclusively in Twilio's IE1
+    region in the EU, up to the point they reach Twilio's connections with
+    telecommunications providers." This holds only when a customer
+    explicitly sends through the Ireland (IE1) Region of the Programmable
+    Messaging API — ordinary SMS traffic isn't routed there by default.
+    The page makes no claim about Voice, WhatsApp, email, or any other
+    Twilio product: this value covers SMS alone. A buyer who reads "Twilio
+    has EU data residency" and assumes it extends to their voice traffic is
+    wrong — that would need its own first-party source, not read here.
+    Documentation page, not a contractual guarantee: confidence medium.
+
+dpa_eu:
+  value: true
+  verified_at: 2026-08-21
+  source_url: https://www.twilio.com/en-us/legal/data-protection-addendum
+  confidence: high
+  note: >
+    Dated April 9, 2026 (last updated). Exact incorporation language:
+    the addendum "forms part of the agreement(s) between Customer and
+    Twilio covering Customer's use of the Services." "Applicable Data
+    Protection Law" is defined to include, by name, the "General Data
+    Protection Regulation EU 2016/679." EU Standard Contractual Clauses are
+    incorporated by reference for transfers outside the EEA: "the EU
+    Standard Contractual Clauses will be deemed entered into, and
+    incorporated into this Addendum by this reference."
+    Twilio holds a dual role depending on the data: processor for
+    customer-instructed processing, controller for its own legitimate
+    business purposes — a distinction a buyer should read carefully rather
+    than assume "DPA" means Twilio is only ever a processor.
+    Contractual document, incorporated automatically into the customer
+    agreement rather than a separate opt-in: confidence high.
+
+# zero_retention_option — NOT DOCUMENTED
+#   No first-party source read establishing a zero-retention option for
+#   telephony/messaging content.
+
+# default_retention — NOT DOCUMENTED
+#   No first-party source read stating a default retention period for call
+#   or message content.
