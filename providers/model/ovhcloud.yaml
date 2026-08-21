@@ -10,33 +10,32 @@ no_training_commitment:
   source_url: https://www.ovhcloud.com/en/public-cloud/ai-endpoints/
   confidence: medium
   note: >
-    Formulation exacte, sur la page produit AI Endpoints : « Your data will
-    never be used to train or improve our AI models ».
-    AMBIGUÏTÉ À LEVER : OVHcloud sert des modèles de TIERS — Llama, Qwen,
-    Deepseek. « our AI models » ne dit donc pas explicitement ce qu'il advient
-    des données vis-à-vis des éditeurs de ces modèles, ni si l'engagement
-    couvre l'ensemble de la chaîne. Un éditeur santé a besoin de cette
-    précision, et cette source ne la donne pas.
-    Il s'agit en outre d'une page produit et non d'un document contractuel :
-    les conditions particulières d'AI Endpoints n'ont pas été lues, d'où
-    confidence medium.
+    Exact wording, on the AI Endpoints product page: "Your data will never
+    be used to train or improve our AI models."
+    AMBIGUITY TO RESOLVE: OVHcloud serves THIRD-PARTY models — Llama, Qwen,
+    Deepseek. "our AI models" therefore doesn't explicitly say what happens
+    to data with respect to the publishers of those models, or whether the
+    commitment covers the whole chain. A healthcare buyer needs that
+    precision, and this source doesn't give it.
+    It's also a product page, not a contractual document: the AI Endpoints
+    specific terms haven't been read, hence confidence medium.
 
-# baa_available — NON RENSEIGNÉ
-#   Aucun document de première partie lu ne mentionne un BAA. La page produit
-#   évoque des certifications de la plateforme sous-jacente, ce qui est un
-#   autre sujet : une certification d'hébergement n'est pas un accord signé
-#   entre le fournisseur et l'éditeur, et les confondre serait exactement le
-#   raccourci que ce registre existe pour empêcher.
+# baa_available — NOT DOCUMENTED
+#   No first-party document read mentions a BAA. The product page mentions
+#   certifications of the underlying platform, which is a different subject:
+#   a hosting certification isn't a signed agreement between the provider
+#   and the buyer, and conflating the two is exactly the shortcut this
+#   registry exists to prevent.
 
-# zero_retention_option — NON RENSEIGNÉ
-#   Aucune source de première partie lue.
+# zero_retention_option — NOT DOCUMENTED
+#   No first-party source read.
 
-# default_retention — NON RENSEIGNÉ
-#   Aucune source de première partie lue.
+# default_retention — NOT DOCUMENTED
+#   No first-party source read.
 
-# data_residency — NON RENSEIGNÉ
-#   La page évoque un hébergement européen en termes commerciaux. Aucune
-#   source de première partie ne nomme la ou les régions de traitement.
+# data_residency — NOT DOCUMENTED
+#   The page mentions European hosting in commercial terms. No first-party
+#   source names the processing region(s).
 
-# dpa_eu — NON RENSEIGNÉ
-#   Aucune source de première partie lue.
+# dpa_eu — NOT DOCUMENTED
+#   No first-party source read.

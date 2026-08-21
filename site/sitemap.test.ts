@@ -71,7 +71,7 @@ describe("aucune route déclarée ne mène à la 404", () => {
     expect(existsSync(join(dist, "404.html"))).toBe(true);
     expect(existsSync(join(dist, "methodologie.html"))).toBe(true);
     expect(readFileSync(join(dist, "methodologie.html"), "utf8")).toContain(
-      "ce que nous ne vérifions pas",
+      "what we don't verify",
     );
   });
 });
@@ -104,15 +104,15 @@ describe("les conditions sont lisibles sur la page, pas seulement dans les fichi
   it("la matrice signale qu'un fait est sous condition", () => {
     // Elle ne peut pas afficher la condition — un tableau dense y perdrait sa
     // lisibilité — mais elle doit dire qu'elle existe, sinon elle affirme
-    // « oui » là où le fournisseur écrit « oui, sauf si ».
+    // « yes » là où le fournisseur écrit « yes, unless ».
     const accueil = readFileSync(join(dist, "index.html"), "utf8");
-    expect(accueil).toContain("sous condition");
+    expect(accueil).toContain("conditional");
   });
 
   it("un fait vérifié comme ABSENT se distingue d'un fait inconnu", () => {
     const html = readFileSync(join(dist, "p/speechmatics.html"), "utf8");
     // Le fournisseur a répondu : il ne garantit rien. Ce n'est pas une inconnue.
-    expect(html).toContain("aucune garantie");
+    expect(html).toContain("no guarantee");
     expect(html).toContain("outside of the European Economic Area");
   });
 });

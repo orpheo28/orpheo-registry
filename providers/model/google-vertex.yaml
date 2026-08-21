@@ -10,15 +10,15 @@ no_training_commitment:
   source_url: https://docs.cloud.google.com/gemini-enterprise-agent-platform/resources/zero-data-retention
   confidence: medium
   note: >
-    Formulation exacte : « Google won't use your data to train or fine-tune any
-    AI/ML models without your prior permission or instruction. This applies to
-    all managed models, including GA and pre-GA models. »
-    NUANCE : conditionnelle, comme chez Microsoft — « without your prior
-    permission or instruction ».
-    Cette page renvoie, pour la clause contractuelle, à la section « Training
-    Restriction » des Service Specific Terms. Ce document-là n'a pas été lu :
-    la confiance reste donc medium, et un relecteur qui voudra du high devra
-    citer les Service Specific Terms directement.
+    Exact wording: "Google won't use your data to train or fine-tune any
+    AI/ML models without your prior permission or instruction. This applies
+    to all managed models, including GA and pre-GA models."
+    NUANCE: conditional, as with Microsoft — "without your prior permission
+    or instruction."
+    For the contractual clause, this page points to the "Training
+    Restriction" section of the Service Specific Terms. That document
+    hasn't been read: confidence therefore stays medium, and a reviewer who
+    wants high will need to cite the Service Specific Terms directly.
 
 zero_retention_option:
   value: true
@@ -26,22 +26,22 @@ zero_retention_option:
   source_url: https://docs.cloud.google.com/gemini-enterprise-agent-platform/resources/zero-data-retention
   confidence: medium
   note: >
-    La rétention nulle n'est PAS un état par défaut ni un simple interrupteur :
-    « To achieve zero data retention, customers must take specific actions
-    within each of these areas ». Plusieurs domaines sont concernés
-    séparément, dont la journalisation des prompts pour surveillance d'abus,
-    la reprise de session de l'API Live et la mise en cache en mémoire.
-    Un éditeur qui croit avoir activé le ZDR d'un seul geste ne l'a pas.
+    Zero data retention is NOT a default state or a single switch: "To
+    achieve zero data retention, customers must take specific actions
+    within each of these areas." Several areas are covered separately,
+    including prompt logging for abuse monitoring, Live API session resume,
+    and in-memory caching.
+    A buyer who thinks they enabled ZDR with one action hasn't.
 
-# baa_available — NON RENSEIGNÉ
-#   Google Cloud publie une liste de services couverts par son BAA, non lue.
+# baa_available — NOT DOCUMENTED
+#   Google Cloud publishes a list of services covered by its BAA, not read.
 
-# default_retention — NON RENSEIGNÉ
-#   Les durées par domaine figurent sur la page lue mais n'ont pas été
-#   extraites une par une ; publier une durée unique serait faux.
+# default_retention — NOT DOCUMENTED
+#   Per-area retention periods appear on the page read but haven't been
+#   extracted one by one; publishing a single duration would be false.
 
-# data_residency — NON RENSEIGNÉ
-#   Aucune source de première partie lue.
+# data_residency — NOT DOCUMENTED
+#   No first-party source read.
 
-# dpa_eu — NON RENSEIGNÉ
-#   Aucune source de première partie lue.
+# dpa_eu — NOT DOCUMENTED
+#   No first-party source read.

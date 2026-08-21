@@ -10,16 +10,16 @@ no_training_commitment:
   source_url: https://learn.microsoft.com/en-us/azure/foundry/responsible-ai/openai/data-privacy
   confidence: medium
   note: >
-    Formulation exacte : entrées, sorties, embeddings et données
-    d'entraînement « are NOT available to OpenAI or other providers of Models
-    sold by Azure », « are NOT used by providers of Models sold by Azure to
-    improve their models or services », et « are NOT used to train any
-    generative AI foundation models without your permission or instruction ».
-    NUANCE QUI PORTE : la dernière clause est conditionnelle — « without your
-    permission or instruction » — et non un interdit absolu.
-    Microsoft indique que le traitement est régi par le Products and Services
-    Data Protection Addendum, qui est le document contractuel ; cette page-ci
-    est de la documentation, d'où confidence medium.
+    Exact wording: inputs, outputs, embeddings, and training data "are NOT
+    available to OpenAI or other providers of Models sold by Azure," "are
+    NOT used by providers of Models sold by Azure to improve their models or
+    services," and "are NOT used to train any generative AI foundation
+    models without your permission or instruction."
+    WHAT ACTUALLY MATTERS HERE: the last clause is conditional — "without
+    your permission or instruction" — not an absolute prohibition.
+    Microsoft states that processing is governed by the Products and
+    Services Data Protection Addendum, which is the contractual document;
+    this page is documentation, hence confidence medium.
 
 zero_retention_option:
   value: true
@@ -27,37 +27,37 @@ zero_retention_option:
   source_url: https://learn.microsoft.com/en-us/azure/foundry/responsible-ai/openai/data-privacy
   confidence: medium
   note: >
-    Par le mécanisme de « modified abuse monitoring », soumis à approbation et
-    réservé aux clients gérés : « If the customer has been approved for modified
-    abuse monitoring, the data storage and human review process described above
-    is not performed. »
-    RÉSERVES : une revue AUTOMATISÉE peut continuer, et si elle détecte un abus
-    sévère ou récurrent le client peut subir des limitations d'accès. Les
-    fonctionnalités en préversion peuvent appliquer d'autres pratiques.
+    Through the "modified abuse monitoring" mechanism, subject to approval
+    and reserved for managed customers: "If the customer has been approved
+    for modified abuse monitoring, the data storage and human review process
+    described above is not performed."
+    CAVEATS: an AUTOMATED review can still run, and if it detects severe or
+    recurring abuse the customer may face access restrictions. Preview
+    features may apply different practices.
 
 data_residency:
-  value: [géographie Azure désignée par le client]
+  value: [customer-specified Azure geography]
   verified_at: 2026-08-13
   source_url: https://learn.microsoft.com/en-us/azure/foundry/responsible-ai/openai/data-privacy
   confidence: medium
   note: >
-    « Prompts and responses are processed within the customer-specified
-    geography », SAUF pour les types de déploiement Global et DataZone.
-    CONFLIT DOCUMENTÉ : un déploiement « Global » traite les requêtes dans
-    n'importe quelle géographie où le modèle est déployé ; un déploiement
-    « DataZone » dans n'importe quelle géographie de la zone. Le stockage AU
-    REPOS reste dans la géographie désignée dans les deux cas — c'est le
-    TRAITEMENT qui sort. Un éditeur qui croit avoir choisi sa région en
-    sélectionnant un déploiement Global se trompe.
+    "Prompts and responses are processed within the customer-specified
+    geography," EXCEPT for the Global and DataZone deployment types.
+    DOCUMENTED CONFLICT: a "Global" deployment processes requests in
+    whatever geography the model is deployed to; a "DataZone" deployment in
+    any geography within the zone. Storage AT REST stays within the
+    designated geography in both cases — it's PROCESSING that leaves it. A
+    buyer who thinks they've chosen their region by picking a Global
+    deployment is wrong.
 
-# baa_available — NON RENSEIGNÉ
-#   Microsoft propose un BAA HIPAA via ses Product Terms, mais la page lue
-#   n'établit pas la couverture d'Azure OpenAI en particulier. Ne pas déduire.
+# baa_available — NOT DOCUMENTED
+#   Microsoft offers a HIPAA BAA through its Product Terms, but the page read
+#   doesn't establish coverage for Azure OpenAI specifically. Not to be inferred.
 
-# default_retention — NON RENSEIGNÉ
-#   La durée de conservation des données de surveillance d'abus est documentée
-#   sur une autre page, non lue.
+# default_retention — NOT DOCUMENTED
+#   The retention period for abuse-monitoring data is documented on another
+#   page, not read.
 
-# dpa_eu — NON RENSEIGNÉ
-#   Le Data Protection Addendum est cité comme régissant le traitement, mais
-#   son URL canonique n'a pas été résolue et son contenu n'a pas été lu.
+# dpa_eu — NOT DOCUMENTED
+#   The Data Protection Addendum is cited as governing processing, but its
+#   canonical URL hasn't been resolved and its content hasn't been read.

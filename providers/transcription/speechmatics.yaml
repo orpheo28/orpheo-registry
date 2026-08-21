@@ -10,31 +10,31 @@ dpa_eu:
   source_url: https://www.speechmatics.com/legal/privacy-policy
   confidence: medium
   note: >
-    « We enter into data processing agreements with our customers which set out
-    our obligations under the GDPR », et, « where appropriate », les clauses
-    contractuelles types de la Commission européenne pour les transferts hors
-    EEE, Royaume-Uni ou Suisse. Speechmatics agit comme sous-traitant, le client
-    comme responsable de traitement.
-    Le DPA lui-même n'a pas été lu : c'est la politique de confidentialité qui
-    en atteste l'existence, d'où confidence medium.
+    "We enter into data processing agreements with our customers which set
+    out our obligations under the GDPR," and, "where appropriate," the
+    European Commission's standard contractual clauses for transfers
+    outside the EEA, UK, or Switzerland. Speechmatics acts as processor,
+    the customer as controller.
+    The DPA itself hasn't been read: it's the privacy policy that attests
+    to its existence, hence confidence medium.
 
-# baa_available — NON RENSEIGNÉ
-#   Société britannique ; aucun document de première partie lu ne mentionne un
-#   BAA au sens de HIPAA. Absence de preuve, pas preuve d'absence.
+# baa_available — NOT DOCUMENTED
+#   A UK company; no first-party document read mentions a BAA in the HIPAA
+#   sense. Absence of evidence, not evidence of absence.
 
-# no_training_commitment — NON RENSEIGNÉ, ET UN PIÈGE À NE PAS INVERSER
-#   La clause 4.3 des conditions de service interdit AU CLIENT d'utiliser le
-#   logiciel pour « create, train, or improve a similar or competing product ».
-#   C'est une restriction imposée au client, PAS un engagement du fournisseur
-#   de ne pas entraîner sur les données du client. Lire la première comme la
-#   seconde inverserait le sens du contrat.
+# no_training_commitment — NOT DOCUMENTED, AND A TRAP NOT TO INVERT
+#   Clause 4.3 of the terms of service prohibits THE CUSTOMER from using
+#   the software to "create, train, or improve a similar or competing
+#   product." That's a restriction imposed on the customer, NOT a
+#   commitment from the provider not to train on customer data. Reading
+#   the first as the second would invert the meaning of the contract.
 
-# default_retention — NON RENSEIGNÉ, DEUX PIÈGES ÉCARTÉS
-#   (1) La politique dit conserver les données « only as required or permitted
-#   by local law and while it has a legitimate business purpose » : ce n'est pas
-#   une durée, et le publier comme telle serait inventer.
-#   (2) La clause 9.2 mentionne sept jours, mais APRÈS RÉSILIATION de
-#   l'abonnement — pas la rétention courante. Même piège que chez Mistral.
+# default_retention — NOT DOCUMENTED, TWO TRAPS AVOIDED
+#   (1) The policy says it retains data "only as required or permitted by
+#   local law and while it has a legitimate business purpose": that isn't a
+#   duration, and publishing it as one would be inventing it.
+#   (2) Clause 9.2 mentions seven days, but AFTER subscription
+#   TERMINATION — not ongoing retention. Same trap as with Mistral.
 
 data_residency:
   value: null
@@ -42,14 +42,14 @@ data_residency:
   source_url: https://www.speechmatics.com/legal/privacy-policy
   confidence: medium
   note: >
-    VÉRIFIÉ COMME ABSENT : le fournisseur énonce l'inverse d'une garantie.
-    « The data that we collect from you may be stored and processed in a
+    VERIFIED AS ABSENT: the provider states the opposite of a guarantee.
+    "The data that we collect from you may be stored and processed in a
     location outside of the European Economic Area, United Kingdom or
     Switzerland. For example, some of our third party cloud providers use
-    servers that are located in the USA. »
-    Ce n'est pas une inconnue, c'est une réponse — et c'est celle qu'un éditeur
-    européen doit voir avant de choisir un transcripteur britannique.
-    CHAÎNE : la liste de sous-traitants publiée nomme Alphabet/Google pour le
-    « stockage de documents et communications » et l'« IA générative ». Un
-    éditeur qui croit n'utiliser qu'un fournisseur britannique a en réalité un
-    acteur américain dans sa chaîne, ce que le document dit lui-même.
+    servers that are located in the USA."
+    This isn't an unknown, it's an answer — and it's the one a European
+    buyer needs to see before choosing a UK-based transcriber.
+    CHAIN: the published sub-processor list names Alphabet/Google for
+    "document and communication storage" and "generative AI." A buyer who
+    thinks they're only using a UK provider actually has a US actor in
+    their chain, which the document states itself.
