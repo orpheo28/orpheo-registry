@@ -1,0 +1,62 @@
+#!/bin/sh
+#
+# Refuse de pousser du code qui ne compile pas, ne passe pas le lint, ou n'est
+# pas formaté.
+#
+# ── POURQUOI CE HOOK EXISTE ────────────────────────────────────────────────
+#
+# Repris tel quel du dépôt principal (`orpheo`), qui l'a écrit après deux
+# poussées avec le lint rouge à quelques heures d'écart, même motif les deux
+# fois : la commande lancée, la sortie non lue, le commit enchaîné.
+#
+# Ici, la même faute vient de se reproduire sous une forme voisine : un
+# `prettier --check` lancé et lu correctement, un vert rapporté — puis le
+# fichier a encore changé avant la poussée, et le vert rapporté ne portait
+# plus sur l'arbre qui est réellement parti. Le vert avait survécu à ce qui
+# le rendait vrai.
+#
+# La discipline (« relance chaque étape avant d'annoncer ») ne se transmet pas
+# d'une session à l'autre. Un hook, si : il mesure l'arbre qui part au moment
+# où il part, pas celui dont un humain — ou un agent — se souvient.
+#
+# ── CE QU'IL LANCE, ET CE QU'IL NE LANCE PAS ───────────────────────────────
+#
+# `typecheck`, `lint`, `format:check` — rapides, déterministes, et sans aucune
+# dépendance externe. Ce sont les trois qui échouent pour des raisons dont
+# l'auteur est seul responsable.
+#
+# PAS de garde d'octets : ce dépôt n'en a pas (pas de script `octets` dans
+# `package.json`) — celui du dépôt principal répondait à un défaut constaté
+# là-bas (un octet NUL dans un fichier TypeScript), pas ici.
+#
+# PAS les tests, PAS le build : `pnpm verify` les couvre déjà et la CI les
+# exécute pour de bon. Ce hook est un filet contre l'étourderie avant de
+# pousser, pas un substitut à la CI.
+#
+# Pour outrepasser en connaissance de cause : `git push --no-verify`.
+
+set -e
+
+echo "pre-push : typecheck · lint · format"
+
+if ! pnpm run typecheck; then
+  echo ""
+  echo "✗ typecheck en échec — poussée refusée."
+  exit 1
+fi
+
+if ! pnpm run lint; then
+  echo ""
+  echo "✗ lint en échec — poussée refusée."
+  echo "  Beaucoup se corrigent avec : npx eslint . --fix"
+  exit 1
+fi
+
+if ! pnpm run format:check; then
+  echo ""
+  echo "✗ format en échec — poussée refusée."
+  echo "  Corriger avec : npx prettier --write ."
+  exit 1
+fi
+
+echo "pre-push : ✓"
