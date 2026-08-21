@@ -1,6 +1,13 @@
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import { execFileSync } from "node:child_process";
-import { chmodSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import {
+  chmodSync,
+  mkdirSync,
+  mkdtempSync,
+  readFileSync,
+  rmSync,
+  writeFileSync,
+} from "node:fs";
 import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -110,9 +117,13 @@ describe("Ouvrir une PR si l'état a changé", () => {
     // Le cas que `git diff` (sans index) rate silencieusement : le tout
     // premier passage du job, avant que sources-status.json existe dans git.
     execFileSync("git", ["rm", "--cached", "sources-status.json"], { cwd: depot });
-    execFileSync("git", ["commit", "-m", "retire le fichier pour simuler le premier passage"], {
-      cwd: depot,
-    });
+    execFileSync(
+      "git",
+      ["commit", "-m", "retire le fichier pour simuler le premier passage"],
+      {
+        cwd: depot,
+      },
+    );
     writeFileSync(join(depot, "sources-status.json"), '[{"url":"a","state":"ok"}]\n');
 
     const sortie = executer();
