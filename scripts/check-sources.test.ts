@@ -55,7 +55,8 @@ describe("les sources qui qualifient un fait sont surveillées aussi", () => {
     const { dirname, join } = await import("node:path");
     const racine = join(dirname(fileURLToPath(import.meta.url)), "..");
 
-    const urls = collectSources(racine);
+    const { urls, problems } = collectSources(racine);
+    expect(problems).toBe(0);
     expect(urls).toContain(
       "https://platform.claude.com/docs/en/manage-claude/api-and-data-retention",
     );
@@ -82,5 +83,34 @@ describe("une source refusée n'est pas une source morte", () => {
     expect(sameDocument("https://x.test/doc?article=12", "https://x.test/doc")).toBe(
       false,
     );
+  });
+});
+
+describe("un fichier invalide ne réduit pas silencieusement le compte déclaré", () => {
+  it("remonte les fichiers rejetés par le schéma dans `problems`, pas dans un total plus petit", async () => {
+    // `sans-source.yaml` (baa_available sans source_url) échoue le schéma et
+    // n'entre donc pas dans `providers` — voir load.test.ts. Sans `problems`,
+    // ce fichier disparaîtrait du compte sans qu'aucune erreur ne le signale :
+    // c'est exactement l'écart que le contrôle hebdomadaire doit refuser.
+    const { collectSources } = await import("./check-sources.ts");
+    const { mkdtempSync, mkdirSync, copyFileSync, rmSync } = await import("node:fs");
+    const { fileURLToPath } = await import("node:url");
+    const { dirname, join } = await import("node:path");
+    const { tmpdir } = await import("node:os");
+
+    const depot = join(dirname(fileURLToPath(import.meta.url)), "..");
+    const racine = mkdtempSync(join(tmpdir(), "collect-sources-"));
+    try {
+      mkdirSync(join(racine, "providers/model"), { recursive: true });
+      copyFileSync(
+        join(depot, "test/fixtures-invalides/model/sans-source.yaml"),
+        join(racine, "providers/model/sans-source.yaml"),
+      );
+
+      const { problems } = collectSources(racine);
+      expect(problems).toBeGreaterThan(0);
+    } finally {
+      rmSync(racine, { recursive: true, force: true });
+    }
   });
 });

@@ -34,32 +34,11 @@ jobs:
       # entre dans l'historique public du registre, qui est ce qui fait foi, et
       # une relecture humaine reste nécessaire pour retrouver le document.
       - name: Ouvrir une PR si l'état a changé
-        run: |
-          if git diff --quiet -- sources-status.json; then
-            echo "Aucun changement d'état des sources."
-            exit 0
-          fi
-          BRANCHE="sources/etat-$(date +%Y-%m-%d)"
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git checkout -b "$BRANCHE"
-          git add sources-status.json
-          git commit -m "sources : état de fraîcheur au $(date +%Y-%m-%d)"
-          git push origin "$BRANCHE"
-          cat > /tmp/corps.md <<'CORPS'
-          Contrôle hebdomadaire des sources du registre.
-
-          Les sources marquées `redirigee` ou `injoignable` font redescendre leur
-          fait à **non vérifié** sur le site, avec sa dernière date connue
-          (INV-11, INV-12). Le registre doit dire qu'il ne sait plus.
-
-          Une source redirigée n'est pas forcément fausse. Elle demande de
-          retrouver le document et de mettre l'URL à jour, ou de reprendre le
-          fait s'il a changé. Aucune machine ne peut juger si la page d'arrivée
-          porte encore le fait — c'est pourquoi cette PR attend une relecture.
-          CORPS
-          gh pr create --base main --head "$BRANCHE" \
-            --title "Fraîcheur des sources — $(date +%Y-%m-%d)" \
-            --body-file /tmp/corps.md
+        # La logique vit dans scripts/open-pr-if-changed.sh : un `run:` inline
+        # ne peut pas être exercé par un test. Voir
+        # scripts/open-pr-if-changed.test.ts, qui fabrique un changement et
+        # exige que la PR s'ouvre — pas seulement que le chemin « rien n'a
+        # changé » se termine proprement.
+        run: bash scripts/open-pr-if-changed.sh
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
