@@ -126,6 +126,42 @@ describe("holds_by_default pilote le badge « conditional », pas la présence d
   });
 });
 
+describe("unconfirmed_reason se voit — issue #6", () => {
+  const base = {
+    value: true,
+    verified_at: "2026-08-21",
+    source_url: "https://exemple.test/bloquee",
+    confidence: "high" as const,
+    unconfirmed_reason: "aucun équivalent accessible trouvé",
+  };
+
+  it("le motif s'affiche en title sur la puce de la matrice", () => {
+    const html = cell(base, "non_verifie");
+    expect(html).toContain('title="aucun équivalent accessible trouvé"');
+    expect(html).toContain("unverified");
+  });
+
+  it("la puce ne porte pas de title quand le fait n'est pas marqué", () => {
+    // La source garde son `title="confidence: ..."` — seule la PUCE doit
+    // rester sans attribut quand `unconfirmed_reason` est absent.
+    const sansMotif = {
+      value: base.value,
+      verified_at: base.verified_at,
+      source_url: base.source_url,
+      confidence: base.confidence,
+    };
+    const html = cell(sansMotif, "verifie");
+    expect(html).not.toMatch(/class="chip chip--\w+" title=/);
+  });
+
+  it("le motif s'écrit en clair sur la page d'un fournisseur, pas seulement au survol", async () => {
+    const { factBlock } = await import("./render.ts");
+    const html = factBlock("baa_available", "BAA", base, "non_verifie");
+    expect(html).toContain("Unconfirmed:");
+    expect(html).toContain("aucun équivalent accessible trouvé");
+  });
+});
+
 describe("un fait absent s'affiche comme absent", () => {
   it("ne rend ni « no », ni une case vide, ni une puce", () => {
     // Une case vide se lit comme un oubli de mise en page ; « no » affirmerait

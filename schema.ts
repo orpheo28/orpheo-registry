@@ -133,6 +133,25 @@ export function factSchema<T extends z.ZodType>(valueSchema: T) {
      * pourrit en silence, et le fait continue de s'afficher comme vérifié.
      */
     additional_source_urls: z.array(sourceUrlSchema).min(1).optional(),
+    /**
+     * La marque humaine qu'INV-11 autorise quand `bloquee` ne suffit pas.
+     *
+     * Le contrôleur (`check-sources.ts`) refuse de faire redescendre un fait
+     * dont la source répond 403/429 : un robot refusé n'est pas un document
+     * disparu (voir « bloquee n'est PAS injoignable »). Cette indulgence
+     * suppose qu'un ÉQUIVALENT ACCESSIBLE existe, ou qu'une relecture humaine
+     * régulière compense. Constaté sur deux faits OpenAI (issue #6,
+     * 2026-08-22) : ni l'un ni l'autre n'était vrai — `openai.com` refuse les
+     * robots sur toute adresse testée, et aucun document de première partie
+     * accessible ne porte le même fait à la même précision.
+     *
+     * Renseigné, ce champ dit au lecteur pourquoi une source bloquée n'a PAS
+     * bénéficié de l'indulgence habituelle : le fait reste publié, avec sa
+     * dernière valeur et sa dernière date connues, mais s'affiche NON VÉRIFIÉ
+     * quand même — le site force cet état plutôt que de le laisser se lire
+     * comme reconfirmé par un contrôle qu'il n'a jamais passé.
+     */
+    unconfirmed_reason: z.string().min(1).optional(),
   });
 }
 
@@ -334,4 +353,5 @@ export interface Fact<T> {
   note?: string;
   additional_source_urls?: string[];
   holds_by_default?: boolean | null;
+  unconfirmed_reason?: string;
 }

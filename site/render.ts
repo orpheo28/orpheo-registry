@@ -35,12 +35,24 @@ export type FactState = "verifie" | "non_verifie";
 /**
  * La puce d'assurance — anatomie imposée par DESIGN_SYSTEM.md §3 :
  * marqueur, libellé, ET DATE. « Une puce sans date est un bug. »
+ *
+ * `unconfirmedReason`, quand fourni, s'affiche en `title` — le motif pour
+ * lequel ce fait précis reste NON VÉRIFIÉ même si sa source est seulement
+ * `bloquee` (schema.ts, `unconfirmed_reason`, issue #6). Le lecteur le voit
+ * au survol plutôt que de deviner pourquoi ce fait-ci diffère des autres
+ * sources bloquées, qui elles restent affichées comme vérifiées.
  */
-export function chip(state: FactState, verifiedAt: string): string {
+export function chip(
+  state: FactState,
+  verifiedAt: string,
+  unconfirmedReason?: string,
+): string {
   const marqueur = state === "verifie" ? "◆" : "◦";
   const libelle = state === "verifie" ? "verified" : "unverified";
+  const titre =
+    unconfirmedReason === undefined ? "" : ` title="${escape(unconfirmedReason)}"`;
   return (
-    `<span class="chip chip--${state}">` +
+    `<span class="chip chip--${state}"${titre}>` +
     `<span class="chip__mark" aria-hidden="true">${marqueur}</span>` +
     `${libelle} <time datetime="${escape(verifiedAt)}">${formatDate(verifiedAt)}</time>` +
     `</span>`
@@ -129,7 +141,7 @@ export function cell(fait: Fact<unknown> | undefined, state: FactState): string 
   return (
     `<td class="cell">` +
     `<span class="cell__value">${renderValue(fait.value)}</span>` +
-    chip(state, fait.verified_at) +
+    chip(state, fait.verified_at, fait.unconfirmed_reason) +
     reserve +
     `<a class="cell__source" href="${escape(fait.source_url)}" rel="nofollow noopener" ` +
     `title="confidence: ${escape(fait.confidence)}">source</a>` +
@@ -164,6 +176,14 @@ export function factBlock(
 
   const note =
     fait.note === undefined ? "" : `<p class="fait__note">${escape(fait.note)}</p>`;
+  // Sur la matrice, le motif ne vit qu'au survol de la puce (place manquante,
+  // DESIGN_SYSTEM §8). Ici, comme pour `note`, il s'écrit — c'est ce motif qui
+  // explique pourquoi CE fait s'affiche non vérifié quand d'autres sources
+  // simplement `bloquee` restent vertes.
+  const nonConfirme =
+    fait.unconfirmed_reason === undefined
+      ? ""
+      : `<p class="fait__non-confirme">Unconfirmed: ${escape(fait.unconfirmed_reason)}</p>`;
   // Sur cette page, contrairement à la matrice, la place ne manque pas : la
   // réponse elle-même s'écrit, pas seulement un badge qui dit qu'elle existe.
   const contingence =
@@ -186,7 +206,8 @@ export function factBlock(
   return (
     `<section class="fait" id="${escape(cle)}">` +
     `<h3>${escape(libelle)}</h3>` +
-    `<p class="fait__valeur">${renderValue(fait.value)} ${chip(state, fait.verified_at)}</p>` +
+    `<p class="fait__valeur">${renderValue(fait.value)} ${chip(state, fait.verified_at, fait.unconfirmed_reason)}</p>` +
+    nonConfirme +
     note +
     contingence +
     `<p class="fait__meta">` +

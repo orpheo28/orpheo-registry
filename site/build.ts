@@ -59,6 +59,11 @@ const statuts = loadSourceStatus();
  */
 function stateOf(fait: Fact<unknown> | undefined): FactState {
   if (fait === undefined) return "verifie"; // ignoré : la cellule absente ne porte pas de puce
+  // `unconfirmed_reason` prime sur tout le reste : un humain a déjà constaté
+  // qu'aucun équivalent accessible n'existe pour CE fait précis (issue #6). Le
+  // laisser bénéficier de l'indulgence normale de `bloquee` (ligne suivante)
+  // l'afficherait comme reconfirmé par un contrôle qu'il n'a jamais passé.
+  if (fait.unconfirmed_reason !== undefined) return "non_verifie";
   const statut = statuts.get(fait.source_url);
   if (statut === undefined) return "verifie";
   // `bloquee` ne fait PAS redescendre : le contrôleur s'est vu refuser l'entrée,
