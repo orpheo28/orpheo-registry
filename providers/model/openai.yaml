@@ -6,21 +6,28 @@ models: [gpt-5.2, gpt-5.2-mini, o4]
 
 baa_available:
   value: true
-  verified_at: 2026-08-13
-  source_url: https://help.openai.com/en/articles/8660679-how-can-i-get-a-business-associate-agreement-baa-with-openai
+  verified_at: 2026-08-22
+  source_url: https://cdn.openai.com/osa/healthcare-addendum.pdf
   confidence: high
   note: >
-    Signable BAA for the API Platform and ChatGPT for Healthcare. An
-    enterprise agreement is NOT required to sign an API BAA — unlike ChatGPT
-    Enterprise/Edu, reserved for sales-managed accounts. ChatGPT Business
-    isn't eligible.
-    Web search with direct internet access is NOT HIPAA-eligible and isn't
-    covered by the BAA; in cache-only mode it is, but only with a key from
-    a ZDR project in a ZDR organization.
-    SOURCE CHANGED on 2026-08-13: the fact did appear on
-    openai.com/enterprise-privacy, but behind a collapsed FAQ — so not
-    re-verifiable by a third party without interacting with the page. The
-    source now on record is the one that states it in the main text.
+    SOURCE CHANGED on 2026-08-22 (issue #6): help.openai.com returns HTTP 403
+    to a robot and can't be machine-reverified. openai.com/enterprise-privacy/
+    does too — still blocked below, for the two facts that don't have an
+    accessible equivalent; see METHODOLOGY.md, "When a first-party source
+    blocks robots." Re-pointed to the actual Healthcare Addendum and BAA
+    (v.111124),
+    read directly: it is served from cdn.openai.com, which doesn't block
+    robots, the same pattern already used for dpa_eu below.
+    The document IS the executed agreement: the BAA itself is Exhibit A, and
+    Section 1 defines "Eligible Services" for PHI as OpenAI's Zero Retention
+    API and ChatGPT Enterprise — any other API use, any use outside an
+    Approved Org ID, and any use of a non-Zero-Retention-eligible endpoint is
+    explicitly excluded from the Healthcare Addendum's scope (Section 2.1).
+    This document doesn't state the request process (baa@openai.com), that
+    no enterprise agreement is required for the API BAA, ChatGPT Business's
+    ineligibility, or the web-search-with-internet-access carve-out — details
+    the former help-center source gave but this one doesn't confirm. They're
+    dropped rather than carried forward from a source nobody can reread.
 
 no_training_commitment:
   value: true
@@ -36,6 +43,18 @@ no_training_commitment:
     HOLDS_BY_DEFAULT IS TRUE: for the covered tiers, the commitment is
     unconditional in the page's own text — no opt-out, no approval, no
     configuration named anywhere in this passage.
+  unconfirmed_reason: >
+    openai.com/enterprise-privacy/ returns HTTP 403 to a robot (issue #6).
+    Searched on 2026-08-22 for an accessible first-party equivalent stating
+    the same combined commitment, and found none: developers.openai.com's
+    "your data" guide states data sent to the API isn't used to train models,
+    but never mentions ChatGPT Enterprise or ChatGPT Team; OpenAI Academy's
+    data-governance page states the commitment for "ChatGPT Enterprise and
+    ChatGPT Business," which names Business, not Team, and doesn't mention
+    the API. Neither restates this exact claim, so neither replaces this
+    source. Displayed unverified rather than left to read as reconfirmed by
+    a check it never passed — see METHODOLOGY.md, "When a first-party
+    source blocks robots."
 
 default_retention:
   value: "30 days"
@@ -46,6 +65,17 @@ default_retention:
     Retention of up to 30 days for service delivery and abuse detection,
     except for excluded endpoints and features listed in the platform
     documentation. Deleted after 30 days unless legally required otherwise.
+  unconfirmed_reason: >
+    openai.com/enterprise-privacy/ returns HTTP 403 to a robot (issue #6).
+    Searched on 2026-08-22 for an accessible first-party equivalent:
+    developers.openai.com's "your data" guide does state a 30-day period,
+    but scoped explicitly to abuse-monitoring logs ("abuse monitoring logs
+    are generated for all API feature usage and retained for up to 30
+    days") — narrower than this fact's "service delivery and abuse
+    detection" retention. Not the same claim, so not treated as an
+    equivalent; no broader accessible statement was found. Displayed
+    unverified rather than left to read as reconfirmed by a check it never
+    passed — see METHODOLOGY.md, "When a first-party source blocks robots."
 
 zero_retention_option:
   value: true

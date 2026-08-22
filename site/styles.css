@@ -143,6 +143,14 @@ h1 {
   white-space: pre-line;
   color: var(--ink);
 }
+/* Pourquoi CE fait s'affiche non vérifié alors qu'une source `bloquee` reste
+   normalement verte (schema.ts, `unconfirmed_reason`, issue #6). */
+.fait__non-confirme {
+  margin: 0 0 calc(var(--space) * 2);
+  max-width: 78ch;
+  white-space: pre-line;
+  color: var(--amber);
+}
 .fait__meta,
 .fait__absence,
 .fait__contingence {

@@ -131,6 +131,25 @@ export async function checkSource(
   }
 }
 
+export interface SourceCollection {
+  urls: string[];
+  problems: number;
+  /**
+   * `source_url` → chaque `verified_at` d'un fait qui la porte.
+   *
+   * Sert à dater l'avertissement d'une source `bloquee` (issue #6) : quand un
+   * 403 empêche toute reconfirmation par machine, `verified_at` est la seule
+   * trace de la dernière relecture humaine. Sans cette carte, le job
+   * imprimerait la même phrase chaque semaine — un avertissement qui ne
+   * change jamais devient un bruit qu'on cesse de lire.
+   *
+   * `additional_source_urls` en est exclu : ce sont des sources qui
+   * QUALIFIENT le fait (schema.ts), pas celles dont `verified_at` date la
+   * lecture.
+   */
+  verifiedAt: Map<string, string[]>;
+}
+
 /**
  * Toutes les sources du registre, dédoublonnées — plusieurs faits en partagent une.
  *
@@ -140,9 +159,10 @@ export async function checkSource(
  * réalité, sans qu'aucune erreur ne le dise. `problems` remonte cet écart à
  * l'appelant plutôt que de le passer sous silence.
  */
-export function collectSources(racine: string): { urls: string[]; problems: number } {
+export function collectSources(racine: string): SourceCollection {
   const { providers, problems } = loadRegistry(join(racine, "providers"), racine);
   const urls = new Set<string>();
+  const verifiedAt = new Map<string, string[]>();
   for (const { data } of providers) {
     for (const cle of [...MATRIX_FACTS, "default_retention"] as const) {
       // Un fait absent n'a pas de source à contrôler — et n'en aura pas tant
@@ -150,13 +170,60 @@ export function collectSources(racine: string): { urls: string[]; problems: numb
       const fait = data[cle];
       if (fait === undefined) continue;
       urls.add(fait.source_url);
+      const dates = verifiedAt.get(fait.source_url) ?? [];
+      dates.push(fait.verified_at);
+      verifiedAt.set(fait.source_url, dates);
       // Les sources qui QUALIFIENT le fait sont surveillées comme celle qui
       // l'établit : ce sont elles qui portent les conflits, donc celles dont la
       // disparition trompe le plus.
       for (const autre of fait.additional_source_urls ?? []) urls.add(autre);
     }
   }
-  return { urls: [...urls].sort(), problems: problems.length };
+  return { urls: [...urls].sort(), problems: problems.length, verifiedAt };
+}
+
+/**
+ * Le nombre de jours civils entre deux dates AAAA-MM-JJ.
+ *
+ * `Date.UTC` retombe sur minuit UTC des deux côtés, donc aucun fuseau ne
+ * fausse l'écart — contrairement à une comparaison de chaînes, lisible pour
+ * trier mais pas pour mesurer une durée.
+ */
+export function joursDepuis(date: string, reference: string): number {
+  const versEpochUTC = (v: string): number => {
+    const [a, m, j] = v.split("-").map(Number);
+    return Date.UTC(a ?? 0, (m ?? 1) - 1, j ?? 1);
+  };
+  return Math.round((versEpochUTC(reference) - versEpochUTC(date)) / 86_400_000);
+}
+
+/**
+ * Le détail imprimé pour une source `bloquee` — l'ÂGE, pas la même phrase.
+ *
+ * Avant ce changement, le job répétait « refuse l'accès à un robot » à
+ * l'identique chaque semaine, y compris pour une source bloquée depuis six
+ * mois : un avertissement qui ne change jamais devient un bruit qu'on cesse
+ * de lire, comme un test instable (issue #6). `verified_at` porte déjà la
+ * date de la dernière relecture humaine — inutile d'ajouter un champ, il
+ * suffit de la lire et de la vieillir chaque semaine.
+ *
+ * Plusieurs faits peuvent partager la même source bloquée, chacun avec son
+ * propre `verified_at` : on retient la PLUS ANCIENNE, la plus urgente, plutôt
+ * que de choisir arbitrairement laquelle citer.
+ */
+export function detailBloquee(
+  statut: SourceStatus,
+  verifiedAt: Map<string, string[]> | undefined,
+  aujourdhui: string,
+): string {
+  const dates = verifiedAt?.get(statut.url);
+  const plusAncienne = dates === undefined ? undefined : [...dates].sort()[0];
+  if (plusAncienne === undefined) return statut.reason ?? "";
+  const jours = joursDepuis(plusAncienne, aujourdhui);
+  return (
+    `${statut.reason ?? ""} — verified_at remonte à ${String(jours)} jour(s)` +
+    ` (dernière relecture humaine : ${plusAncienne}).`
+  );
 }
 
 async function main(): Promise<void> {
@@ -165,6 +232,9 @@ async function main(): Promise<void> {
   const maintenant = new Date().toISOString().slice(0, 10);
 
   let urls: string[];
+  // Absente en mode `--changed` : les URL viennent du diff de la PR, pas du
+  // registre chargé, donc aucun `verified_at` n'est disponible pour les dater.
+  let verifiedAt: Map<string, string[]> | undefined;
   if (mode === "changed") {
     // Les URL passées en argument par la CI, extraites du diff de la PR.
     urls = process.argv.filter((a) => a.startsWith("http"));
@@ -187,6 +257,7 @@ async function main(): Promise<void> {
       process.exit(1);
     }
     urls = collecte.urls;
+    verifiedAt = collecte.verifiedAt;
     if (urls.length === 0) {
       console.log("Registre vide : aucune source à contrôler.");
       return;
@@ -219,7 +290,9 @@ async function main(): Promise<void> {
     const detail =
       s.state === "redirigee"
         ? `mène désormais à ${s.final_url ?? "?"}`
-        : (s.reason ?? "");
+        : s.state === "bloquee"
+          ? detailBloquee(s, verifiedAt, maintenant)
+          : (s.reason ?? "");
     console.error(`  ${s.state.toUpperCase()} — ${s.url}\n    ${detail}`);
   }
   if (bloquees.length > 0) {

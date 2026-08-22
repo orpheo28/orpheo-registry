@@ -91,6 +91,19 @@ describe("un fait — INV-4", () => {
     const out = schema.safeParse(fait({ note: "niveau Enterprise uniquement" }));
     expect(out.success).toBe(true);
   });
+
+  it("accepte unconfirmed_reason — le motif qu'INV-11 autorise quand bloquee ne suffit pas", () => {
+    // issue #6 : aucun équivalent accessible trouvé pour un fait dont la
+    // source répond 403. Le fait reste publié, mais avec son motif.
+    const out = schema.safeParse(
+      fait({ unconfirmed_reason: "aucun équivalent accessible trouvé" }),
+    );
+    expect(out.success).toBe(true);
+  });
+
+  it("refuse un unconfirmed_reason vide — un motif absent n'en est pas un", () => {
+    expect(schema.safeParse(fait({ unconfirmed_reason: "" })).success).toBe(false);
+  });
 });
 
 describe("holds_by_default — une seule question, requise sur les faits concernés", () => {

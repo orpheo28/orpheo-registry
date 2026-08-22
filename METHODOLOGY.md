@@ -72,6 +72,16 @@ Two real cases, on the same day, show why both are needed:
 
 The second case gives the tie-breaking rule: when a check and a re-read contradict each other, neither one's memory nor the other's impression decides. You go back to the document, fetch it again, and look for the exact wording. The document decides, never whoever read it.
 
+## When a first-party source blocks robots
+
+Some first-party sources refuse automated access outright — a 403 or 429 to any script, while serving the exact same page to a human in a browser. openai.com and help.openai.com do this on every path we've tested, not just the ones this registry cites. We've also seen it independently, on 2026-08-22, on iso.org and the Standards Council of Canada while checking ISO/IEC 42001 for an unrelated project — this is a common posture among vendor privacy pages and standards bodies, not a quirk of one domain.
+
+The weekly check doesn't downgrade a fact just because its source refuses the robot: a refusal says "you don't have permission," not "the document is gone," and downgrading on sight would punish the reader for an anti-bot decision the provider made for reasons that have nothing to do with the fact itself.
+
+That leniency has a condition attached, though: it assumes a monitored human re-review exists, or that an accessible first-party equivalent restores machine verifiability. Tracked since 2026-08-17 (issue #6), two OpenAI facts had neither — openai.com/enterprise-privacy/ blocks robots, and no accessible document states the same claim at the same precision. Those two facts carry a recorded reason and display UNVERIFIED anyway, with their last known date. A blocked source nobody re-reads isn't the same as a source someone re-reads by hand on a schedule, and this registry doesn't let the one read as the other.
+
+Where an accessible first-party equivalent does exist, it replaces the blocked page as the source of record — a PDF served from a different subdomain, a documentation page, a mirror. That's what happened for OpenAI's BAA and DPA: help.openai.com and openai.com/policies/data-processing-addendum/ block robots, but cdn.openai.com, serving the actual contracts, doesn't.
+
 ## What we don't verify
 
 We read what the provider publishes. We don't verify that they follow it: that would require an audit, which we don't do and don't claim to do.

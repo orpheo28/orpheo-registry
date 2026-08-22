@@ -86,6 +86,66 @@ describe("une source refusée n'est pas une source morte", () => {
   });
 });
 
+describe("l'avertissement d'une source bloquée vieillit, il ne se répète pas", () => {
+  it("joursDepuis compte des jours civils, pas des millisecondes", async () => {
+    const { joursDepuis } = await import("./check-sources.ts");
+    expect(joursDepuis("2026-08-13", "2026-08-22")).toBe(9);
+    expect(joursDepuis("2026-08-22", "2026-08-22")).toBe(0);
+  });
+
+  it("collectSources date chaque source par le verified_at des faits qui la portent", async () => {
+    // Constaté en la construisant : openai.yaml porte deux faits sourcés sur
+    // la même URL bloquée (issue #6), chacun avec sa propre date. Le job doit
+    // pouvoir retrouver les deux pour choisir la plus ancienne.
+    const { collectSources } = await import("./check-sources.ts");
+    const { fileURLToPath } = await import("node:url");
+    const { dirname, join } = await import("node:path");
+    const racine = join(dirname(fileURLToPath(import.meta.url)), "..");
+
+    const { verifiedAt } = collectSources(racine);
+    const dates = verifiedAt.get("https://openai.com/enterprise-privacy/");
+    expect(dates).toContain("2026-08-13");
+    expect(dates).toContain("2026-08-21");
+  });
+
+  it("detailBloquee imprime l'ÂGE de la plus ancienne relecture, pas juste le code HTTP", async () => {
+    const { detailBloquee } = await import("./check-sources.ts");
+    const verifiedAt = new Map([
+      ["https://x.test/bloquee", ["2026-08-21", "2026-08-13"]],
+    ]);
+    const detail = detailBloquee(
+      {
+        url: "https://x.test/bloquee",
+        state: "bloquee",
+        reason: "HTTP 403",
+        checked_at: "2026-08-22",
+      },
+      verifiedAt,
+      "2026-08-22",
+    );
+    // La plus ANCIENNE des deux dates est retenue : c'est elle qui rend
+    // l'avertissement le plus urgent, pas la plus récente qui le minimiserait.
+    expect(detail).toContain("HTTP 403");
+    expect(detail).toContain("9 jour(s)");
+    expect(detail).toContain("2026-08-13");
+  });
+
+  it("retombe sur le seul motif quand aucun verified_at n'est disponible (mode --changed)", async () => {
+    const { detailBloquee } = await import("./check-sources.ts");
+    const detail = detailBloquee(
+      {
+        url: "https://x.test/bloquee",
+        state: "bloquee",
+        reason: "HTTP 429",
+        checked_at: "2026-08-22",
+      },
+      undefined,
+      "2026-08-22",
+    );
+    expect(detail).toBe("HTTP 429");
+  });
+});
+
 describe("un fichier invalide ne réduit pas silencieusement le compte déclaré", () => {
   it("remonte les fichiers rejetés par le schéma dans `problems`, pas dans un total plus petit", async () => {
     // `sans-source.yaml` (baa_available sans source_url) échoue le schéma et
